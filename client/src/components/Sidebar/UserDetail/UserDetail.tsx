@@ -18,7 +18,7 @@ const UserDetail = () => {
 
               </div>
               <div className='user-edit'>
-                    <EditIcon style={{fontSize:"19px", color:"black"}}/>
+                    <EditIcon style={{fontSize:"19px", color:"gray"}}/>
 
                 </div>
  
