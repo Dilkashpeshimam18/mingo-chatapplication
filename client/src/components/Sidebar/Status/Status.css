@@ -1,0 +1,22 @@
+.status{
+    display: flex;
+    flex-direction: column;
+}
+.all-status{
+display: flex;
+}
+.single-status{
+    padding: 8px;
+}
+.status-name{
+    font-size: x-small;
+}
+.status-header{
+    display: flex;
+    justify-content: left;
+    margin-left: 6px;
+}
+.status-title{
+    font-weight: 100;
+    font-size: 16px;
+}
