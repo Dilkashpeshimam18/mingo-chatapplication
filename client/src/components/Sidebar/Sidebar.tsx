@@ -1,4 +1,5 @@
 import React from 'react'
+import MessageList from './MessageList/MessageList'
 import SearchBar from './SearchBar/SearchBar'
 import './Sidebar.css'
 import Status from './Status/Status'
@@ -18,6 +19,11 @@ const Sidebar = () => {
             <Status />
 
         </div>
+        <div className='sidebar-messageList'>
+            <MessageList />
+
+        </div>
+
         </div>
   )
 }

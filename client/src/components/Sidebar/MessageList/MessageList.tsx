@@ -1,8 +1,15 @@
 import React from 'react'
-
+import './MessageList.css'
 const MessageList = () => {
   return (
-    <div>MessageList</div>
+    <div className='message'>
+         <div className='message-header'>
+        <h3 className='message-title'>
+            Messages
+        </h3>
+        </div>
+
+    </div>
   )
 }
 

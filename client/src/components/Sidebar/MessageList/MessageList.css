@@ -1,0 +1,10 @@
+.message-header{
+    display: flex;
+    justify-content: left;
+    margin-left: 6px;
+}
+.message-title{
+    font-weight: 100;
+    font-size: 16px;
+    color: rgb(98, 98, 255);
+}
