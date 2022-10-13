@@ -7,6 +7,7 @@ display: flex;
 }
 .single-status{
     padding: 8px;
+    cursor: pointer;
 }
 .status-name{
     font-size: x-small;

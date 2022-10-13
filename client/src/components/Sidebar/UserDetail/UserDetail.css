@@ -4,12 +4,16 @@
 }
 .user-image{
     margin-top: 20px;
+    cursor: pointer;
+
 }
 .user-name{
     margin-left: 20px;
     margin-top: 25px;
     flex-direction: column;
     text-align: left;
+    cursor: pointer;
+
 }
 .name{
     font-size: 19px;
@@ -21,4 +25,5 @@
 .user-edit{
     margin-top: 25px;
     margin-left: 145px;
+    cursor: pointer;
 }
