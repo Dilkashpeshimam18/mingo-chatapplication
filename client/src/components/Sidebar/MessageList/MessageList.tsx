@@ -25,6 +25,8 @@ const MessageList = () => {
         </ListItemAvatar>
         <ListItemText
           primary="Suzi"
+          sx={{ color:'#007FFF' }}
+
           secondary={
             <React.Fragment>
               <Typography
@@ -47,6 +49,8 @@ const MessageList = () => {
         </ListItemAvatar>
         <ListItemText
           primary="Max"
+          sx={{ color:'#007FFF' }}
+
           secondary={
             <React.Fragment>
               <Typography
@@ -70,6 +74,8 @@ const MessageList = () => {
         </ListItemAvatar>
         <ListItemText
           primary="Ray"
+          sx={{ color:'#007FFF' }}
+
           secondary={
             <React.Fragment>
               <Typography
@@ -92,6 +98,8 @@ const MessageList = () => {
         </ListItemAvatar>
         <ListItemText
           primary="Stuart"
+          sx={{ color:'#007FFF' }}
+
           secondary={
             <React.Fragment>
               <Typography
@@ -114,6 +122,8 @@ const MessageList = () => {
         </ListItemAvatar>
         <ListItemText
           primary="John"
+          sx={{ color:'#007FFF' }}
+
           secondary={
             <React.Fragment>
               <Typography
@@ -136,6 +146,8 @@ const MessageList = () => {
         </ListItemAvatar>
         <ListItemText
           primary="Andrena"
+          sx={{ color:'#007FFF' }}
+
           secondary={
             <React.Fragment>
               <Typography
