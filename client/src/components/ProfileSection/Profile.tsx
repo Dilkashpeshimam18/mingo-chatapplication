@@ -7,6 +7,7 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import Divider from '@mui/material/Divider';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 const Profile = () => {
   return (
     <div className='profile'>
@@ -51,6 +52,14 @@ const Profile = () => {
       <PersonOutlineOutlinedIcon style={{fontSize:'25px', color:'gray'}}/>   
         </span>
         <p className='profile-sub-text'>   View Friends</p>
+
+     </div>
+     <div className='profile-sub-inner'>
+      <span className='profile-sub-icon'>
+        <GroupAddOutlinedIcon style={{fontSize:'25px', color:'gray'}} />
+      </span>
+      <p className='profile-sub-text'>  Create Room</p>
+
 
      </div>
      <div className='profile-sub-inner'>
