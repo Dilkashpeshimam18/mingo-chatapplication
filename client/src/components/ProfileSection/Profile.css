@@ -71,3 +71,22 @@
     border: 1px solid gray;
     border-radius: 10px;
 }
+.profile-sub{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 25px;
+}
+.profile-sub-text{
+    font-size: 16px;
+    cursor: pointer;
+    color: gray;
+}
+.profile-sub-inner{
+    display: flex;
+   
+}
+.profile-sub-icon{
+    padding-top: 11px;
+    margin-right: 7px;
+}

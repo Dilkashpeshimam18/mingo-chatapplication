@@ -5,12 +5,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import Divider from '@mui/material/Divider';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import { Facebook } from 'react-bootstrap-icons';
-
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 const Profile = () => {
   return (
     <div className='profile'>
@@ -49,6 +45,24 @@ const Profile = () => {
       <LinkedInIcon style={{fontSize:"25px"}} />
       <TwitterIcon style={{fontSize:"25px"}} />
      </div> */}
+     <div className='profile-sub'>
+      <div className='profile-sub-inner'>
+      <span className='profile-sub-icon'>
+      <PersonOutlineOutlinedIcon style={{fontSize:'25px', color:'gray'}}/>   
+        </span>
+        <p className='profile-sub-text'>   View Friends</p>
+
+     </div>
+     <div className='profile-sub-inner'>
+      <span className='profile-sub-icon'>
+        <LogoutOutlinedIcon style={{fontSize:'25px', color:'gray'}} />
+      </span>
+      <p className='profile-sub-text'>   Logout</p>
+
+
+     </div>
+      </div>
+   
      </div>
   )
 }
