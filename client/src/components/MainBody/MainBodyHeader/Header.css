@@ -1,0 +1,40 @@
+.main-header{
+    display: flex;
+    height: 100px;
+    justify-content: space-between;
+}
+.header-left{
+    display: flex;
+    padding: 8px;
+}
+.header-right{
+    margin-right: 40px;
+    padding: 20px;
+    margin-top: 10px;
+}
+.main-option{
+    display: flex;
+}
+.main-image{
+    padding: 15px;
+    margin-top: 5px;
+    margin-left: 25px;
+}
+.main-mode{
+    font-size: 10px;
+}
+.main-name{
+    height: 10px;
+    font-weight: 300;
+    font-size: 17px;
+
+}
+
+.main-detail{
+    margin-top: 13px;
+    margin-left: 10px;
+  
+}
+.options-icon{
+    padding: 8px;
+}

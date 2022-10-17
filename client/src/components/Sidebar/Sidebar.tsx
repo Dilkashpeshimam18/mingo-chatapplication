@@ -6,26 +6,26 @@ import Status from './Status/Status'
 import UserDetail from './UserDetail/UserDetail'
 
 const Sidebar = () => {
-  return (
-    <div className='sidebar'>
-        <div className='sidebar-userDetail'>
-            <UserDetail />
+    return (
+        <div className='sidebar'>
+            <div className='sidebar-userDetail'>
+                <UserDetail />
+
+            </div>
+            <div className='sidebar-search'>
+                <SearchBar />
+            </div>
+            <div className='sidebar-status'>
+                <Status />
+
+            </div>
+            <div className='sidebar-messageList'>
+                <MessageList />
+
+            </div>
 
         </div>
-        <div className='sidebar-search'>
-            <SearchBar />
-        </div>
-        <div className='sidebar-status'>
-            <Status />
-
-        </div>
-        <div className='sidebar-messageList'>
-            <MessageList />
-
-        </div>
-
-        </div>
-  )
+    )
 }
 
 export default Sidebar
