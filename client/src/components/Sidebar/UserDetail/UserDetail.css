@@ -1,29 +1,27 @@
-.user-detail{
-    display: flex;
-    margin-left: 20px;
+.user-detail {
+  display: flex;
+  margin-left: 20px;
 }
-.user-image{
-    margin-top: 20px;
-    cursor: pointer;
-
+.user-image {
+  margin-top: 20px;
+  cursor: pointer;
 }
-.user-name{
-    margin-left: 20px;
-    margin-top: 25px;
-    flex-direction: column;
-    text-align: left;
-    cursor: pointer;
-
+.user-name {
+  margin-left: 20px;
+  margin-top: 25px;
+  flex-direction: column;
+  text-align: left;
+  cursor: pointer;
 }
-.name{
-    font-size: 19px;
-    color: #007FFF;
+.name {
+  font-size: 19px;
+  color: #007fff;
 }
-.bio{
-    font-size: 12px;
+.bio {
+  font-size: 12px;
 }
-.user-edit{
-    margin-top: 25px;
-    margin-left: 145px;
-    cursor: pointer;
+.user-edit {
+  margin-top: 25px;
+  margin-left: 145px;
+  cursor: pointer;
 }

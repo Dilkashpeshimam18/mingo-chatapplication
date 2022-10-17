@@ -1,132 +1,126 @@
-.profile{
-    flex: 0.2;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(247, 247, 247);
+.profile {
+  flex: 0.2;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(247, 247, 247);
 }
-.profile-image{
-    display: flex;
-    justify-content: center;
+.profile-image {
+  display: flex;
+  justify-content: center;
 }
-.profile-search-bar{
-    display: flex;
-    padding-left: 35px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-
-
+.profile-search-bar {
+  display: flex;
+  padding-left: 35px;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
-.profile-search-input{
-    width: 230px;
-    height: 29px;
-    border: none;
-    border-radius: 15px;
-    font-size: x-small;
-    padding-left: 30px;
-    text-align:left;
-
+.profile-search-input {
+  width: 230px;
+  height: 29px;
+  border: none;
+  border-radius: 15px;
+  font-size: x-small;
+  padding-left: 30px;
+  text-align: left;
 }
-.profile-detail{
-    padding-top: 20px;
+.profile-detail {
+  padding-top: 20px;
 }
-.profile-connect-options{
-    display: flex;
-    justify-content: center;
+.profile-connect-options {
+  display: flex;
+  justify-content: center;
 }
-.profile-connect-sub1{
-    padding: 15px;
-    padding-top: 20px;
-    margin: 10px;
-    margin-left: 30px;
-    width: 40px;
-    height: 35px;
-    background-color: #eeeeff;
-    border-radius: 50%;
-    cursor: pointer;
-
+.profile-connect-sub1 {
+  padding: 15px;
+  padding-top: 20px;
+  margin: 10px;
+  margin-left: 30px;
+  width: 40px;
+  height: 35px;
+  background-color: #eeeeff;
+  border-radius: 50%;
+  cursor: pointer;
 }
-.profile-connect-sub2{
-    padding: 15px;
-    margin: 10px;
-    margin-left: 40px;
-    width: 40px;
-    height: 35px;
-    background-color: #eeeeff;
-    border-radius: 50%;
-    cursor: pointer;
-
+.profile-connect-sub2 {
+  padding: 15px;
+  margin: 10px;
+  margin-left: 40px;
+  width: 40px;
+  height: 35px;
+  background-color: #eeeeff;
+  border-radius: 50%;
+  cursor: pointer;
 }
-.profile-divider{
-    padding-right: 35px;
+.profile-divider {
+  padding-right: 35px;
 }
-.profile-name{
-    color:#007FFF ;
+.profile-name {
+  color: #007fff;
 }
-.profile-social{
-    display: flex;
-    justify-content: center;
-    height: 40px;
-    width: 150px;
-    border: 1px solid gray;
-    border-radius: 10px;
+.profile-social {
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  width: 150px;
+  border: 1px solid gray;
+  border-radius: 10px;
 }
-.profile-sub{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 25px;
+.profile-sub {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 25px;
 }
-.profile-sub-text{
-    font-size: 15px;
-    cursor: pointer;
-    color: gray;
+.profile-sub-text {
+  font-size: 15px;
+  cursor: pointer;
+  color: gray;
 }
-.profile-sub-inner{
-    display: flex;
-   
+.profile-sub-inner {
+  display: flex;
 }
-.profile-sub-icon{
-    padding-top: 11px;
-    margin-right: 7px;
+.profile-sub-icon {
+  padding-top: 11px;
+  margin-right: 7px;
 }
-.profile-title{
-    font-weight: 200;
-    font-size: 16px;
-    margin-left: 14px;
+.profile-title {
+  font-weight: 200;
+  font-size: 16px;
+  margin-left: 14px;
 }
-.profile-media{
+.profile-media {
 }
-.profile-media-header{
-    display: flex;
-    justify-content: left;
-    margin-left: 15px;
+.profile-media-header {
+  display: flex;
+  justify-content: left;
+  margin-left: 15px;
 }
-.media-image{
-    width: 80px;
-    height: 70px;
-    border-radius: 8px;
-    margin: 8px;
+.media-image {
+  width: 80px;
+  height: 70px;
+  border-radius: 8px;
+  margin: 8px;
 }
-.media-image-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+.media-image-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
-.media-viewAll{
-    background-color: white;
-    color: #007FFF;
-    border-radius: 10px;
-    border: 1px solid #007FFF;
-    font-size: x-small;
-    height: 20px;
-    width: 60px;
-    cursor: pointer;
+.media-viewAll {
+  background-color: white;
+  color: #007fff;
+  border-radius: 10px;
+  border: 1px solid #007fff;
+  font-size: x-small;
+  height: 20px;
+  width: 60px;
+  cursor: pointer;
 }
-.media-viewAll:hover{
-    background-color: #007FFF;
-    color: white;
+.media-viewAll:hover {
+  background-color: #007fff;
+  color: white;
 }
-.media-btn{
-    margin-top: 10px;
+.media-btn {
+  margin-top: 10px;
 }

@@ -1,24 +1,24 @@
-.status{
-    display: flex;
-    flex-direction: column;
+.status {
+  display: flex;
+  flex-direction: column;
 }
-.all-status{
-display: flex;
+.all-status {
+  display: flex;
 }
-.single-status{
-    padding: 8px;
-    cursor: pointer;
+.single-status {
+  padding: 8px;
+  cursor: pointer;
 }
-.status-name{
-    font-size: x-small;
+.status-name {
+  font-size: x-small;
 }
-.status-header{
-    display: flex;
-    justify-content: left;
-    margin-left: 6px;
+.status-header {
+  display: flex;
+  justify-content: left;
+  margin-left: 6px;
 }
-.status-title{
-    font-weight: 100;
-    font-size: 16px;
-    /* color: rgb(98, 98, 255); */
+.status-title {
+  font-weight: 100;
+  font-size: 16px;
+  /* color: rgb(98, 98, 255); */
 }
