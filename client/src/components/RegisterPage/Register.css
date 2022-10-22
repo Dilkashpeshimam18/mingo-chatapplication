@@ -1,0 +1,15 @@
+.register {
+  display: flex;
+}
+.register-left {
+  width: 700px;
+  height: 100vh;
+  background-color: rgb(247, 247, 247);
+}
+.register-right {
+  height: 100vh;
+}
+.img-container{
+    padding-right:30px ;
+    padding-top: 70px;
+}
