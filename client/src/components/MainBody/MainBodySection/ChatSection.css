@@ -1,4 +1,11 @@
 .chat-section {
   /* background-color: rgb(247, 247, 247); */
   height: 660px;
+  overflow-y: scroll;
+  padding-left: 20px;
+
+}
+.chat-body{
+overflow: hidden;
+
 }
