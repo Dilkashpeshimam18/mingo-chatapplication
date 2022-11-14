@@ -2,14 +2,115 @@
   display: flex;
 }
 .register-left {
+  flex: 0.5;
   width: 700px;
   height: 100vh;
   background-color: rgb(247, 247, 247);
 }
 .register-right {
+  flex: 0.5;
+  width: 970px;
   height: 100vh;
 }
-.img-container{
-    padding-right:30px ;
-    padding-top: 70px;
+.img-container {
+  padding-right: 30px;
+  padding-top: 70px;
+}
+.register-option__1 {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+  margin-top: 10px;
+}
+.register-option__text {
+  color: gray;
+  font-size: 14px;
+}
+.register-option__button {
+  border: 1px solid #007fff;
+  background-color: white;
+  color: #007fff;
+  width: 100px;
+  height: 30px;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-left: 25px;
+  margin-top: 6px;
+  padding: 5px;
+}
+.register-option__button:hover {
+  background-color: #007fff;
+  color: white;
+}
+.title-container {
+  display: flex;
+  justify-content: left;
+  flex: 1;
+  flex-direction: column;
+  float: left;
+  padding-left: 70px;
+  padding-top: 30px;
+}
+.register-main {
+  display: flex;
+  flex-direction: column;
+}
+.title-text {
+  display: flex;
+  margin-left: 0;
+  margin: 8px;
+  padding-left: 0;
+}
+.subTitle__text {
+  display: flex;
+  float: left;
+  color: gray;
+  padding-left: 10px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+  align-items: flex-start;
+  margin-left: 80px;
+}
+
+.register-form {
+}
+.form-input {
+  height: 40px;
+  width: 500px;
+}
+.form-input__container {
+  margin-bottom: 43px;
+}
+.register-button__container {
+  margin-bottom: 25px;
+  margin-top: 20px;
+}
+.register-button {
+  font-size: 13px;
+  font-weight: bold;
+  height: 40px;
+  width: 500px;
+  cursor: pointer;
+  background-color: #007fff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+.register-button__google {
+  display: flex;
+  justify-content: center;
+  color: black;
+  background-color: white;
+  border: 1px solid lightgray;
+  height: 40px;
+  width: 500px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  padding-bottom: 8px;
+  padding-top: 3px;
 }
