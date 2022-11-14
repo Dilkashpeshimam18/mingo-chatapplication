@@ -48,7 +48,7 @@ const Register = () => {
                             </div>
 
                             <div className='register-button__container'>
-                                <button className='register-button'>SIGN UP</button>
+                                <Link to='/'><button className='register-button'>SIGN UP</button></Link>
                             </div>
                             <Divider style={{ color: 'gray' }}>or</Divider>
 
