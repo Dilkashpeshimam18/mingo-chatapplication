@@ -51,9 +51,6 @@ const Register = () => {
                                 <button className='register-button'>SIGN UP</button>
                             </div>
                             <Divider style={{ color: 'gray' }}>or</Divider>
-                            <div style={{ marginTop: '25px' }} className='register-button__container'>
-                                <button className='register-button__google'><img style={{ width: '20px', height: '20px', marginRight: '8px', marginTop: '5px' }} src={GoogleIcon} /><p>SIGN IN WITH GOOGLE</p></button>
-                            </div>
 
 
                         </form>
@@ -63,6 +60,10 @@ const Register = () => {
                 </div>
 
                 <div className='register-option__2'>
+                    <div style={{ marginTop: '25px' }} className='register-button__container'>
+                        <button className='register-button__google'><img style={{ width: '20px', height: '20px', marginRight: '8px', marginTop: '5px' }} src={GoogleIcon} /><p>SIGN IN WITH GOOGLE</p></button>
+                    </div>
+
 
                 </div>
 

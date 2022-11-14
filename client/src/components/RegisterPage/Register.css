@@ -114,3 +114,8 @@
   padding-bottom: 8px;
   padding-top: 3px;
 }
+.register-option__2 {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 80px;
+}
