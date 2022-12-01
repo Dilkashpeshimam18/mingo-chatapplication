@@ -1,14 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Register.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
+import { auth } from '../../firebase/firebase'
+import { createUserWithEmailAndPassword, updateProfile, User } from 'firebase/auth'
+
 
 const GroupChatImg = require("../assets/GroupChat.gif");
 const GoogleIcon = require("../assets/google.png")
 
 
 const Register = () => {
+    const [name, setName] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const navigate = useNavigate()
+    const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setName(e.target.value)
+    }
+    const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value)
+    }
+    const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value)
+    }
+
+    const updateUserProfile = async (user: User, name: string) => {
+        await updateProfile((user), {
+            displayName: name,
+        })
+    }
+    const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        try {
+
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+                .then(async (userCredential) => {
+                    await updateUserProfile(userCredential.user, name);
+                    setName('')
+                    setEmail('')
+                    setPassword('')
+                    navigate('/')
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+
+
+
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
     return (
         <div className='register'>
             <div className='register-left'>
@@ -33,22 +78,22 @@ const Register = () => {
 
                     </div>
                     <div className='form-container'>
-                        <form className='register-form'>
+                        <form onSubmit={handleRegister} className='register-form'>
                             <div className='form-input__container'>
-                                <TextField className='form-input' id="outlined-basic" label="Name" variant="outlined" />
+                                <TextField className='form-input' id="outlined-basic" label="Name" variant="outlined" value={name} onChange={handleName} required />
 
                             </div>
                             <div className='form-input__container'>
-                                <TextField className='form-input' id="outlined-basic" label="Email" type='email' variant="outlined" />
+                                <TextField className='form-input' id="outlined-basic" label="Email" type='email' variant="outlined" value={email} onChange={handleEmail} required />
 
                             </div>
                             <div className='form-input__container'>
-                                <TextField className='form-input' id="outlined-basic" label="Password" type='password' variant="outlined" />
+                                <TextField className='form-input' id="outlined-basic" label="Password" type='password' variant="outlined" value={password} onChange={handlePassword} required />
 
                             </div>
 
                             <div className='register-button__container'>
-                                <Link to='/'><button className='register-button'>SIGN UP</button></Link>
+                                <button type='submit' className='register-button'>SIGN UP</button>
                             </div>
                             <Divider style={{ color: 'gray' }}>or</Divider>
 

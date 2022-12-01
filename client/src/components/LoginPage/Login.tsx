@@ -1,13 +1,40 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './Login.css'
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from '../../firebase/firebase'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 const GroupChatImg = require("../assets/GroupChat3.gif");
 const GoogleIcon = require("../assets/google.png")
 const SmileyEmoji = require("../assets/smiling.png")
 
 const Login = () => {
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const navigate = useNavigate()
+
+    const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value)
+    }
+    const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value)
+    }
+
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        try {
+            await signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    setEmail('')
+                    setPassword('')
+                    navigate('/')
+                })
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
     return (
         <div className='register'>
             <div className='register-left'>
@@ -32,19 +59,19 @@ const Login = () => {
 
                     </div>
                     <div className='form-container'>
-                        <form className='register-form'>
+                        <form onSubmit={handleLogin} className='register-form'>
 
                             <div className='form-input__container'>
-                                <TextField className='form-input' id="outlined-basic" label="Email" type='email' variant="outlined" />
+                                <TextField className='form-input' id="outlined-basic" label="Email" type='email' variant="outlined" value={email} onChange={handleEmail} required />
 
                             </div>
                             <div className='form-input__container'>
-                                <TextField className='form-input' id="outlined-basic" label="Password" type='password' variant="outlined" />
+                                <TextField className='form-input' id="outlined-basic" label="Password" type='password' variant="outlined" value={password} onChange={handlePassword} required />
 
                             </div>
 
                             <div className='register-button__container'>
-                                <Link to='/'> <button className='register-button'>SIGN IN</button></Link>
+                                <button type='submit' className='register-button'>SIGN IN</button>
                             </div>
                             <Divider style={{ color: 'gray' }}>or</Divider>
 
