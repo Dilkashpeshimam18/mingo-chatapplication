@@ -3,8 +3,8 @@ import './Login.css'
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '../../firebase/firebase'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth, provider } from '../../firebase/firebase'
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 const GroupChatImg = require("../assets/GroupChat3.gif");
 const GoogleIcon = require("../assets/google.png")
 const SmileyEmoji = require("../assets/smiling.png")
@@ -34,6 +34,20 @@ const Login = () => {
         } catch (err) {
             console.log(err)
         }
+    }
+    const handleSignInWithGoogle = async () => {
+        try {
+            await signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    navigate('/')
+                })
+
+
+        } catch (err) {
+            console.log(err)
+        }
+
     }
     return (
         <div className='register'>
@@ -84,7 +98,7 @@ const Login = () => {
 
                 <div className='register-option__2'>
                     <div style={{ marginTop: '25px' }} className='register-button__container'>
-                        <button className='register-button__google'><img style={{ width: '20px', height: '20px', marginRight: '8px', marginTop: '5px' }} src={GoogleIcon} /><p>SIGN IN WITH GOOGLE</p></button>
+                        <button onClick={handleSignInWithGoogle} className='register-button__google'><img style={{ width: '20px', height: '20px', marginRight: '8px', marginTop: '5px' }} src={GoogleIcon} /><p>SIGN IN WITH GOOGLE</p></button>
                     </div>
 
 

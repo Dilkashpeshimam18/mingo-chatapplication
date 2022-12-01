@@ -3,8 +3,8 @@ import './Register.css'
 import { Link, useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
-import { auth } from '../../firebase/firebase'
-import { createUserWithEmailAndPassword, updateProfile, User } from 'firebase/auth'
+import { auth, provider } from '../../firebase/firebase'
+import { createUserWithEmailAndPassword, updateProfile, User, signInWithPopup } from 'firebase/auth'
 
 
 const GroupChatImg = require("../assets/GroupChat.gif");
@@ -30,6 +30,20 @@ const Register = () => {
         await updateProfile((user), {
             displayName: name,
         })
+    }
+    const handleSignInWithGoogle = async () => {
+        try {
+            await signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    navigate('/')
+                })
+
+
+        } catch (err) {
+            console.log(err)
+        }
+
     }
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -106,7 +120,7 @@ const Register = () => {
 
                 <div className='register-option__2'>
                     <div style={{ marginTop: '25px' }} className='register-button__container'>
-                        <button className='register-button__google'><img style={{ width: '20px', height: '20px', marginRight: '8px', marginTop: '5px' }} src={GoogleIcon} /><p>SIGN IN WITH GOOGLE</p></button>
+                        <button onClick={handleSignInWithGoogle} className='register-button__google'><img style={{ width: '20px', height: '20px', marginRight: '8px', marginTop: '5px' }} src={GoogleIcon} /><p>SIGN IN WITH GOOGLE</p></button>
                     </div>
 
 
