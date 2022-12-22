@@ -51,11 +51,13 @@ const Register = () => {
 
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
+                    console.log(userCredential)
                     await updateUserProfile(userCredential.user, name);
                     setName('')
                     setEmail('')
                     setPassword('')
-                    navigate('/')
+                    alert('Signup Successful!')
+                    navigate('/login')
                 })
                 .catch((err) => {
                     console.log(err)
@@ -65,6 +67,7 @@ const Register = () => {
 
         } catch (err) {
             console.log(err)
+            alert(err)
         }
 
     }

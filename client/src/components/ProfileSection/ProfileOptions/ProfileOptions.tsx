@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth'
 import { auth } from '../../../firebase/firebase'
+import RoomModal from '../../RoomModal/RoomModal';
 
 const ProfileOptions = () => {
+    const [openModal, setOpenModal] = useState(false)
     const navigate = useNavigate()
     const handleLogout = async () => {
         try {
@@ -28,8 +30,8 @@ const ProfileOptions = () => {
                     <span className='profile-sub-icon'>
                         <GroupAddOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
                     </span>
-                    <p className='profile-sub-text'>  Create Room</p>
-
+                    <p onClick={() => setOpenModal(true)} className='profile-sub-text'>  Create Room</p>
+                    {openModal == true && <RoomModal openModal={openModal} setOpenModal={setOpenModal} />}
 
                 </div>
                 <div className='profile-sub-inner'>

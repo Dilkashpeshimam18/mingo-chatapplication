@@ -12,9 +12,10 @@
   flex-direction: column;
   text-align: left;
   cursor: pointer;
+  width: max-content;
 }
 .name {
-  font-size: 19px;
+  font-size: 18px;
   color: #007fff;
 }
 .bio {
@@ -22,6 +23,6 @@
 }
 .user-edit {
   margin-top: 25px;
-  margin-left: 145px;
+  margin-left: 100px;
   cursor: pointer;
 }

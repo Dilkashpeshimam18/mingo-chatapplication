@@ -26,6 +26,7 @@ const Login = () => {
         try {
             await signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
+                    console.log(userCredential)
                     setEmail('')
                     setPassword('')
                     navigate('/')
