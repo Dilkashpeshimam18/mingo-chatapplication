@@ -15,7 +15,7 @@ export type AuthType = {
 let userDetail = localStorage.getItem('user')
 
 const initialAuthState: AuthType = {
-    isAuthenticated: false,
+    isAuthenticated: localStorage.getItem('userName') ? true : false,
 
     user: {
         name: localStorage.getItem('userName') || '',
@@ -32,6 +32,16 @@ const AuthSlice = createSlice({
         addUserDetail(state, action: PayloadAction<any>) {
             state.user = action.payload
             state.isAuthenticated = true
+        },
+        removeUserDetail(state) {
+            state.user.name = ''
+            state.user.email = ''
+            state.user.photoUrl = ''
+            state.user.bio = ''
+            state.user.uid = null
+            state.isAuthenticated = false
+
+
         }
 
     }

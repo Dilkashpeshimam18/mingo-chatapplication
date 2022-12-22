@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { auth } from '../../../firebase/firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
+
 const UserDetail = () => {
   const user = useSelector((state: RootState) => state.auth.user)
 
@@ -16,7 +17,8 @@ const UserDetail = () => {
 
       </div>
       <div className={`${user.bio == '' ? 'user' : 'user-name'}`}>
-        <span className='name'>{user.name} </span><br></br>
+        {user.name ? <span className='name'>{user.name} </span> : <span className='name' style={{ marginRight: '30px' }}>Hello, Guest </span>}
+
         {user.bio != '' && <span className='bio'>{user.bio}</span>}
 
 
