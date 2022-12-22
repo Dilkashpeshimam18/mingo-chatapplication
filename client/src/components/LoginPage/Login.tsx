@@ -41,6 +41,11 @@ const Login = () => {
 
                     }
                     dispatch(authActions.addUserDetail(userDetail))
+                    localStorage.setItem('userName', userCredential.user.displayName as string)
+                    localStorage.setItem('userEmail', userCredential.user.email as string)
+                    localStorage.setItem('userPhotoUrl', userCredential.user.photoURL as string)
+                    localStorage.setItem('userUID', userCredential.user.uid as string)
+
                     setEmail('')
                     setPassword('')
                     navigate('/')

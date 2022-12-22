@@ -12,18 +12,19 @@ export type AuthType = {
 
     }
 }
+let userDetail = localStorage.getItem('user')
 
 const initialAuthState: AuthType = {
     isAuthenticated: false,
+
     user: {
-        name: '',
-        email: '',
-        photoUrl: '',
-        bio: '',
-        uid: null
+        name: localStorage.getItem('userName') || '',
+        email: localStorage.getItem('userEmail') || '',
+        photoUrl: localStorage.getItem('userPhotoUrl') || '',
+        bio: localStorage.getItem('userBio') || '',
+        uid: localStorage.getItem('userUID') || null
     }
 }
-
 const AuthSlice = createSlice({
     name: 'auth',
     initialState: initialAuthState,
