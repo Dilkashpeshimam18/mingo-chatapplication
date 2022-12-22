@@ -5,6 +5,9 @@ import Divider from '@mui/material/Divider';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth, provider } from '../../firebase/firebase'
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../../store/store';
+import { authActions } from '../../store/slice/authSlice';
 const GroupChatImg = require("../assets/GroupChat3.gif");
 const GoogleIcon = require("../assets/google.png")
 const SmileyEmoji = require("../assets/smiling.png")
@@ -13,6 +16,8 @@ const Login = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const navigate = useNavigate()
+    const dispatch = useDispatch();
+
 
     const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)
@@ -27,6 +32,15 @@ const Login = () => {
             await signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     console.log(userCredential)
+                    let userDetail = {
+                        name: userCredential.user.displayName,
+                        email: userCredential.user.email,
+                        photoUrl: userCredential.user.photoURL,
+                        bio: '',
+                        uid: userCredential.user.uid
+
+                    }
+                    dispatch(authActions.addUserDetail(userDetail))
                     setEmail('')
                     setPassword('')
                     navigate('/')

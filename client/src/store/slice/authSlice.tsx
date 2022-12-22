@@ -8,7 +8,6 @@ export type AuthType = {
         email: string | null,
         photoUrl: string | null,
         bio: string | null,
-        accessToken: string | null,
         uid: string | null,
 
     }
@@ -21,7 +20,6 @@ const initialAuthState: AuthType = {
         email: '',
         photoUrl: '',
         bio: '',
-        accessToken: null,
         uid: null
     }
 }

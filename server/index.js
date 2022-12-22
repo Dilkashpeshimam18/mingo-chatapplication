@@ -26,7 +26,7 @@ const io = new Server(server, {
 })
 
 io.on('connection', (socket) => {
-    console.log(socket.id)
+    console.log(`User connected ${socket.id}`);
 
     socket.on('disconnect', () => {
         console.log('user discoonect', socket.id)
@@ -34,6 +34,6 @@ io.on('connection', (socket) => {
 })
 
 server.listen(3001, () => {
-    console.log('SERVER RUNNING')
+    console.log('SERVER RUNNING  listening to 3001')
 })
 
