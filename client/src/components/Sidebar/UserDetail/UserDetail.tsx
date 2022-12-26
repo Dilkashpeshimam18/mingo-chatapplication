@@ -5,14 +5,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import { auth } from '../../../firebase/firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
+import EditModal from '../../EditProfile/EditModal';
 
 const UserDetail = () => {
   const user = useSelector((state: RootState) => state.auth.user)
+  const [openModal, setOpenModal] = useState(false)
+
 
   return (
     <div className='user-detail'>
       <div className='user-image'>
-        <Avatar alt="Travis Howard" src={user.photoUrl as any} sx={{ width: 56, height: 56 }}
+        <Avatar src={user.photoUrl as string} sx={{ width: 56, height: 56 }}
         />
 
       </div>
@@ -25,8 +28,8 @@ const UserDetail = () => {
 
       </div>
       <div className='user-edit'>
-        <EditIcon style={{ fontSize: "19px", color: "gray" }} />
-
+        <EditIcon onClick={() => setOpenModal(true)} style={{ fontSize: "19px", color: "gray" }} />
+        <EditModal openModal={openModal} setOpenModal={setOpenModal} />
       </div>
 
     </div>
