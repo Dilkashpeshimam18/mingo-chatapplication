@@ -3,17 +3,21 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 const ProfileMain = () => {
+    const user = useSelector((state: RootState) => state.auth.user)
+
     return (
         <div>
             <div className='profile-image'>
-                <Avatar alt="Travis Howard" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" sx={{ width: 140, height: 140 }} />
+                <Avatar alt="Travis Howard" src={user.photoUrl as string} sx={{ width: 140, height: 140 }} />
 
             </div>
             <div className="profile-detail">
-                <h2 className='profile-name'>Gran David</h2>
-                <h5 className='profile-bio'>Senior Developer</h5>
+                <h2 className='profile-name'>{user.name}</h2>
+                <h5 className='profile-bio'>{user.bio}</h5>
 
 
             </div>
