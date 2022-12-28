@@ -6,26 +6,38 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import { useDispatch } from 'react-redux';
+import { roomActions } from '../../store/slice/roomSlice';
 
 type RoomModalProps = {
     openModal: boolean,
     setOpenModal: (openModal: boolean) => void
 }
-type Groups = {
-    id: number | string
-    name: string | number
-}
+
 const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
     const [roomName, setRoomName] = useState<string | number>('')
-    const [group, setGroup] = useState<Groups[]>([])
-
+    const [roomUrl, setRoomUrl] = useState<string>('')
+    const [allRoom, setAllRoom] = useState([])
+    const dispatch = useDispatch()
     const handleModalClose = () => {
         setOpenModal(false)
     }
 
-    const handleCreateGroup = () => {
-        group.map((group, ind) => ({ ...group, id: Math.random() }))
+    const handleAddRoom = () => {
+        let allRoom = []
+
+        let room = {
+            roomName: roomName,
+            roomUrl: roomUrl
+        }
+        allRoom.push(room)
+        dispatch(roomActions.addRoom(room))
+        dispatch(roomActions.addToRoomList(room))
+        setRoomName('')
+        setRoomUrl('')
+        setOpenModal(false)
+
+
     }
     return (
         <div>
@@ -39,17 +51,28 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
                         autoFocus
                         margin="dense"
                         id="name"
-                        label="Enter group name"
+                        label="Enter room name"
                         type="text"
                         fullWidth
                         variant="standard"
                         value={roomName}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRoomName(e.target.value)}
                     />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Enter room icon"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        value={roomUrl}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRoomUrl(e.target.value)}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleModalClose} >Cancel</Button>
-                    <Button >Create Room</Button>
+                    <Button onClick={handleAddRoom} >Create Room</Button>
                 </DialogActions>
             </Dialog>
         </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './MessageList.css'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -7,8 +7,15 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 const MessageList = () => {
+  const allRoom = useSelector((state: RootState) => state.room.allRoom)
+  const user = useSelector((state: RootState) => state.auth.user)
+
+  useEffect(() => {
+    console.log(allRoom)
+  }, [allRoom])
   return (
     <div className='message'>
       <div className='message-header'>
@@ -19,31 +26,41 @@ const MessageList = () => {
       <div className='messageList'>
         <div className='messageList-container'>
           <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', cursor: 'pointer' }}>
-            <ListItem className='singleMessage-container' alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar alt="Travis Howard" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" sx={{ width: 45, height: 45 }} />
-              </ListItemAvatar>
-              <ListItemText
-                primary="Suzi"
-                sx={{ color: '#007FFF' }}
+            {allRoom.map((room) => {
+              return (
+                <>
+                  <ListItem className='singleMessage-container' alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar src={room.roomUrl} sx={{ width: 45, height: 45 }} />
+                    </ListItemAvatar>
 
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    >
-                      Ali Connors
-                    </Typography>
-                    {" — I'll be in your neighborhood doing errands this…"}
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            <ListItem className='singleMessage-container' alignItems="flex-start">
+                    <ListItemText
+                      primary={room.roomName}
+                      sx={{ color: '#007FFF' }}
+
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                          >
+                            Ali Connors
+                          </Typography>
+                          {" — I'll be in your neighborhood doing errands this…"}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </>
+
+
+              )
+            })}
+
+            {/* <ListItem className='singleMessage-container' alignItems="flex-start">
               <ListItemAvatar>
                 <Avatar alt="Travis Howard" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" sx={{ width: 45, height: 45 }} />
               </ListItemAvatar>
@@ -162,7 +179,7 @@ const MessageList = () => {
                   </React.Fragment>
                 }
               />
-            </ListItem>
+            </ListItem> */}
           </List>
 
         </div>
