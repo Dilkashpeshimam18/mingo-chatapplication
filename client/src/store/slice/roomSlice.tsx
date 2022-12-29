@@ -3,12 +3,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type RoomType = {
     roomName: string | number,
-    roomUrl: string
+    roomUrl: string,
 }
 
 export type AllRoomType = {
     allRoom: RoomType[],
-    singleRoom: RoomType
+    singleRoom: RoomType,
+    isSelectedRoom: string | number,
+    isRoom: boolean
+
 }
 
 
@@ -17,7 +20,9 @@ const initialRoomState: AllRoomType = {
     singleRoom: {
         roomName: '',
         roomUrl: ''
-    }
+    },
+    isSelectedRoom: 'Default',
+    isRoom: false
 }
 
 
@@ -30,6 +35,10 @@ const RoomSlice = createSlice({
         },
         addToRoomList(state, action: PayloadAction<any>) {
             state.allRoom.push(action.payload)
+        },
+        handleIsSelectedRoom(state, action: PayloadAction<string | number>) {
+            state.isSelectedRoom = action.payload
+            state.isRoom = true
         }
 
     }

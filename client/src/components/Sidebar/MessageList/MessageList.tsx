@@ -7,12 +7,14 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../store/store';
+import { roomActions } from '../../../store/slice/roomSlice';
+
 const MessageList = () => {
   const allRoom = useSelector((state: RootState) => state.room.allRoom)
   const user = useSelector((state: RootState) => state.auth.user)
-
+  const dispatch = useDispatch()
   useEffect(() => {
     console.log(allRoom)
   }, [allRoom])
@@ -29,7 +31,7 @@ const MessageList = () => {
             {allRoom.map((room) => {
               return (
                 <>
-                  <ListItem className='singleMessage-container' alignItems="flex-start">
+                  <ListItem onClick={() => dispatch(roomActions.handleIsSelectedRoom(room.roomName))} className='singleMessage-container' alignItems="flex-start">
                     <ListItemAvatar>
                       <Avatar src={room.roomUrl} sx={{ width: 45, height: 45 }} />
                     </ListItemAvatar>

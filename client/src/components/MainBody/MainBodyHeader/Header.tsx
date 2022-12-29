@@ -4,20 +4,40 @@ import Avatar from '@mui/material/Avatar';
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-
-const Header = () => {
+import { RoomType } from '../../../store/slice/roomSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+type HeaderProps = {
+    data: RoomType[]
+}
+const Header = ({ data }: HeaderProps) => {
+    const isRoom = useSelector((state: RootState) => state.room.isRoom)
     return (
         <div className='main-header'>
-            <div className='header-left'>
-                <div className='main-image'>
-                    <Avatar alt="Travis Howard" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" sx={{ width: 50, height: 50 }} />
+            {isRoom == false && <>
+                <div className='header-left'>
+                    <div className='main-image'>
+                        <Avatar alt="Travis Howard" sx={{ width: 50, height: 50 }} />
 
+                    </div>
+                    <div className='main-detail'>
+                        <h2 className='main-name'>Default</h2>
+                    </div>
                 </div>
-                <div className='main-detail'>
-                    <h2 className='main-name'>Suzi</h2>
-                    <p className='main-mode'>online</p>
+            </>}
+            {isRoom == true && <>
+                <div className='header-left'>
+                    <div className='main-image'>
+                        <Avatar alt="Travis Howard" src={data[0]?.roomUrl} sx={{ width: 50, height: 50 }} />
+
+                    </div>
+                    <div className='main-detail'>
+                        <h2 className='main-name'>{data[0]?.roomName}</h2>
+                        <p className='main-mode'>online</p>
+                    </div>
                 </div>
-            </div>
+            </>}
+
             <div className='header-right'>
                 <div className='main-option'>
                     <div className="options-icon">
