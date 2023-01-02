@@ -10,6 +10,7 @@ import { RoomType } from '../../store/slice/roomSlice';
 
 const MainBody = () => {
   const [data, setData] = useState<RoomType[]>([])
+  const [message, setMessage] = useState('')
   const user = useSelector((state: RootState) => state.auth.user)
   const allRoom = useSelector((state: RootState) => state.room.allRoom)
   const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
@@ -32,7 +33,7 @@ const MainBody = () => {
       <ChatSection />
       <Divider variant='middle' />
 
-      <Footer />
+      <Footer message={message} setMessage={setMessage} />
 
     </div>
   )

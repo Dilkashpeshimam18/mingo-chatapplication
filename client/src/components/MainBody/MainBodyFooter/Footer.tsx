@@ -6,7 +6,11 @@ import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import SendIcon from '@mui/icons-material/Send';
 
-const Footer = () => {
+type FooterProps = {
+    message: string,
+    setMessage: React.Dispatch<React.SetStateAction<string>>
+}
+const Footer = ({ message, setMessage }: FooterProps) => {
     return (
         <div className='main-footer'>
             <div className='chat-footer'>
@@ -16,7 +20,7 @@ const Footer = () => {
 
                     </div>
                     <div className='input-container'>
-                        <input className='chat-input' placeholder='Write a message...' />
+                        <input value={message} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)} className='chat-input' placeholder='Write a message...' />
 
                     </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './MessageList.css'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -10,11 +10,22 @@ import Typography from '@mui/material/Typography';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { roomActions } from '../../../store/slice/roomSlice';
+import JoinModal from '../../JoinRoomModal/JoinModal';
 
 const MessageList = () => {
+  const [open, setOpen] = useState(false)
   const allRoom = useSelector((state: RootState) => state.room.allRoom)
   const user = useSelector((state: RootState) => state.auth.user)
   const dispatch = useDispatch()
+
+  const handleClose = () => {
+    setOpen(false)
+    // dispatch(roomActions.handleCloseRoom())
+  }
+  const handleJoinRoom = (room: any) => {
+    dispatch(roomActions.handleIsSelectedRoom(room))
+    setOpen(true)
+  }
   useEffect(() => {
     console.log(allRoom)
   }, [allRoom])
@@ -31,7 +42,7 @@ const MessageList = () => {
             {allRoom.map((room) => {
               return (
                 <>
-                  <ListItem onClick={() => dispatch(roomActions.handleIsSelectedRoom(room.roomName))} className='singleMessage-container' alignItems="flex-start">
+                  <ListItem onClick={() => handleJoinRoom(room.roomName)} className='singleMessage-container' alignItems="flex-start">
                     <ListItemAvatar>
                       <Avatar src={room.roomUrl} sx={{ width: 45, height: 45 }} />
                     </ListItemAvatar>
@@ -56,6 +67,7 @@ const MessageList = () => {
                     />
                   </ListItem>
                   <Divider variant="inset" component="li" />
+                  <JoinModal open={open} handleClose={handleClose} />
                 </>
 
 
