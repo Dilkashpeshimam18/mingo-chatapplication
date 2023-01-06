@@ -8,6 +8,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch } from 'react-redux';
 import { roomActions } from '../../store/slice/roomSlice';
+import { db } from '../../firebase/firebase';
+import { collection, addDoc, doc, getDocs } from 'firebase/firestore'
 
 type RoomModalProps = {
     openModal: boolean,
@@ -19,23 +21,38 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
     const [roomUrl, setRoomUrl] = useState<string>('')
     const [allRoom, setAllRoom] = useState([])
     const dispatch = useDispatch()
+    let allRoomRef: any;
+    if (roomName) {
+
+        allRoomRef = collection(db, 'allRoom')
+
+    }
+
     const handleModalClose = () => {
         setOpenModal(false)
     }
 
-    const handleAddRoom = () => {
-        let allRoom = []
+    const handleAddRoom = async () => {
+        try {
 
-        let room = {
-            roomName: roomName,
-            roomUrl: roomUrl
+            let allRoom = []
+
+            let room = {
+                roomName: roomName,
+                roomUrl: roomUrl
+            }
+            await addDoc(allRoomRef, room)
+
+            allRoom.push(room)
+            dispatch(roomActions.addRoom(room))
+            dispatch(roomActions.addToRoomList(room))
+            setRoomName('')
+            setRoomUrl('')
+            setOpenModal(false)
+
+        } catch (err) {
+            console.log(err)
         }
-        allRoom.push(room)
-        dispatch(roomActions.addRoom(room))
-        dispatch(roomActions.addToRoomList(room))
-        setRoomName('')
-        setRoomUrl('')
-        setOpenModal(false)
 
 
     }
