@@ -38,14 +38,9 @@ const RoomSlice = createSlice({
         },
         handleIsSelectedRoom(state, action: PayloadAction<string | number>) {
             state.isSelectedRoom = action.payload
+            state.isRoom = true
 
         },
-        handleJoinRoom(state) {
-            state.isRoom = true
-        },
-        handleCloseRoom(state) {
-            state.isRoom = false
-        }
 
     }
 

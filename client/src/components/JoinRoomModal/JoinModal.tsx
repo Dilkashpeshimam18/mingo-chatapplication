@@ -6,15 +6,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useDispatch } from 'react-redux';
-import { roomActions } from '../../store/slice/roomSlice';
+
 
 type JoinModalProps = {
     open: boolean,
     handleClose: () => void,
 }
 const JoinModal = ({ open, handleClose }: JoinModalProps) => {
-    const dispatch = useDispatch()
     return (
         <div>
             <Dialog open={open} onClose={handleClose}>
@@ -28,7 +26,6 @@ const JoinModal = ({ open, handleClose }: JoinModalProps) => {
                 <DialogActions>
                     <Button onClick={handleClose}  >Cancel</Button>
                     <Button onClick={() => {
-                        dispatch(roomActions.handleJoinRoom())
                         handleClose()
                     }}  >Join</Button>
                 </DialogActions>

@@ -5,12 +5,30 @@ import AttachmentOutlinedIcon from '@mui/icons-material/AttachmentOutlined';
 import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import SendIcon from '@mui/icons-material/Send';
+import { socket } from '../../../App';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 type FooterProps = {
     message: string,
     setMessage: React.Dispatch<React.SetStateAction<string>>
+    setSender: React.Dispatch<React.SetStateAction<boolean>>,
+    setMessages: React.Dispatch<React.SetStateAction<string[]>>
 }
-const Footer = ({ message, setMessage }: FooterProps) => {
+
+let data: string[] = []
+const Footer = ({ message, setMessage, setSender, setMessages }: FooterProps) => {
+    const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
+
+    const handleSendMessage = () => {
+        if (message != '') {
+            socket.emit("send_message", { message, isSelectedRoom })
+            setSender(true)
+            data.push(message)
+            setMessages(data)
+
+        }
+    }
     return (
         <div className='main-footer'>
             <div className='chat-footer'>
@@ -38,7 +56,7 @@ const Footer = ({ message, setMessage }: FooterProps) => {
                         <CameraAltOutlinedIcon sx={{ width: 23, height: 23, color: 'gray', cursor: 'pointer' }} />
 
                     </div>
-                    <div className='footer-icons footer-send'>
+                    <div onClick={handleSendMessage} className='footer-icons footer-send'>
                         <SendIcon className='send-icon' sx={{ width: 19, height: 19, color: 'white', cursor: 'pointer' }} />
 
                     </div>
