@@ -16,7 +16,7 @@ export type AllRoomType = {
 
 
 const initialRoomState: AllRoomType = {
-    allRoom: [],
+    allRoom: JSON.parse(localStorage.getItem('allRoom') as any) || [],
     singleRoom: {
         roomName: '',
         roomUrl: ''
@@ -24,8 +24,8 @@ const initialRoomState: AllRoomType = {
     isSelectedRoom: 'Default',
     isRoom: false
 }
-
-
+let rooms = JSON.parse(localStorage.getItem('allRoom') as any)
+console.log(rooms)
 const RoomSlice = createSlice({
     name: 'room',
     initialState: initialRoomState,

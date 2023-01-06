@@ -39,7 +39,6 @@ const MainBody = () => {
     })
 
   }, [socket])
-  console.log(receivedMessage)
   return (
     <div className='mainbody'>
       <Header data={data} />
