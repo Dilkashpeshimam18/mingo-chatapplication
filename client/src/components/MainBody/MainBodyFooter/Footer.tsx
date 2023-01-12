@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Footer.css'
 import MicNoneOutlinedIcon from '@mui/icons-material/MicNoneOutlined';
 import AttachmentOutlinedIcon from '@mui/icons-material/AttachmentOutlined';
@@ -8,6 +8,8 @@ import SendIcon from '@mui/icons-material/Send';
 import { socket } from '../../../App';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
+import { db } from '../../../firebase/firebase';
+import { collection, addDoc } from 'firebase/firestore'
 
 type FooterProps = {
     message: string,
@@ -16,18 +18,39 @@ type FooterProps = {
     setMessages: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-let data: string[] = []
 const Footer = ({ message, setMessage, setSender, setMessages }: FooterProps) => {
     const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
+    const user = useSelector((state: RootState) => state.auth.user)
 
-    const handleSendMessage = () => {
+    let allMessageRef: any;
+    if (user.email != '') {
+        allMessageRef = collection(collection(db, 'allMessage') as any, isSelectedRoom as string, isSelectedRoom as string)
+
+    } else {
+        allMessageRef = collection(db, 'allMessage')
+    }
+    const handleSendMessage = async () => {
         if (message != '') {
             socket.emit("send_message", { message, isSelectedRoom })
             setSender(true)
-            data.push(message)
-            setMessages(data)
+            let userMessage = {
+                username: user.name as string,
+                image: user.photoUrl as string,
+                message: message as string
+            }
+            console.log(userMessage)
+            try {
+                await addDoc(allMessageRef, userMessage)
+
+            } catch (err) {
+                console.log(err)
+            }
+
+
+
 
         }
+        setMessage('')
     }
     return (
         <div className='main-footer'>

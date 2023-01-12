@@ -21,6 +21,8 @@ const MainBody = () => {
   const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
   const isRoom = useSelector((state: RootState) => state.room.isRoom)
 
+
+
   useEffect(() => {
     if (isRoom == true) {
       let selectedRoom = allRoom.filter((room) => {

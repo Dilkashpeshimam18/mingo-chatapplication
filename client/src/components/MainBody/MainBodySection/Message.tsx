@@ -3,18 +3,24 @@ import './Message.css'
 import Avatar from '@mui/material/Avatar';
 
 type MessageProps = {
-    message: string
+    message: string,
+    image: string,
+    name: string
 }
 
-const Message = ({ message }: MessageProps) => {
+const Message = ({ message, image, name }: MessageProps) => {
     return (
         <div className='message-container '>
             <div className='message-avatar'>
-                <Avatar alt="Travis Howard" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" sx={{ width: 45, height: 45 }} />
+                <Avatar alt="Travis Howard" src={image} sx={{ width: 45, height: 45 }} />
             </div>
-            <div className='message-body'>
-                <p>{message}</p>
+            <div className='message-subContainer '>
+                <span>{name}</span>
+                <div className='message-body'>
+                    <p>{message}</p>
+                </div>
             </div>
+
         </div>
     )
 }
