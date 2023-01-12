@@ -9,49 +9,17 @@ import { socket } from '../../../App';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { db } from '../../../firebase/firebase';
-import { collection, addDoc } from 'firebase/firestore'
 
 type FooterProps = {
     message: string,
     setMessage: React.Dispatch<React.SetStateAction<string>>
     setSender: React.Dispatch<React.SetStateAction<boolean>>,
-    setMessages: React.Dispatch<React.SetStateAction<string[]>>
+    setMessages: React.Dispatch<React.SetStateAction<string[]>>,
+    handleSendMessage: () => void
 }
 
-const Footer = ({ message, setMessage, setSender, setMessages }: FooterProps) => {
-    const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
-    const user = useSelector((state: RootState) => state.auth.user)
+const Footer = ({ message, setMessage, setSender, setMessages, handleSendMessage }: FooterProps) => {
 
-    let allMessageRef: any;
-    if (user.email != '') {
-        allMessageRef = collection(collection(db, 'allMessage') as any, isSelectedRoom as string, isSelectedRoom as string)
-
-    } else {
-        allMessageRef = collection(db, 'allMessage')
-    }
-    const handleSendMessage = async () => {
-        if (message != '') {
-            socket.emit("send_message", { message, isSelectedRoom })
-            setSender(true)
-            let userMessage = {
-                username: user.name as string,
-                image: user.photoUrl as string,
-                message: message as string
-            }
-            console.log(userMessage)
-            try {
-                await addDoc(allMessageRef, userMessage)
-
-            } catch (err) {
-                console.log(err)
-            }
-
-
-
-
-        }
-        setMessage('')
-    }
     return (
         <div className='main-footer'>
             <div className='chat-footer'>

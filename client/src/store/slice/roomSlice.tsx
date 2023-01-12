@@ -25,7 +25,6 @@ const initialRoomState: AllRoomType = {
     isRoom: false
 }
 let rooms = JSON.parse(localStorage.getItem('allRoom') as any)
-console.log(rooms)
 const RoomSlice = createSlice({
     name: 'room',
     initialState: initialRoomState,

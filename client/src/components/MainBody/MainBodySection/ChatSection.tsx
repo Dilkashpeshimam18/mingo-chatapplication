@@ -5,55 +5,19 @@ import { collection, addDoc, doc, getDocs, updateDoc, deleteDoc } from 'firebase
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { db } from '../../../firebase/firebase';
+import { MessageProps } from '../MainBody';
 
 interface ChatSectionProps {
   messages: string[],
-  receivedMessage: string
+  receivedMessage: string,
+  allMessages: MessageProps[]
 }
-let data: any = []
-type MessageProps = {
-  username: string,
-  image: string,
-  message: string
-}
-const ChatSection = ({ messages, receivedMessage }: ChatSectionProps) => {
-  const user = useSelector((state: RootState) => state.auth.user)
-  const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
-  const [allMessages, setAllMessage] = useState<MessageProps[]>([])
-  let allMessageRef: any;
-  if (user.email != '') {
-    allMessageRef = collection(collection(db, 'allMessage') as any, isSelectedRoom as string, isSelectedRoom as string)
 
-  } else {
-    allMessageRef = collection(db, 'allMessage')
-
-  }
-
-
-  const getAllMessage = async () => {
-    try {
-      const response = await getDocs(allMessageRef)
-      const res = response.docs.map((doc) => {
-        data.push(doc.data())
-      })
-      console.log(res)
-      console.log(data)
-      setAllMessage(data)
-
-
-
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  useEffect(() => {
-    getAllMessage()
-  }, [])
+const ChatSection = ({ messages, receivedMessage, allMessages }: ChatSectionProps) => {
   return (
     <div className='chat-body'>
       <div className='chat-section'>
-        {allMessages.map((message) => {
+        {allMessages?.map((message) => {
           return (
 
             <Message message={message.message} image={message.image} name={message.username} />

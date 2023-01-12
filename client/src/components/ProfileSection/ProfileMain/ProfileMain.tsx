@@ -17,7 +17,6 @@ const ProfileMain = () => {
             let selectedRoom = allRoom.filter((room) => {
                 return room.roomName == isSelectedRoom
             })
-            console.log(selectedRoom)
             setData(selectedRoom)
         }
 
