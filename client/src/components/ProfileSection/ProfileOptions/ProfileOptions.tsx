@@ -11,10 +11,11 @@ import { authActions } from '../../../store/slice/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { Link } from 'react-router-dom';
-
+import EditIcon from '@mui/icons-material/Edit';
 const ProfileOptions = () => {
     const [openModal, setOpenModal] = useState(false)
     const user = useSelector((state: RootState) => state.auth.user)
+    const isRoom = useSelector((state: RootState) => state.room.isRoom)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -41,10 +42,25 @@ const ProfileOptions = () => {
 
             <div className='profile-sub'>
                 <div className='profile-sub-inner'>
-                    <span className='profile-sub-icon'>
-                        <GroupAddOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
-                    </span>
-                    <p onClick={() => setOpenModal(true)} className='profile-sub-text'>  Create Room</p>
+
+                    {isRoom == true ?
+                        <>
+                            <span className='profile-sub-icon'><EditIcon style={{ fontSize: '21px', color: 'gray' }} />
+                            </span>
+                            <p onClick={() => setOpenModal(true)} className='profile-sub-text'>  Edit Room</p> :
+
+                        </> :
+                        <>  <span className='profile-sub-icon'>
+                            <GroupAddOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
+
+                        </span>
+
+                            <p onClick={() => setOpenModal(true)} className='profile-sub-text'>  Create Room</p>
+                        </>
+
+
+
+                    }
                     {openModal == true && <RoomModal openModal={openModal} setOpenModal={setOpenModal} />}
 
                 </div>
@@ -52,7 +68,7 @@ const ProfileOptions = () => {
                     <span className='profile-sub-icon'>
                         <PersonOutlineOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
                     </span>
-                    <p className='profile-sub-text'>   View Friends</p>
+                    <p className='profile-sub-text'>   View Members</p>
 
                 </div>
 
