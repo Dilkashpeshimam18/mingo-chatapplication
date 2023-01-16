@@ -15,6 +15,8 @@ import { modalActions } from '../../store/slice/modalSlice';
 import { RoomType } from '../../store/slice/roomSlice';
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from '../../firebase/firebase';
+import { getAllRooms } from '../../store/slice/roomSlice';
+import { AppDispatch } from '../../store/store';
 
 type EditModalProps = {
     openModal: boolean,
@@ -26,7 +28,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     const [name, setName] = useState(user.name)
     const [bio, setBio] = useState(user.bio)
     const [photoUrl, setPhotoUrl] = useState(user.photoUrl)
-    const dispatch = useDispatch()
+    const dispatch: AppDispatch = useDispatch()
     const auth = getAuth()
     const currentUser = auth.currentUser;
     const isOpen = useSelector((state: RootState) => state.modal.isOpen)
@@ -63,6 +65,8 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             }).then((res) => {
                 alert('Profile Updated!')
                 setOpenModal(false)
+                handleModalClose()
+
             })
 
             localStorage.setItem('userBio', bio as string)
@@ -76,7 +80,6 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     }
 
     const handleEditRoom = async (id: string) => {
-        console.log(id)
         try {
             let roomRef = doc(db, 'allRoom', id)
             let data = {
@@ -86,6 +89,9 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             const response = await updateDoc(roomRef, data)
                 .then(() => {
                     alert('Room Updated!')
+                    handleModalClose()
+                    dispatch(getAllRooms())
+
                 })
 
         } catch (err) {
@@ -95,6 +101,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
 
 
     useEffect(() => {
+
         if (isRoom == true) {
             let selectedRoom = allRoom.filter((room) => {
                 return room.roomName == isSelectedRoom
@@ -104,9 +111,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             setRoomUrl(selectedRoom[0]?.roomUrl)
             setRoomId(selectedRoom[0]?.id as string)
         }
-
     }, [isRoom, isSelectedRoom])
-    console.log(roomId)
     return (
         <div>
             <Dialog open={isOpen} onClose={handleModalClose}>

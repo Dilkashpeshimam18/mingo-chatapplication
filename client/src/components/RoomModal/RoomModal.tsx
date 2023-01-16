@@ -7,11 +7,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch } from 'react-redux';
-import { roomActions } from '../../store/slice/roomSlice';
+import { roomActions, handleAddRoom, getAllRooms } from '../../store/slice/roomSlice';
 import { db } from '../../firebase/firebase';
 import { collection, addDoc, doc, getDocs } from 'firebase/firestore'
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { AppDispatch, RootState } from '../../store/store';
 
 type RoomModalProps = {
     openModal: boolean,
@@ -24,7 +24,7 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
     const [allRoom, setAllRoom] = useState([])
     const user = useSelector((state: RootState) => state.auth.user)
 
-    const dispatch = useDispatch()
+    const dispatch: AppDispatch = useDispatch()
     let allRoomRef: any;
     if (roomName) {
 
@@ -39,7 +39,6 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
     const handleAddRoom = async () => {
         try {
 
-            let allRoom = []
 
             let room = {
                 roomName: roomName,
@@ -47,13 +46,11 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
                 createdBy: user.email
             }
             await addDoc(allRoomRef, room)
-
-            allRoom.push(room)
-            dispatch(roomActions.addRoom(room as any))
-            dispatch(roomActions.addToRoomList(room))
             setRoomName('')
             setRoomUrl('')
+            alert('Created new room!')
             setOpenModal(false)
+            dispatch(getAllRooms())
 
         } catch (err) {
             console.log(err)

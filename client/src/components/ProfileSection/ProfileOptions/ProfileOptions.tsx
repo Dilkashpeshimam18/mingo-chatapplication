@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
@@ -13,13 +13,17 @@ import { RootState } from '../../../store/store';
 import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import { modalActions } from '../../../store/slice/modalSlice';
+import { RoomType } from '../../../store/slice/roomSlice';
 
 const ProfileOptions = () => {
+    const [data, setData] = useState<RoomType[]>([])
     const [openModal, setOpenModal] = useState(false)
     const user = useSelector((state: RootState) => state.auth.user)
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const allRoom = useSelector((state: RootState) => state.room.allRoom)
+    const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
 
 
     const handleEdit = () => {
@@ -45,13 +49,24 @@ const ProfileOptions = () => {
             console.log(err)
         }
     }
+
+    useEffect(() => {
+        if (isRoom == true) {
+            let selectedRoom = allRoom.filter((room) => {
+                return room.roomName == isSelectedRoom
+            })
+            setData(selectedRoom)
+
+        }
+
+    }, [isRoom, isSelectedRoom])
     return (
         <div className='profile-options'>
 
             <div className='profile-sub'>
                 <div className='profile-sub-inner'>
 
-                    {isRoom == true ?
+                    {isRoom == true && user.email == data[0]?.createdBy ?
                         <>
                             <span className='profile-sub-icon'><EditIcon style={{ fontSize: '21px', color: 'gray' }} />
                             </span>
