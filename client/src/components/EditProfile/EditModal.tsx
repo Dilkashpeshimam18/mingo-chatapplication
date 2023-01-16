@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -11,6 +11,8 @@ import { RootState } from '../../store/store';
 import { User, updateProfile, getAuth } from 'firebase/auth';
 import { authActions } from '../../store/slice/authSlice';
 import { useDispatch } from 'react-redux';
+import { modalActions } from '../../store/slice/modalSlice';
+import { RoomType } from '../../store/slice/roomSlice';
 
 type EditModalProps = {
     openModal: boolean,
@@ -24,10 +26,20 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     const dispatch = useDispatch()
     const auth = getAuth()
     const currentUser = auth.currentUser;
+    const isOpen = useSelector((state: RootState) => state.modal.isOpen)
+    const isEditRoom = useSelector((state: RootState) => state.modal.isEditRoom)
+    const [data, setData] = useState<RoomType[]>([])
+    const allRoom = useSelector((state: RootState) => state.room.allRoom)
+    const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
+    const isRoom = useSelector((state: RootState) => state.room.isRoom)
+    const [roomName, setRoomName] = useState<string | number>('')
+    const [roomUrl, setRoomUrl] = useState('')
 
     const handleModalClose = () => {
         setOpenModal(false)
+        dispatch(modalActions.handleClose())
     }
+
 
     const handleEditProfile = async () => {
         try {
@@ -58,48 +70,103 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             alert(err)
         }
     }
+
+    const handleEditRoom = () => {
+        try {
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        if (isRoom == true) {
+            let selectedRoom = allRoom.filter((room) => {
+                return room.roomName == isSelectedRoom
+            })
+            setData(selectedRoom)
+            setRoomName(selectedRoom[0]?.roomName)
+            setRoomUrl(selectedRoom[0]?.roomUrl)
+        }
+
+    }, [isRoom, isSelectedRoom])
     return (
         <div>
-            <Dialog open={openModal} onClose={handleModalClose}>
-                <DialogTitle>Edit Profile </DialogTitle>
-                <DialogContent>
+            <Dialog open={isOpen} onClose={handleModalClose}>
+                {isEditRoom == true ?
 
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Name"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        value={name}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Bio"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        value={bio}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBio(e.target.value)}
+                    <>
+                        <DialogTitle>Edit room </DialogTitle>
 
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Photo Url"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        value={photoUrl}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhotoUrl(e.target.value)}
+                        <DialogContent>
 
-                    />
-                </DialogContent>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Room Name"
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                value={roomName}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRoomName(e.target.value)}
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Room Icon"
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                value={roomUrl}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRoomUrl(e.target.value)}
+
+                            />   </DialogContent>
+                    </> :
+                    <>
+                        <DialogTitle>Edit Profile </DialogTitle>
+
+                        <DialogContent>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Name"
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                value={name}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Bio"
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                value={bio}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBio(e.target.value)}
+
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Photo Url"
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                value={photoUrl}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhotoUrl(e.target.value)}
+
+                            />
+
+                        </DialogContent>
+                    </>
+                }
                 <DialogActions>
                     <Button onClick={handleModalClose} >Cancel</Button>
                     <Button onClick={handleEditProfile} >Edit Profile</Button>

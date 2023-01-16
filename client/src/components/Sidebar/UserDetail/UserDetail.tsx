@@ -3,18 +3,20 @@ import './UserDetail.css'
 import Avatar from '@mui/material/Avatar';
 import EditIcon from '@mui/icons-material/Edit';
 import { auth } from '../../../firebase/firebase';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../store/store';
 import EditModal from '../../EditProfile/EditModal';
+import { modalActions } from '../../../store/slice/modalSlice';
+import { roomActions } from '../../../store/slice/roomSlice';
 
 const UserDetail = () => {
   const user = useSelector((state: RootState) => state.auth.user)
   const [openModal, setOpenModal] = useState(false)
-
+  const dispatch = useDispatch()
 
   return (
     <div className='user-detail'>
-      <div className='user-image'>
+      <div onClick={() => dispatch(roomActions.handleDefault())} className='user-image'>
         <Avatar src={user.photoUrl as string} sx={{ width: 56, height: 56 }}
         />
 
@@ -28,7 +30,7 @@ const UserDetail = () => {
 
       </div>
       <div className='user-edit'>
-        <EditIcon onClick={() => setOpenModal(true)} style={{ fontSize: "19px", color: "gray" }} />
+        <EditIcon onClick={() => dispatch(modalActions.handleOpen())} style={{ fontSize: "19px", color: "gray" }} />
         <EditModal openModal={openModal} setOpenModal={setOpenModal} />
       </div>
 

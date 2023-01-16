@@ -40,6 +40,10 @@ const RoomSlice = createSlice({
             state.isRoom = true
 
         },
+        handleDefault(state) {
+            state.isSelectedRoom = 'Default'
+            state.isRoom = false
+        }
 
     }
 

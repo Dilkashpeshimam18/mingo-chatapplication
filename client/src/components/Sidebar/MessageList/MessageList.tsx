@@ -19,7 +19,6 @@ const MessageList = () => {
   const user = useSelector((state: RootState) => state.auth.user)
   const dispatch = useDispatch()
   let allRoomRef = collection(db, 'allRoom')
-  console.log(allRoom)
   const handleClose = () => {
     setOpen(false)
   }

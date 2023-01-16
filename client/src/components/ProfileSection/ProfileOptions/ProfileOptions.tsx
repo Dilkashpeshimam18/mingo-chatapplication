@@ -12,13 +12,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
+import { modalActions } from '../../../store/slice/modalSlice';
+
 const ProfileOptions = () => {
     const [openModal, setOpenModal] = useState(false)
     const user = useSelector((state: RootState) => state.auth.user)
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
-
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+
+    const handleEdit = () => {
+        dispatch(modalActions.handleIsEditRoom())
+
+        dispatch(modalActions.handleOpen())
+    }
 
     const handleLogout = async () => {
         try {
@@ -47,7 +55,7 @@ const ProfileOptions = () => {
                         <>
                             <span className='profile-sub-icon'><EditIcon style={{ fontSize: '21px', color: 'gray' }} />
                             </span>
-                            <p onClick={() => setOpenModal(true)} className='profile-sub-text'>  Edit Room</p> :
+                            <p onClick={handleEdit} className='profile-sub-text'>  Edit Room</p> :
 
                         </> :
                         <>  <span className='profile-sub-icon'>
@@ -64,13 +72,14 @@ const ProfileOptions = () => {
                     {openModal == true && <RoomModal openModal={openModal} setOpenModal={setOpenModal} />}
 
                 </div>
-                <div className='profile-sub-inner'>
+                {isRoom == true && <div className='profile-sub-inner'>
                     <span className='profile-sub-icon'>
                         <PersonOutlineOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
                     </span>
                     <p className='profile-sub-text'>   View Members</p>
 
-                </div>
+                </div>}
+
 
                 {user.uid ? <div onClick={handleLogout} className='profile-sub-inner'>
                     <span className='profile-sub-icon'>

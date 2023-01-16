@@ -12,6 +12,7 @@ const ProfileMain = () => {
     const allRoom = useSelector((state: RootState) => state.room.allRoom)
     const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
+
     useEffect(() => {
         if (isRoom == true) {
             let selectedRoom = allRoom.filter((room) => {
@@ -25,7 +26,7 @@ const ProfileMain = () => {
         <div>
             {isRoom == true && <>
                 <div className='profile-image'>
-                    <Avatar alt="Travis Howard" src={data[0]?.roomUrl as string} sx={{ width: 140, height: 140 }} />
+                    <Avatar src={data[0]?.roomUrl as string} sx={{ width: 140, height: 140 }} />
 
                 </div>
                 <div className="profile-detail">
@@ -51,7 +52,7 @@ const ProfileMain = () => {
             {isRoom == false &&
                 <>
                     <div className='profile-image'>
-                        <Avatar alt="Travis Howard" src={user.photoUrl as string} sx={{ width: 140, height: 140 }} />
+                        <Avatar src={user.photoUrl as string} sx={{ width: 140, height: 140 }} />
 
                     </div>
                     <div className="profile-detail">
