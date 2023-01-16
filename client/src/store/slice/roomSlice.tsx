@@ -4,6 +4,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type RoomType = {
     roomName: string | number,
     roomUrl: string,
+    id?: string,
+    createdBy?: string
 }
 
 export type AllRoomType = {
@@ -19,7 +21,7 @@ const initialRoomState: AllRoomType = {
     allRoom: JSON.parse(localStorage.getItem('allRoom') as any) || [],
     singleRoom: {
         roomName: '',
-        roomUrl: ''
+        roomUrl: '',
     },
     isSelectedRoom: 'Default',
     isRoom: false

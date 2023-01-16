@@ -3,14 +3,14 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBWWfW_5MR5cXuXnuE16kWYHtlQTLwtxfM",
-  authDomain: "newsday-io.firebaseapp.com",
-  databaseURL: "https://newsday-io-default-rtdb.firebaseio.com",
-  projectId: "newsday-io",
-  storageBucket: "newsday-io.appspot.com",
-  messagingSenderId: "440454284518",
-  appId: "1:440454284518:web:ba834a6298870931c2e727",
-  measurementId: "G-NKFPEM4T2M",
+  apiKey: "AIzaSyDvLfJDqn0rEqc1GJoqQNy2EqEsAn1UfOo",
+  authDomain: "realtime-chatapp-mern.firebaseapp.com",
+  databaseURL: "https://realtime-chatapp-mern-default-rtdb.firebaseio.com",
+  projectId: "realtime-chatapp-mern",
+  storageBucket: "realtime-chatapp-mern.appspot.com",
+  messagingSenderId: "544126894921",
+  appId: "1:544126894921:web:5fecc6f2fd2ca543c0d098",
+  measurementId: "G-PLZG557MDC",
 };
 
 const app = initializeApp(firebaseConfig);

@@ -10,6 +10,8 @@ import { useDispatch } from 'react-redux';
 import { roomActions } from '../../store/slice/roomSlice';
 import { db } from '../../firebase/firebase';
 import { collection, addDoc, doc, getDocs } from 'firebase/firestore'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 type RoomModalProps = {
     openModal: boolean,
@@ -20,6 +22,8 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
     const [roomName, setRoomName] = useState<string | number>('')
     const [roomUrl, setRoomUrl] = useState<string>('')
     const [allRoom, setAllRoom] = useState([])
+    const user = useSelector((state: RootState) => state.auth.user)
+
     const dispatch = useDispatch()
     let allRoomRef: any;
     if (roomName) {
@@ -39,12 +43,13 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
 
             let room = {
                 roomName: roomName,
-                roomUrl: roomUrl
+                roomUrl: roomUrl,
+                createdBy: user.email
             }
             await addDoc(allRoomRef, room)
 
             allRoom.push(room)
-            dispatch(roomActions.addRoom(room))
+            dispatch(roomActions.addRoom(room as any))
             dispatch(roomActions.addToRoomList(room))
             setRoomName('')
             setRoomUrl('')

@@ -13,11 +13,14 @@ import { authActions } from '../../store/slice/authSlice';
 import { useDispatch } from 'react-redux';
 import { modalActions } from '../../store/slice/modalSlice';
 import { RoomType } from '../../store/slice/roomSlice';
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from '../../firebase/firebase';
 
 type EditModalProps = {
     openModal: boolean,
     setOpenModal: (openModal: boolean) => void
 }
+
 const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     const user = useSelector((state: RootState) => state.auth.user)
     const [name, setName] = useState(user.name)
@@ -34,6 +37,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
     const [roomName, setRoomName] = useState<string | number>('')
     const [roomUrl, setRoomUrl] = useState('')
+    const [roomId, setRoomId] = useState<string>('')
 
     const handleModalClose = () => {
         setOpenModal(false)
@@ -71,13 +75,24 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
         }
     }
 
-    const handleEditRoom = () => {
+    const handleEditRoom = async (id: string) => {
+        console.log(id)
         try {
+            let roomRef = doc(db, 'allRoom', id)
+            let data = {
+                roomName: roomName,
+                roomUrl: roomUrl
+            }
+            const response = await updateDoc(roomRef, data)
+                .then(() => {
+                    alert('Room Updated!')
+                })
 
         } catch (err) {
             console.log(err)
         }
     }
+
 
     useEffect(() => {
         if (isRoom == true) {
@@ -87,9 +102,11 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             setData(selectedRoom)
             setRoomName(selectedRoom[0]?.roomName)
             setRoomUrl(selectedRoom[0]?.roomUrl)
+            setRoomId(selectedRoom[0]?.id as string)
         }
 
     }, [isRoom, isSelectedRoom])
+    console.log(roomId)
     return (
         <div>
             <Dialog open={isOpen} onClose={handleModalClose}>
@@ -123,6 +140,10 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRoomUrl(e.target.value)}
 
                             />   </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleModalClose} >Cancel</Button>
+                            <Button onClick={() => handleEditRoom(roomId)} >Edit Room</Button>
+                        </DialogActions>
                     </> :
                     <>
                         <DialogTitle>Edit Profile </DialogTitle>
@@ -165,12 +186,13 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                             />
 
                         </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleModalClose} >Cancel</Button>
+                            <Button onClick={handleEditProfile} >Edit Profile</Button>
+                        </DialogActions>
                     </>
                 }
-                <DialogActions>
-                    <Button onClick={handleModalClose} >Cancel</Button>
-                    <Button onClick={handleEditProfile} >Edit Profile</Button>
-                </DialogActions>
+
             </Dialog>
         </div>
     )
