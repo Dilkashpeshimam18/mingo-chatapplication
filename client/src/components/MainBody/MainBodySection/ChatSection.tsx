@@ -8,19 +8,18 @@ import { db } from '../../../firebase/firebase';
 import { MessageProps } from '../MainBody';
 
 interface ChatSectionProps {
-  messages: string[],
-  receivedMessage: string,
+
   allMessages: MessageProps[]
 }
 
-const ChatSection = ({ messages, receivedMessage, allMessages }: ChatSectionProps) => {
+const ChatSection = ({ allMessages }: ChatSectionProps) => {
   return (
     <div className='chat-body'>
       <div className='chat-section'>
         {allMessages?.map((message) => {
           return (
 
-            <Message message={message.message} image={message.image} name={message.username} />
+            <Message message={message.message} image={message.image} name={message.username} email={message.email} />
 
 
           )

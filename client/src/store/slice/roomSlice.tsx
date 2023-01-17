@@ -81,7 +81,6 @@ export const getAllRooms = () => {
     return async (dispatch: AppDispatch) => {
         const getRooms = async () => {
             const response = await axios.get('https://mingo-chatapp-default-rtdb.firebaseio.com/allroom.json')
-            console.log(response.data)
             // const response = await getDocs(allRoomRef)
             // const res = response.docs.map((doc) => ({
             //     ...doc.data(),
@@ -101,7 +100,6 @@ export const getAllRooms = () => {
                     })
                 }
 
-                console.log(data)
                 localStorage.setItem('allRoom', JSON.stringify(data as any))
                 dispatch(roomActions.addToRoomList(data))
             }

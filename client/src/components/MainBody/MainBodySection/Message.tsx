@@ -7,16 +7,19 @@ import { RootState } from '../../../store/store';
 type MessageProps = {
     message: string,
     image: string,
-    name: string
+    name: string,
+    email: string
 }
 
-const Message = ({ message, image, name }: MessageProps) => {
+const Message = ({ message, image, name, email }: MessageProps) => {
     const user = useSelector((state: RootState) => state.auth.user)
 
     return (
         <div className='message-container '>
             <div className='message-avatar'>
-                <Avatar src={image == null ? user.photoUrl as string : image} sx={{ width: 45, height: 45 }} />
+                <Avatar src={image == null ? (
+                    user.email == email ? user.photoUrl as string : image
+                ) : (image)} sx={{ width: 45, height: 45 }} />
             </div>
             <div className='message-subContainer '>
                 <div className='message-user'>

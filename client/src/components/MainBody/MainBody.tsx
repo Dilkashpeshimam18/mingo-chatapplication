@@ -16,7 +16,8 @@ import axios from 'axios';
 export type MessageProps = {
   username: string,
   image: string,
-  message: string
+  message: string,
+  email: string
 }
 const MainBody = () => {
   const [data, setData] = useState<RoomType[]>([])
@@ -76,7 +77,6 @@ const MainBody = () => {
       const response = await axios.get(`https://mingo-chatapp-default-rtdb.firebaseio.com/allMessage/${isSelectedRoom}.json`)
         .then((res) => {
           let result = res.data
-          console.log('calling')
           for (let key in result) {
             data.push({
               id: key,
@@ -138,7 +138,7 @@ const MainBody = () => {
     <div className='mainbody'>
       <Header data={data} />
       <Divider variant='inset' />
-      <ChatSection allMessages={allMessages} messages={messages} receivedMessage={receivedMessage} />
+      <ChatSection allMessages={allMessages} />
       <Divider variant='middle' />
 
       <Footer handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} setMessages={setMessages} />
