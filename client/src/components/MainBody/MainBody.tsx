@@ -10,6 +10,7 @@ import { RoomType } from '../../store/slice/roomSlice';
 import { socket } from '../../App';
 import { collection, addDoc, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/firebase';
+import firebase from 'firebase/compat/app'
 
 
 export type MessageProps = {
@@ -43,10 +44,14 @@ const MainBody = () => {
     if (message != '') {
       socket.emit("send_message", { message, isSelectedRoom })
       setSender(true)
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp;
+
       let userMessage = {
         username: user.name as string,
         image: user.photoUrl as string,
-        message: message as string
+        message: message as string,
+        email: user.email as string,
+        createdAt: timestamp()
       }
       console.log(userMessage)
       try {

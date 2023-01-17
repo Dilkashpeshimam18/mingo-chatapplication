@@ -16,7 +16,7 @@ const Message = ({ message, image, name }: MessageProps) => {
     return (
         <div className='message-container '>
             <div className='message-avatar'>
-                <Avatar alt="Travis Howard" src={image == null ? user.photoUrl as string : image} sx={{ width: 45, height: 45 }} />
+                <Avatar src={image == null ? user.photoUrl as string : image} sx={{ width: 45, height: 45 }} />
             </div>
             <div className='message-subContainer '>
                 <div className='message-user'>
