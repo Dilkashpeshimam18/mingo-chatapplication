@@ -14,6 +14,7 @@ import firebase from 'firebase/compat/app'
 import axios from 'axios';
 
 export type MessageProps = {
+  id: string,
   username: string,
   image: string,
   message: string,
