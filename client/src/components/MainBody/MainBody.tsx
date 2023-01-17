@@ -4,14 +4,12 @@ import Header from './MainBodyHeader/Header'
 import Divider from '@mui/material/Divider';
 import ChatSection from './MainBodySection/ChatSection';
 import Footer from './MainBodyFooter/Footer';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { RoomType } from '../../store/slice/roomSlice';
 import { socket } from '../../App';
-import { collection, addDoc, getDocs, serverTimestamp, query, orderBy } from 'firebase/firestore'
-import { db } from '../../firebase/firebase';
-import firebase from 'firebase/compat/app'
 import axios from 'axios';
+import { messageActions } from '../../store/slice/messageSlice';
 
 export type MessageProps = {
   id: string,
@@ -20,6 +18,7 @@ export type MessageProps = {
   message: string,
   email: string
 }
+
 const MainBody = () => {
   const [data, setData] = useState<RoomType[]>([])
   const [message, setMessage] = useState('')
@@ -29,33 +28,28 @@ const MainBody = () => {
   const allRoom = useSelector((state: RootState) => state.room.allRoom)
   const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
   const isRoom = useSelector((state: RootState) => state.room.isRoom)
-  const [allMessages, setAllMessage] = useState<MessageProps[]>([])
-  const [isSending, setIsSending] = useState<boolean>(false)
 
+  const dispatch = useDispatch()
 
-  let allMessageRef: any;
-  if (user.email != '') {
-    allMessageRef = collection(collection(db, 'allMessage') as any, isSelectedRoom as string, isSelectedRoom as string)
+  // let allMessageRef: any;
+  // if (user.email != '') {
+  //   allMessageRef = collection(collection(db, 'allMessage') as any, isSelectedRoom as string, isSelectedRoom as string)
 
-  } else {
-    allMessageRef = collection(db, 'allMessage')
-  }
+  // } else {
+  //   allMessageRef = collection(db, 'allMessage')
+  // }
   const handleSendMessage = async () => {
     if (message != '') {
-      socket.emit("send_message", { message, isSelectedRoom })
-      let timestamp = serverTimestamp()
+      // socket.emit("send_message", { message, isSelectedRoom })
       let userMessage = {
         username: user.name as string,
         image: user.photoUrl as string,
         message: message as string,
         email: user.email as string,
       }
-      console.log(userMessage)
       try {
-        setIsSending(true)
         const response = await axios.post(`https://mingo-chatapp-default-rtdb.firebaseio.com/allMessage/${isSelectedRoom}.json`, userMessage)
           .then((res) => {
-            console.log(res)
             getAllMessage()
 
           })
@@ -66,7 +60,6 @@ const MainBody = () => {
         console.log(err)
       }
     }
-    setIsSending(false)
 
     setMessage('')
   }
@@ -86,7 +79,7 @@ const MainBody = () => {
               username: result[key].username
             })
           }
-          setAllMessage(data)
+          dispatch(messageActions.handleAllMessage(data))
 
         })
 
@@ -112,6 +105,7 @@ const MainBody = () => {
 
   //   return () => clearInterval(interval);
   // }, [])
+
   useEffect(() => {
     if (isRoom == true) {
       let selectedRoom = allRoom.filter((room) => {
@@ -125,23 +119,21 @@ const MainBody = () => {
 
   }, [isRoom, isSelectedRoom])
 
-  useEffect(() => {
-    socket.on("receive_message", (data) => {
-      setReceivedMessage(data)
-    })
-
-    console.log(receivedMessage)
+  // useEffect(() => {
+  //   socket.on("receive_message", (data) => {
+  //     setReceivedMessage(data)
+  //   })
 
 
-  }, [socket])
+
+  // }, [socket])
 
   return (
     <div className='mainbody'>
       <Header data={data} />
       <Divider variant='inset' />
-      <ChatSection allMessages={allMessages} />
+      <ChatSection />
       <Divider variant='middle' />
-
       <Footer handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} setMessages={setMessages} />
 
     </div>
