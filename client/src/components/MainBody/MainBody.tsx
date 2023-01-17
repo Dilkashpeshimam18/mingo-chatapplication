@@ -8,10 +8,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { RoomType } from '../../store/slice/roomSlice';
 import { socket } from '../../App';
-import { collection, addDoc, getDocs } from 'firebase/firestore'
+import { collection, addDoc, getDocs, serverTimestamp, query, orderBy } from 'firebase/firestore'
 import { db } from '../../firebase/firebase';
 import firebase from 'firebase/compat/app'
-
+import axios from 'axios';
 
 export type MessageProps = {
   username: string,
@@ -21,8 +21,6 @@ export type MessageProps = {
 const MainBody = () => {
   const [data, setData] = useState<RoomType[]>([])
   const [message, setMessage] = useState('')
-  const [sender, setSender] = useState<boolean>(false)
-  const [receiver, setReceiver] = useState<boolean>(false)
   const [messages, setMessages] = useState<string[]>([])
   const [receivedMessage, setReceivedMessage] = useState<string>('')
   const user = useSelector((state: RootState) => state.auth.user)
@@ -30,7 +28,7 @@ const MainBody = () => {
   const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
   const isRoom = useSelector((state: RootState) => state.room.isRoom)
   const [allMessages, setAllMessage] = useState<MessageProps[]>([])
-
+  const [isSending, setIsSending] = useState<boolean>(false)
 
 
   let allMessageRef: any;
@@ -43,39 +41,59 @@ const MainBody = () => {
   const handleSendMessage = async () => {
     if (message != '') {
       socket.emit("send_message", { message, isSelectedRoom })
-      setSender(true)
-      const timestamp = firebase.firestore.FieldValue.serverTimestamp;
-
+      let timestamp = serverTimestamp()
       let userMessage = {
         username: user.name as string,
         image: user.photoUrl as string,
         message: message as string,
         email: user.email as string,
-        createdAt: timestamp()
       }
       console.log(userMessage)
       try {
-        await addDoc(allMessageRef, userMessage)
+        setIsSending(true)
+        const response = await axios.post(`https://mingo-chatapp-default-rtdb.firebaseio.com/allMessage/${isSelectedRoom}.json`, userMessage)
+          .then((res) => {
+            console.log(res)
+            getAllMessage()
+
+          })
+
+        // await addDoc(allMessageRef, userMessage)
 
       } catch (err) {
         console.log(err)
       }
     }
+    setIsSending(false)
+
     setMessage('')
   }
 
   const getAllMessage = async () => {
-    // console.log(isSelectedRoom)
     let data: any = []
 
     try {
-      const response = await getDocs(allMessageRef)
-      const res = response.docs.map((doc) => {
-        data.push(doc.data())
-      })
-      // console.log(res)
-      // console.log(data)
-      setAllMessage(data)
+      const response = await axios.get(`https://mingo-chatapp-default-rtdb.firebaseio.com/allMessage/${isSelectedRoom}.json`)
+        .then((res) => {
+          let result = res.data
+          console.log('calling')
+          for (let key in result) {
+            data.push({
+              id: key,
+              email: result[key].email,
+              message: result[key].message,
+              username: result[key].username
+            })
+          }
+          setAllMessage(data)
+
+        })
+
+      // const response = await getDocs(query(allMessageRef, orderBy('timestamp')))
+      // const res = response.docs.map((doc) => {
+      //   data.push(doc.data())
+      // })
+
 
     } catch (err) {
       console.log(err)
@@ -84,8 +102,15 @@ const MainBody = () => {
 
   useEffect(() => {
     getAllMessage()
-  }, [isSelectedRoom, handleSendMessage])
+  }, [isSelectedRoom])
 
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     getAllMessage()
+  //   }, 4000);
+
+  //   return () => clearInterval(interval);
+  // }, [])
   useEffect(() => {
     if (isRoom == true) {
       let selectedRoom = allRoom.filter((room) => {
@@ -104,6 +129,9 @@ const MainBody = () => {
       setReceivedMessage(data)
     })
 
+    console.log(receivedMessage)
+
+
   }, [socket])
 
   return (
@@ -113,7 +141,7 @@ const MainBody = () => {
       <ChatSection allMessages={allMessages} messages={messages} receivedMessage={receivedMessage} />
       <Divider variant='middle' />
 
-      <Footer handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} setMessages={setMessages} setSender={setSender} />
+      <Footer handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} setMessages={setMessages} />
 
     </div>
   )

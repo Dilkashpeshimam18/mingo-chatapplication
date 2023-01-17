@@ -3,14 +3,12 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDvLfJDqn0rEqc1GJoqQNy2EqEsAn1UfOo",
-  authDomain: "realtime-chatapp-mern.firebaseapp.com",
-  databaseURL: "https://realtime-chatapp-mern-default-rtdb.firebaseio.com",
-  projectId: "realtime-chatapp-mern",
-  storageBucket: "realtime-chatapp-mern.appspot.com",
-  messagingSenderId: "544126894921",
-  appId: "1:544126894921:web:5fecc6f2fd2ca543c0d098",
-  measurementId: "G-PLZG557MDC",
+  apiKey: "AIzaSyDWOZkxcbWum4rVaXmRTTBqrvi8jRQWZJ8",
+  authDomain: "mingo-chatapp.firebaseapp.com",
+  projectId: "mingo-chatapp",
+  storageBucket: "mingo-chatapp.appspot.com",
+  messagingSenderId: "611060999481",
+  appId: "1:611060999481:web:272828d2c3825e3ca5b4e8",
 };
 
 const app = initializeApp(firebaseConfig);

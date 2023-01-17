@@ -17,6 +17,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from '../../firebase/firebase';
 import { getAllRooms } from '../../store/slice/roomSlice';
 import { AppDispatch } from '../../store/store';
+import axios from 'axios';
 
 type EditModalProps = {
     openModal: boolean,
@@ -81,21 +82,23 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
 
     const handleEditRoom = async (id: string) => {
         try {
-            let roomRef = doc(db, 'allRoom', id)
             let data = {
                 roomName: roomName,
-                roomUrl: roomUrl
+                roomUrl: roomUrl,
+                createdBy: user.email
             }
-            const response = await updateDoc(roomRef, data)
-                .then(() => {
-                    alert('Room Updated!')
-                    handleModalClose()
+            const response = axios.put(`https://mingo-chatapp-default-rtdb.firebaseio.com/allroom/${id}.json`, data)
+                .then((res) => {
+                    console.log(res)
+                    alert('Room Update!')
                     dispatch(getAllRooms())
-
+                    handleModalClose()
                 })
+
 
         } catch (err) {
             console.log(err)
+            alert('Something went wrong!')
         }
     }
 

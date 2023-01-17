@@ -6,7 +6,7 @@ import Login from './components/LoginPage/Login';
 import Register from './components/RegisterPage/Register';
 import * as io from 'socket.io-client'
 
-export const socket = io.connect('http://localhost:3001', { transports: ['websocket', 'polling', 'flashsocket'] })
+export const socket = io.connect('http://localhost:3000', { transports: ['websocket', 'polling', 'flashsocket'] })
 
 function App() {
   return (

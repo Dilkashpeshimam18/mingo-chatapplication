@@ -12,6 +12,7 @@ import { db } from '../../firebase/firebase';
 import { collection, addDoc, doc, getDocs } from 'firebase/firestore'
 import { useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
+import axios from 'axios';
 
 type RoomModalProps = {
     openModal: boolean,
@@ -45,7 +46,9 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
                 roomUrl: roomUrl,
                 createdBy: user.email
             }
-            await addDoc(allRoomRef, room)
+            const response = await axios.post('https://mingo-chatapp-default-rtdb.firebaseio.com/allroom.json', room)
+            console.log(response)
+            // await addDoc(allRoomRef, room)
             setRoomName('')
             setRoomUrl('')
             alert('Created new room!')
