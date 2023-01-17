@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import { modalActions } from '../../../store/slice/modalSlice';
 import { RoomType } from '../../../store/slice/roomSlice';
+import { memberActions } from '../../../store/slice/memberSlice';
 
 const ProfileOptions = () => {
     const [data, setData] = useState<RoomType[]>([])
@@ -91,7 +92,7 @@ const ProfileOptions = () => {
                     <span className='profile-sub-icon'>
                         <PersonOutlineOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
                     </span>
-                    <p className='profile-sub-text'>   View Members</p>
+                    <p onClick={() => dispatch(memberActions.handleViewMember())} className='profile-sub-text'>   View Members</p>
 
                 </div>}
 
