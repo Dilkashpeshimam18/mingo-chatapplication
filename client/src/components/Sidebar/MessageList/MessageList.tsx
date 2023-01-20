@@ -26,6 +26,7 @@ const MessageList = () => {
   }
   const handleJoinRoom = (room: any) => {
     dispatch(roomActions.handleIsSelectedRoom(room))
+    localStorage.setItem('room', room)
     dispatch(memberActions.isNotViewMember())
   }
 
@@ -44,9 +45,9 @@ const MessageList = () => {
       <div className='messageList'>
         <div className='messageList-container'>
           <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', cursor: 'pointer' }}>
-            {allRoom.map((room) => {
+            {allRoom.map((room, index) => {
               return (
-                <>
+                <div key={index}>
                   <ListItem onClick={() => handleJoinRoom(room.roomName)} className='singleMessage-container' alignItems="flex-start">
                     <ListItemAvatar>
                       <Avatar src={room.roomUrl} sx={{ width: 45, height: 45 }} />
@@ -72,7 +73,7 @@ const MessageList = () => {
                     />
                   </ListItem>
                   <Divider variant="inset" component="li" />
-                </>
+                </div>
 
 
               )

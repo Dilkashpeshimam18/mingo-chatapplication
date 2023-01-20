@@ -23,12 +23,11 @@ const MainBody = () => {
   const [data, setData] = useState<RoomType[]>([])
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState<string[]>([])
-  const [receivedMessage, setReceivedMessage] = useState<string>('')
   const user = useSelector((state: RootState) => state.auth.user)
   const allRoom = useSelector((state: RootState) => state.room.allRoom)
   const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
   const isRoom = useSelector((state: RootState) => state.room.isRoom)
-
+  const selectedRoom = localStorage.getItem('room')
   const dispatch = useDispatch()
 
   // let allMessageRef: any;
@@ -66,7 +65,6 @@ const MainBody = () => {
 
   const getAllMessage = async () => {
     let data: any = []
-
     try {
       const response = await axios.get(`https://mingo-chatapp-default-rtdb.firebaseio.com/allMessage/${isSelectedRoom}.json`)
         .then((res) => {
@@ -80,6 +78,7 @@ const MainBody = () => {
               image: result[key].image
             })
           }
+
           dispatch(messageActions.handleAllMessage(data))
 
         })
@@ -99,13 +98,7 @@ const MainBody = () => {
     getAllMessage()
   }, [isSelectedRoom])
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     getAllMessage()
-  //   }, 4000);
 
-  //   return () => clearInterval(interval);
-  // }, [])
 
   useEffect(() => {
     if (isRoom == true) {
@@ -135,7 +128,7 @@ const MainBody = () => {
       <Divider variant='inset' />
       <ChatSection />
       <Divider variant='middle' />
-      <Footer handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} setMessages={setMessages} />
+      <Footer handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} setMessages={setMessages} getAllMessage={getAllMessage} />
 
     </div>
   )

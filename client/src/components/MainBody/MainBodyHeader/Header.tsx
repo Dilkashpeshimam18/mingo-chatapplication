@@ -33,7 +33,6 @@ const Header = ({ data }: HeaderProps) => {
                     </div>
                     <div className='main-detail'>
                         <h2 className='main-name'>{data[0]?.roomName}</h2>
-                        <p className='main-mode'>online</p>
                     </div>
                 </div>
             </>}

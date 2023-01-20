@@ -1,23 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Footer.css'
 import MicNoneOutlinedIcon from '@mui/icons-material/MicNoneOutlined';
 import AttachmentOutlinedIcon from '@mui/icons-material/AttachmentOutlined';
 import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import SendIcon from '@mui/icons-material/Send';
-
+import { RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
 
 
 type FooterProps = {
     message: string,
     setMessage: React.Dispatch<React.SetStateAction<string>>
     setMessages: React.Dispatch<React.SetStateAction<string[]>>,
-    handleSendMessage: () => void
+    handleSendMessage: () => void,
+    getAllMessage: () => void
 }
 
-const Footer = ({ message, setMessage, setMessages, handleSendMessage }: FooterProps) => {
+const Footer = ({ message, setMessage, setMessages, handleSendMessage, getAllMessage }: FooterProps) => {
     const [chosenEmoji, setChosenEmoji] = useState(null);
     const [isEmoji, setIsEmoji] = useState(false)
+
 
     return (
         <div className='main-footer'>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Message.css'
 import Avatar from '@mui/material/Avatar';
 import { useSelector } from 'react-redux';
@@ -8,11 +8,12 @@ type MessageProps = {
     message: string,
     image: string,
     name: string,
-    email: string
+    email: string,
 }
 
 const Message = ({ message, image, name, email }: MessageProps) => {
     const user = useSelector((state: RootState) => state.auth.user)
+
 
     return (
         <div className='message-container '>

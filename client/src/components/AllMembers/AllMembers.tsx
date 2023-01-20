@@ -13,7 +13,6 @@ const AllMembers = () => {
         objectsMap.set(object.username
             , object);
     });
-    console.log(objectsMap);
     objectsMap.forEach((object) => {
 
         allUser.push({ name: object.username, image: object.image })
