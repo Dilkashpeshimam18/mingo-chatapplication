@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch } from 'react-redux';
-import { roomActions, handleAddRoom, getAllRooms } from '../../store/slice/roomSlice';
+import { getAllRooms } from '../../store/slice/roomSlice';
 import { db } from '../../firebase/firebase';
 import { collection, addDoc, doc, getDocs } from 'firebase/firestore'
 import { useSelector } from 'react-redux';
@@ -47,7 +47,6 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
                 createdBy: user.email
             }
             const response = await axios.post('https://mingo-chatapp-default-rtdb.firebaseio.com/allroom.json', room)
-            console.log(response)
             // await addDoc(allRoomRef, room)
             setRoomName('')
             setRoomUrl('')

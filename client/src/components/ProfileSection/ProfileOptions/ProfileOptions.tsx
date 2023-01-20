@@ -9,12 +9,15 @@ import { auth } from '../../../firebase/firebase'
 import RoomModal from '../../RoomModal/RoomModal';
 import { authActions } from '../../../store/slice/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { RootState, AppDispatch } from '../../../store/store';
 import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import { modalActions } from '../../../store/slice/modalSlice';
 import { RoomType } from '../../../store/slice/roomSlice';
 import { memberActions } from '../../../store/slice/memberSlice';
+import DeleteIcon from '@mui/icons-material/Delete';
+import axios from 'axios';
+import { getAllRooms } from '../../../store/slice/roomSlice';
 
 const ProfileOptions = () => {
     const [data, setData] = useState<RoomType[]>([])
@@ -22,10 +25,21 @@ const ProfileOptions = () => {
     const user = useSelector((state: RootState) => state.auth.user)
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch: AppDispatch = useDispatch()
     const allRoom = useSelector((state: RootState) => state.room.allRoom)
     const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
 
+
+    useEffect(() => {
+        if (isRoom == true) {
+            let selectedRoom = allRoom.filter((room) => {
+                return room.roomName == isSelectedRoom
+            })
+            setData(selectedRoom)
+
+        }
+
+    }, [isRoom, isSelectedRoom])
 
     const handleEdit = () => {
         dispatch(modalActions.handleIsEditRoom())
@@ -51,16 +65,24 @@ const ProfileOptions = () => {
         }
     }
 
-    useEffect(() => {
-        if (isRoom == true) {
-            let selectedRoom = allRoom.filter((room) => {
-                return room.roomName == isSelectedRoom
-            })
-            setData(selectedRoom)
+    const handleDelete = async () => {
+        try {
+            let id = data[0]?.id
+            console.log(id)
+            const response = await axios.delete(`https://mingo-chatapp-default-rtdb.firebaseio.com/allroom/${id}.json`)
+                .then(() => {
+                    alert('Room Deleted!')
+                    dispatch(getAllRooms())
+
+                })
+
+        } catch (err) {
+            console.log(err)
 
         }
+    }
 
-    }, [isRoom, isSelectedRoom])
+
     return (
         <div className='profile-options'>
 
@@ -88,9 +110,15 @@ const ProfileOptions = () => {
                     {openModal == true && <RoomModal openModal={openModal} setOpenModal={setOpenModal} />}
 
                 </div>
+                {isRoom == true && user.email == data[0]?.createdBy && <div className='profile-sub-inner'>
+                    <span className='profile-sub-icon'><DeleteIcon style={{ fontSize: '21px', color: 'gray', paddingTop: '2px' }} />
+                    </span>
+                    <p onClick={handleDelete} className='profile-sub-text'>  Delete  Room</p>
+
+                </div>}
                 {isRoom == true && <div className='profile-sub-inner'>
                     <span className='profile-sub-icon'>
-                        <PersonOutlineOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
+                        <PersonOutlineOutlinedIcon style={{ fontSize: '27px', color: 'gray' }} />
                     </span>
                     <p onClick={() => dispatch(memberActions.handleViewMember())} className='profile-sub-text'>   View Members</p>
 
