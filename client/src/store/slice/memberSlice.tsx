@@ -13,6 +13,9 @@ const MemberSlice = createSlice({
     reducers: {
         handleViewMember(state) {
             state.isViewMember = true
+        },
+        isNotViewMember(state) {
+            state.isViewMember = false
         }
     }
 })

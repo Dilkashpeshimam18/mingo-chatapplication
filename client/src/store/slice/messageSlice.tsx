@@ -22,7 +22,8 @@ const MessageSlice = createSlice({
     reducers: {
         handleAllMessage(state, action) {
             state.allMessages = action.payload
-        }
+        },
+
     }
 })
 

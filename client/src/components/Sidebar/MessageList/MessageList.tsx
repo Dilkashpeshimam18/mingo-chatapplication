@@ -13,10 +13,11 @@ import { roomActions, getAllRooms } from '../../../store/slice/roomSlice';
 import { getDocs, collection } from 'firebase/firestore'
 import { db } from '../../../firebase/firebase';
 import { AppDispatch } from '../../../store/store';
+import { memberActions } from '../../../store/slice/memberSlice';
+
 const MessageList = () => {
   const [open, setOpen] = useState(false)
   const allRoom = useSelector((state: RootState) => state.room.allRoom)
-  const user = useSelector((state: RootState) => state.auth.user)
   const dispatch: AppDispatch = useDispatch()
   let allRoomRef = collection(db, 'allRoom')
 
@@ -25,6 +26,7 @@ const MessageList = () => {
   }
   const handleJoinRoom = (room: any) => {
     dispatch(roomActions.handleIsSelectedRoom(room))
+    dispatch(memberActions.isNotViewMember())
   }
 
 
@@ -52,21 +54,21 @@ const MessageList = () => {
 
                     <ListItemText
                       primary={room.roomName}
-                      sx={{ color: '#007FFF' }}
+                      sx={{ color: '#007FFF', paddingTop: '8px' }}
 
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            sx={{ display: 'inline' }}
-                            component="span"
-                            variant="body2"
-                            color="text.primary"
-                          >
-                            Ali Connors
-                          </Typography>
-                          {" — I'll be in your neighborhood doing errands this…"}
-                        </React.Fragment>
-                      }
+                    // secondary={
+                    //   <React.Fragment>
+                    //     <Typography
+                    //       sx={{ display: 'inline' }}
+                    //       component="span"
+                    //       variant="body2"
+                    //       color="text.primary"
+                    //     >
+                    //       Ali Connors
+                    //     </Typography>
+                    //     {" — I'll be in your neighborhood doing errands this…"}
+                    //   </React.Fragment>
+                    // }
                     />
                   </ListItem>
                   <Divider variant="inset" component="li" />

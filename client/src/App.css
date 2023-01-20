@@ -1,7 +1,6 @@
 .app {
-  display: flex;
+  /* display: flex; */
   flex-direction: row;
   text-align: center;
-  font-family:  sans-serif;
+  font-family: sans-serif;
 }
-

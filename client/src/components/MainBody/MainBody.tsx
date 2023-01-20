@@ -76,7 +76,8 @@ const MainBody = () => {
               id: key,
               email: result[key].email,
               message: result[key].message,
-              username: result[key].username
+              username: result[key].username,
+              image: result[key].image
             })
           }
           dispatch(messageActions.handleAllMessage(data))

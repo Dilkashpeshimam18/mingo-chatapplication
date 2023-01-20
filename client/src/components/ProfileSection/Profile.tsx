@@ -13,14 +13,14 @@ const Profile = () => {
   return (
     <div className='profile'>
       <ProfileInput />
-      {isView == true ? <AllMembers /> :
-        <>
-          <ProfileMain />
-          <ProfileOptions />
-          <ProfileMedia />
-        </>
+      {isView == true && <AllMembers />}
+      {isView == false && <>
+        <ProfileMain />
+        <ProfileOptions />
+        <ProfileMedia />
+      </>}
 
-      }
+
 
 
     </div>
