@@ -31,7 +31,6 @@ const Login = () => {
         try {
             await signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    console.log(userCredential)
                     let userDetail = {
                         name: userCredential.user.displayName,
                         email: userCredential.user.email,
@@ -61,6 +60,15 @@ const Login = () => {
             await signInWithPopup(auth, provider)
                 .then((result) => {
                     const user = result.user;
+                    let userDetail = {
+                        name: user.displayName,
+                        email: user.email,
+                        photoUrl: user.photoURL,
+                        bio: '',
+                        uid: user.uid
+                    }
+                    dispatch(authActions.addUserDetail(userDetail))
+
                     navigate('/')
                 })
 

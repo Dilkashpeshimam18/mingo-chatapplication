@@ -5,7 +5,7 @@ const SearchBar = () => {
   return (
     <div className='search-bar'>
       <SearchIcon sx={{ width: 20, height: 18, color: 'gray' }} className='search-icon' />
-      <input className='search-input' placeholder='Search chat...' />
+      <input className='search-input' placeholder='Search room...' />
 
     </div>
   )
