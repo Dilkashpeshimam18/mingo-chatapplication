@@ -12,6 +12,8 @@ import { roomActions } from '../../../store/slice/roomSlice';
 const UserDetail = () => {
   const user = useSelector((state: RootState) => state.auth.user)
   const [openModal, setOpenModal] = useState(false)
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+
   const dispatch = useDispatch()
 
   return (
@@ -30,7 +32,8 @@ const UserDetail = () => {
 
       </div>
       <div className='user-edit'>
-        <EditIcon onClick={() => dispatch(modalActions.handleOpen())} style={{ fontSize: "19px", color: "gray" }} />
+        {isAuthenticated == true && <EditIcon onClick={() => dispatch(modalActions.handleOpen())} style={{ fontSize: "19px", color: "gray" }} />
+        }
         <EditModal openModal={openModal} setOpenModal={setOpenModal} />
       </div>
 

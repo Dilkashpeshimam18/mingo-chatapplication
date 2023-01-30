@@ -21,6 +21,8 @@ const Footer = ({ message, setMessage, setMessages, handleSendMessage, getAllMes
     const [chosenEmoji, setChosenEmoji] = useState(null);
     const [isEmoji, setIsEmoji] = useState(false)
 
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+
 
     return (
         <div className='main-footer'>
@@ -51,7 +53,9 @@ const Footer = ({ message, setMessage, setMessages, handleSendMessage, getAllMes
                         <CameraAltOutlinedIcon sx={{ width: 23, height: 23, color: 'gray', cursor: 'pointer' }} />
 
                     </div>
-                    <div onClick={handleSendMessage} className='footer-icons footer-send'>
+                    <div onClick={() => {
+                        { isAuthenticated == true ? handleSendMessage() : alert('You need to login first!') }
+                    }} className='footer-icons footer-send'>
                         <SendIcon className='send-icon' sx={{ width: 19, height: 19, color: 'white', cursor: 'pointer' }} />
 
                     </div>

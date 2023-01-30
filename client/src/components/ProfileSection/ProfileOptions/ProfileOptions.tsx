@@ -29,6 +29,7 @@ const ProfileOptions = () => {
     const allRoom = useSelector((state: RootState) => state.room.allRoom)
     const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
 
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
 
     useEffect(() => {
         if (isRoom == true) {
@@ -96,12 +97,17 @@ const ProfileOptions = () => {
                             <p onClick={handleEdit} className='profile-sub-text'>  Edit Room</p> :
 
                         </> :
-                        <>  <span className='profile-sub-icon'>
-                            <GroupAddOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
+                        <>
+                            {isAuthenticated == true && <>
 
-                        </span>
+                                <span className='profile-sub-icon'>
+                                    <GroupAddOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
 
-                            <p onClick={() => setOpenModal(true)} className='profile-sub-text'>  Create Room</p>
+                                </span>
+
+                                <p onClick={() => setOpenModal(true)} className='profile-sub-text'>  Create Room</p>
+                            </>}
+
                         </>
 
 
