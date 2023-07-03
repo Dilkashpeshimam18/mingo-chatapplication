@@ -1,16 +1,25 @@
 const bcrypt = require('bcrypt')
 const { randomUUID } = require('crypto')
-const Users=require('../models/user')
+const Users = require('../models/user')
 
 exports.postSignup = async (req, res) => {
     try {
-        const { name, email, phoneNo, password } = req.body
+        const { name, email, password, phoneNo } = req.body
         if (name == undefined || name.length === 0 || email == undefined || email.length === 0 || password == undefined || password.length === 0 || phoneNo == undefined || phoneNo.length === 0) {
             return res.status(500).json({ err: 'Something is missing!' })
         }
 
         const saltRound = 10
         bcrypt.hash(password, saltRound, async (err, hash) => {
+            if (err) {
+                return res.status(500).json({ err: 'Something went wrong!' })
+
+            }
+            const user = await Users.findOne({ where: { email: email } })
+            if (user) {
+                return res.status(403).json({ err: 'User already exist!' })
+
+            }
             const data = await Users.create({
                 id: randomUUID(),
                 name: name,
@@ -18,10 +27,9 @@ exports.postSignup = async (req, res) => {
                 password: hash,
                 phoneNo: phoneNo
             })
+            res.status(200).json({ success: true, user: 'Successfully created user!' })
 
         })
-
-        res.status(200).json({ success: true, user: 'Successfully created user!' })
 
 
     } catch (err) {

@@ -87,10 +87,22 @@ const Register = () => {
                 password
             }
             const res = await axios.post('http://localhost:4000/auth/sign-up',data)
-            console.log(res)
+            if(res.status==200){
+                setName('')
+                setEmail('')
+                setPassword('')
+                setPhoneNo(0)
+                alert('Signup Successful!')
+                navigate('/login')
+            }
 
-        } catch (err) {
+        } catch (err:any) {
             console.log(err)
+            if(err.response.status==403){
+                alert('User already exists, please login!')
+            }else{
+                alert('Something went wrong!')
+            }
         }
     }
     return (
