@@ -15,6 +15,8 @@ const Register = () => {
     const [name, setName] = useState<string>('')
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const [phoneNo, setPhoneNo] = useState<number | any>()
+
     const navigate = useNavigate()
     const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
@@ -24,6 +26,9 @@ const Register = () => {
     }
     const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
+    }
+    const handleNumber=(e:React.ChangeEvent<HTMLInputElement>)=>{
+      setPhoneNo(e.target.value)
     }
 
     const updateUserProfile = async (user: User, name: string) => {
@@ -98,6 +103,10 @@ const Register = () => {
                         <form onSubmit={handleRegister} className='register-form'>
                             <div className='form-input__container'>
                                 <TextField className='form-input' id="outlined-basic" label="Name" variant="outlined" value={name} onChange={handleName} required />
+
+                            </div>
+                            <div className='form-input__container'>
+                                <TextField className='form-input' id="outlined-basic" label="Phone Number" type='number' variant="outlined" value={phoneNo} onChange={handleNumber} required />
 
                             </div>
                             <div className='form-input__container'>
