@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import { auth, provider } from '../../firebase/firebase'
 import { createUserWithEmailAndPassword, updateProfile, User, signInWithPopup } from 'firebase/auth'
-
+import axios from 'axios';
 
 const GroupChatImg = require("../assets/GroupChat.gif");
 const GoogleIcon = require("../assets/google.png")
@@ -27,8 +27,8 @@ const Register = () => {
     const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
     }
-    const handleNumber=(e:React.ChangeEvent<HTMLInputElement>)=>{
-      setPhoneNo(e.target.value)
+    const handleNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPhoneNo(e.target.value)
     }
 
     const updateUserProfile = async (user: User, name: string) => {
@@ -76,6 +76,23 @@ const Register = () => {
         }
 
     }
+
+    const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        try {
+            const data={
+                name,
+                email,
+                phoneNo,
+                password
+            }
+            const res = await axios.post('http://localhost:4000/auth/sign-up',data)
+            console.log(res)
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
     return (
         <div className='register'>
             <div className='register-left'>
@@ -100,7 +117,7 @@ const Register = () => {
 
                     </div>
                     <div className='form-container'>
-                        <form onSubmit={handleRegister} className='register-form'>
+                        <form onSubmit={handleSignUp } className='register-form'>
                             <div className='form-input__container'>
                                 <TextField className='form-input' id="outlined-basic" label="Name" variant="outlined" value={name} onChange={handleName} required />
 
