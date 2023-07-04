@@ -37,30 +37,55 @@ const MainBody = () => {
   // } else {
   //   allMessageRef = collection(db, 'allMessage')
   // }
+  // const handleSendMessage = async () => {
+  //   if (message != '') {
+  //     // socket.emit("send_message", { message, isSelectedRoom })
+  //     let userMessage = {
+  //       username: user.name as string,
+  //       image: user.photoUrl as string,
+  //       message: message as string,
+  //       email: user.email as string,
+  //     }
+  //     try {
+  //       const response = await axios.post(`https://mingo-chatapp-default-rtdb.firebaseio.com/allMessage/${isSelectedRoom}.json`, userMessage)
+  //         .then((res) => {
+  //           getAllMessage()
+
+  //         })
+
+  //       // await addDoc(allMessageRef, userMessage)
+
+  //     } catch (err) {
+  //       console.log(err)
+  //     }
+  //   }
+
+  //   setMessage('')
+  // }
   const handleSendMessage = async () => {
-    if (message != '') {
-      // socket.emit("send_message", { message, isSelectedRoom })
-      let userMessage = {
-        username: user.name as string,
-        image: user.photoUrl as string,
-        message: message as string,
-        email: user.email as string,
+    try {
+      if (message != '') {
+        let userMessage = {
+          username: user.name as string,
+          image: user.photoUrl as string,
+          message: message as string,
+          email: user.email as string,
+        }
+        const token = localStorage.getItem('userToken')
+        console.log('TOKEN>>>', token)
+
+        let reqInstance = await axios.create({
+          headers: {
+            Authorization: token
+          }
+        })
+        const response = await reqInstance.post('http://localhost:4000/message/add-message', userMessage)
+
       }
-      try {
-        const response = await axios.post(`https://mingo-chatapp-default-rtdb.firebaseio.com/allMessage/${isSelectedRoom}.json`, userMessage)
-          .then((res) => {
-            getAllMessage()
-
-          })
-
-        // await addDoc(allMessageRef, userMessage)
-
-      } catch (err) {
-        console.log(err)
-      }
+      setMessage('')
+    } catch (err) {
+      console.log(err)
     }
-
-    setMessage('')
   }
 
   const getAllMessage = async () => {
