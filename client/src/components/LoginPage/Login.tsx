@@ -5,12 +5,13 @@ import Divider from '@mui/material/Divider';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth, provider } from '../../firebase/firebase'
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../store/store';
+import { useDispatch } from 'react-redux'
 import { authActions } from '../../store/slice/authSlice';
+import axios from 'axios';
 const GroupChatImg = require("../assets/GroupChat3.gif");
 const GoogleIcon = require("../assets/google.png")
 const SmileyEmoji = require("../assets/smiling.png")
+
 
 const Login = () => {
     const [email, setEmail] = useState<string>('')
@@ -53,6 +54,27 @@ const Login = () => {
         } catch (err) {
             console.log(err)
             alert(err)
+        }
+    }
+    const handleLoginForm = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        try {
+            const data = {
+                email,
+                password
+            }
+            const res = await axios.post('http://localhost:4000/auth/login', data)
+            if (res.status == 200) {
+                localStorage.setItem('userToken', res.data.data as string)
+                alert('Login successful!')
+                setEmail('')
+                setPassword('')
+                navigate('/')
+            }
+
+        } catch (err: any) {
+            console.log(err)
+            alert(err.response.data)
         }
     }
     const handleSignInWithGoogle = async () => {
@@ -102,7 +124,7 @@ const Login = () => {
 
                     </div>
                     <div className='form-container'>
-                        <form onSubmit={handleLogin} className='register-form'>
+                        <form onSubmit={handleLoginForm} className='register-form'>
 
                             <div className='form-input__container'>
                                 <TextField className='form-input' id="outlined-basic" label="Email" type='email' variant="outlined" value={email} onChange={handleEmail} required />

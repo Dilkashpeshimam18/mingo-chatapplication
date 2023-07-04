@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const { randomUUID } = require('crypto')
+const jwt = require('jsonwebtoken')
 const Users = require('../models/user')
 
 exports.postSignup = async (req, res) => {
@@ -39,10 +40,41 @@ exports.postSignup = async (req, res) => {
     }
 }
 
+const generateToken = (id, email) => {
+    return jwt.sign({ userId: id, userEmail: email }, process.env.TOKEN_SECRET)
+
+}
 exports.postLogin = async (req, res) => {
     try {
+        const { email, password } = req.body
+        const user = await Users.findOne({ where: { email: email } })
+
+        if (user && password != null) {
+            const userPassword = user.password
+            const userEmail = user.email
+            const userId = user.id
+
+            bcrypt.compare(password, userPassword, (err, result) => {
+                if (err) {
+                    throw new Error(err)
+                }
+                if (user && result == true) {
+                    return res.status(200).json({ data: generateToken(userId, userEmail) })
+
+                } else {
+                    return res.status(401).json('Password donot match!')
+
+                }
+            })
+
+        } else {
+            return res.status(404).json('User not found!')
+
+        }
 
     } catch (err) {
         console.log(err)
+        res.status(500).json({ success: false, message: err })
+
     }
 }
