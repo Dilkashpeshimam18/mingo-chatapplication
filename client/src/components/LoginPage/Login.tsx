@@ -65,7 +65,21 @@ const Login = () => {
             }
             const res = await axios.post('http://localhost:4000/auth/login', data)
             if (res.status == 200) {
-                localStorage.setItem('userToken', res.data.data as string)
+                let userDetail = {
+                    name: res.data.data.userName,
+                    email: res.data.data.userEmail,
+                    photoUrl: '',
+                    bio: '',
+                    uid: res.data.data.userId,
+                    token:res.data.token
+
+                }
+                dispatch(authActions.addUserDetail(userDetail))
+                localStorage.setItem('userToken', res.data.token as string)
+                localStorage.setItem('userName', res.data.data.userName as string)
+                localStorage.setItem('userEmail', res.data.data.userEmail as string)
+                localStorage.setItem('userUID',res.data.data.userId as string)
+
                 alert('Login successful!')
                 setEmail('')
                 setPassword('')

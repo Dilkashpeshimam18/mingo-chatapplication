@@ -8,6 +8,7 @@ export type AuthType = {
         email: string | null,
         photoUrl: string | null,
         bio: string | null,
+        token: string | null,
         uid: string | null,
 
     }
@@ -22,7 +23,8 @@ const initialAuthState: AuthType = {
         email: localStorage.getItem('userEmail') || '',
         photoUrl: localStorage.getItem('userPhotoUrl') || '',
         bio: localStorage.getItem('userBio') || '',
-        uid: localStorage.getItem('userUID') || null
+        token: localStorage.getItem('token') || null,
+        uid:localStorage.getItem('userId') || null
     }
 }
 const AuthSlice = createSlice({
@@ -38,7 +40,8 @@ const AuthSlice = createSlice({
             state.user.email = ''
             state.user.photoUrl = ''
             state.user.bio = ''
-            state.user.uid = null
+            state.user.token = null
+            state.user.uid=null
             state.isAuthenticated = false
 
 

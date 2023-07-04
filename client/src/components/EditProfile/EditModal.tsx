@@ -56,7 +56,6 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                 email: user.email,
                 photoUrl: photoUrl,
                 bio: bio,
-                uid: user.uid
 
             }
             dispatch(authActions.addUserDetail(userDetail))

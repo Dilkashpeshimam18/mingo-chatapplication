@@ -131,7 +131,7 @@ const ProfileOptions = () => {
                 </div>}
 
 
-                {user.uid ? <div onClick={handleLogout} className='profile-sub-inner'>
+                {user.token? <div onClick={handleLogout} className='profile-sub-inner'>
                     <span className='profile-sub-icon'>
                         <LogoutOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
                     </span>
