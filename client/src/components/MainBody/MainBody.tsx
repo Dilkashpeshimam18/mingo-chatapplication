@@ -30,38 +30,6 @@ const MainBody = () => {
   const selectedRoom = localStorage.getItem('room')
   const dispatch = useDispatch()
 
-  // let allMessageRef: any;
-  // if (user.email != '') {
-  //   allMessageRef = collection(collection(db, 'allMessage') as any, isSelectedRoom as string, isSelectedRoom as string)
-
-  // } else {
-  //   allMessageRef = collection(db, 'allMessage')
-  // }
-  // const handleSendMessage = async () => {
-  //   if (message != '') {
-  //     // socket.emit("send_message", { message, isSelectedRoom })
-  //     let userMessage = {
-  //       username: user.name as string,
-  //       image: user.photoUrl as string,
-  //       message: message as string,
-  //       email: user.email as string,
-  //     }
-  //     try {
-  //       const response = await axios.post(`https://mingo-chatapp-default-rtdb.firebaseio.com/allMessage/${isSelectedRoom}.json`, userMessage)
-  //         .then((res) => {
-  //           getAllMessage()
-
-  //         })
-
-  //       // await addDoc(allMessageRef, userMessage)
-
-  //     } catch (err) {
-  //       console.log(err)
-  //     }
-  //   }
-
-  //   setMessage('')
-  // }
   const handleSendMessage = async () => {
     try {
       if (message != '') {
@@ -72,7 +40,6 @@ const MainBody = () => {
           email: user.email as string,
         }
         const token = localStorage.getItem('userToken')
-        console.log('TOKEN>>>', token)
 
         let reqInstance = await axios.create({
           headers: {
@@ -89,30 +56,22 @@ const MainBody = () => {
   }
 
   const getAllMessage = async () => {
-    let data: any = []
     try {
-      const response = await axios.get(`https://mingo-chatapp-default-rtdb.firebaseio.com/allMessage/${isSelectedRoom}.json`)
+      const response = await axios.get('http://localhost:4000/message/get-messages')
         .then((res) => {
-          let result = res.data
-          for (let key in result) {
-            data.push({
-              id: key,
-              email: result[key].email,
-              message: result[key].message,
-              username: result[key].username,
-              image: result[key].image
-            })
-          }
-
+          let result = res.data.messages
+          let data: any = result.map((message: object | any) => {
+            return {
+              id: message.id,
+              username: message.username,
+              image: message.photoUrl,
+              message: message.message,
+              email: message.email
+            }
+          })
           dispatch(messageActions.handleAllMessage(data))
 
         })
-
-      // const response = await getDocs(query(allMessageRef, orderBy('timestamp')))
-      // const res = response.docs.map((doc) => {
-      //   data.push(doc.data())
-      // })
-
 
     } catch (err) {
       console.log(err)
