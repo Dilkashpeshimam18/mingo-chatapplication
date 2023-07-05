@@ -47,7 +47,7 @@ const MainBody = () => {
           }
         })
         const response = await reqInstance.post('http://localhost:4000/message/add-message', userMessage)
-
+        await getAllMessage()
       }
       setMessage('')
     } catch (err) {
@@ -78,11 +78,15 @@ const MainBody = () => {
     }
   }
 
+  // useEffect(() => {
+  //   getAllMessage()
+  // }, [isSelectedRoom])
+
   useEffect(() => {
-    getAllMessage()
-  }, [isSelectedRoom])
-
-
+    setInterval(() => {
+      getAllMessage()
+    }, 1000)
+  }, [])
 
   useEffect(() => {
     if (isRoom == true) {
@@ -97,14 +101,7 @@ const MainBody = () => {
 
   }, [isRoom, isSelectedRoom])
 
-  // useEffect(() => {
-  //   socket.on("receive_message", (data) => {
-  //     setReceivedMessage(data)
-  //   })
 
-
-
-  // }, [socket])
 
   return (
     <div className='mainbody'>
