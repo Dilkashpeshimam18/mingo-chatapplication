@@ -57,36 +57,49 @@ const MainBody = () => {
 
   const getAllMessage = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/message/get-messages')
-        .then((res) => {
-          let result = res.data.messages
-          let data: any = result.map((message: object | any) => {
-            return {
-              id: message.id,
-              username: message.username,
-              image: message.photoUrl,
-              message: message.message,
-              email: message.email
-            }
-          })
-          dispatch(messageActions.handleAllMessage(data))
+      let messages = [];
+      const storedMessages = localStorage.getItem('allMessage');
+      if (storedMessages) {
+        messages = JSON.parse(storedMessages);
+      }
+     let lastMsgId;
+      if (messages.length == 0) {
+        lastMsgId = 0
+      } else {
+        lastMsgId = messages.length-1
+      }
+      console.log(lastMsgId)
+      const res = await axios.get(`http://localhost:4000/message/get-messages?lastMsgId=${lastMsgId}`)
+      let result = res.data.messages
+      let data: any = result.map((message: object | any) => {
+        return {
+          id: message.id,
+          username: message.username,
+          image: message.photoUrl,
+          message: message.message,
+          email: message.email
+        }
+      })
+      messages = [...messages, ...data]
+      localStorage.setItem('allMessage', JSON.stringify(messages))
+      dispatch(messageActions.handleAllMessage(messages))
 
-        })
+
 
     } catch (err) {
       console.log(err)
     }
   }
 
-  // useEffect(() => {
-  //   getAllMessage()
-  // }, [isSelectedRoom])
-
   useEffect(() => {
-    setInterval(() => {
-      getAllMessage()
-    }, 1000)
-  }, [])
+    getAllMessage()
+  }, [isSelectedRoom])
+
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     getAllMessage()
+  //   }, 1000)
+  // }, [])
 
   useEffect(() => {
     if (isRoom == true) {
