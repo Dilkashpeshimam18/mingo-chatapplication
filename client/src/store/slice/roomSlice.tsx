@@ -8,7 +8,7 @@ export type RoomType = {
     roomName: string | number,
     roomUrl: string,
     id?: string,
-    createdBy?: string
+    userId?: string
 }
 
 export type AllRoomType = {
@@ -80,25 +80,25 @@ export const handleAddRoom = (data: any) => {
 export const getAllRooms = () => {
     return async (dispatch: AppDispatch) => {
         const getRooms = async () => {
-            const response = await axios.get('https://mingo-chatapp-default-rtdb.firebaseio.com/allroom.json')
-            // const response = await getDocs(allRoomRef)
-            // const res = response.docs.map((doc) => ({
-            //     ...doc.data(),
-            //     id: doc.id
+            const token = localStorage.getItem('userToken')
 
-            // }))
+            let reqInstance = await axios.create({
+                headers: {
+                    Authorization: token
+                }
+            })
+            const response = await reqInstance.get('http://localhost:4000/room/get-room')
 
             if (response.status == 200) {
-                let res = response.data
-                let data = []
-                for (let key in res) {
-                    data.push({
-                        id: key,
-                        roomName: res[key].roomName,
-                        roomUrl: res[key].roomUrl,
-                        createdBy: res[key].createdBy
-                    })
-                }
+                let res = response.data.room
+                let data = res.map((data: object | any) => {
+                    return {
+                        id: data.id,
+                        roomName: data.roomname,
+                        roomUrl: data.roomicon,
+                        userId: data.userId
+                    }
+                })
 
                 localStorage.setItem('allRoom', JSON.stringify(data as any))
                 dispatch(roomActions.addToRoomList(data))

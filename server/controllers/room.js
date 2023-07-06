@@ -21,3 +21,15 @@ exports.createRoom = async (req, res) => {
 
     }
 }
+
+exports.getRoom = async (req, res) => {
+    try {
+        const id = req.user.id
+        const room = await Room.findAll({ where: { userId: id } })
+        res.status(200).json({ success: true, room })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ success: false, message: err })
+
+    }
+}

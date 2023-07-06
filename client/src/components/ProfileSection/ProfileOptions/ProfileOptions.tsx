@@ -90,7 +90,7 @@ const ProfileOptions = () => {
             <div className='profile-sub'>
                 <div className='profile-sub-inner'>
 
-                    {isRoom == true && user.email == data[0]?.createdBy ?
+                    {isRoom == true && user.token == data[0]?.userId ?
                         <>
                             <span className='profile-sub-icon'><EditIcon style={{ fontSize: '21px', color: 'gray' }} />
                             </span>
@@ -116,7 +116,7 @@ const ProfileOptions = () => {
                     {openModal == true && <RoomModal openModal={openModal} setOpenModal={setOpenModal} />}
 
                 </div>
-                {isRoom == true && user.email == data[0]?.createdBy && <div className='profile-sub-inner'>
+                {isRoom == true && user.token == data[0]?.userId && <div className='profile-sub-inner'>
                     <span className='profile-sub-icon'><DeleteIcon style={{ fontSize: '21px', color: 'gray', paddingTop: '2px' }} />
                     </span>
                     <p onClick={handleDelete} className='profile-sub-text'>  Delete  Room</p>
@@ -131,7 +131,7 @@ const ProfileOptions = () => {
                 </div>}
 
 
-                {user.token? <div onClick={handleLogout} className='profile-sub-inner'>
+                {user.token ? <div onClick={handleLogout} className='profile-sub-inner'>
                     <span className='profile-sub-icon'>
                         <LogoutOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
                     </span>

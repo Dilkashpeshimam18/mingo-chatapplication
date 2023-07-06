@@ -45,7 +45,7 @@ const MessageList = () => {
       <div className='messageList'>
         <div className='messageList-container'>
           <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', cursor: 'pointer' }}>
-            {/* {allRoom.map((room, index) => {
+            {allRoom.map((room, index) => {
               return (
                 <div key={index}>
                   <ListItem onClick={() => handleJoinRoom(room.roomName)} className='singleMessage-container' alignItems="flex-start">
@@ -77,7 +77,7 @@ const MessageList = () => {
 
 
               )
-            })} */}
+            })}
 
           </List>
 
