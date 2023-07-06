@@ -33,6 +33,9 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
 
     }
 
+    const token = localStorage.getItem('userToken')
+
+
     const handleModalClose = () => {
         setOpenModal(false)
     }
@@ -44,9 +47,15 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
             let room = {
                 roomName: roomName,
                 roomUrl: roomUrl,
-                createdBy: user.email
             }
-            const response = await axios.post('https://mingo-chatapp-default-rtdb.firebaseio.com/allroom.json', room)
+
+
+            let reqInstance = await axios.create({
+                headers: {
+                    Authorization: token
+                }
+            })
+            const response = await reqInstance.post('http://localhost:4000/room/create-room', room)
             // await addDoc(allRoomRef, room)
             setRoomName('')
             setRoomUrl('')

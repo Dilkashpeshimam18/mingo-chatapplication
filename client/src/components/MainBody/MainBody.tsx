@@ -57,19 +57,19 @@ const MainBody = () => {
 
   const getAllMessage = async () => {
     try {
-      let messages = [];
-      const storedMessages = localStorage.getItem('allMessage');
-      if (storedMessages) {
-        messages = JSON.parse(storedMessages);
-      }
-     let lastMsgId;
-      if (messages.length == 0) {
-        lastMsgId = 0
-      } else {
-        lastMsgId = messages.length-1
-      }
-      console.log(lastMsgId)
-      const res = await axios.get(`http://localhost:4000/message/get-messages?lastMsgId=${lastMsgId}`)
+    //   let messages = [];
+    //   const storedMessages = localStorage.getItem('allMessage');
+    //   if (storedMessages) {
+    //     messages = JSON.parse(storedMessages);
+    //   }
+    //  let lastMsgId;
+    //   if (messages.length == 0) {
+    //     lastMsgId = 0
+    //   } else {
+    //     lastMsgId = messages.length-1
+    //   }
+      // const res = await axios.get(`http://localhost:4000/message/get-messages?lastMsgId=${lastMsgId}`)
+      const res = await axios.get('http://localhost:4000/message/get-messages')
       let result = res.data.messages
       let data: any = result.map((message: object | any) => {
         return {
@@ -80,9 +80,9 @@ const MainBody = () => {
           email: message.email
         }
       })
-      messages = [...messages, ...data]
-      localStorage.setItem('allMessage', JSON.stringify(messages))
-      dispatch(messageActions.handleAllMessage(messages))
+      // messages = [...messages, ...data]
+      // localStorage.setItem('allMessage', JSON.stringify(messages))
+      dispatch(messageActions.handleAllMessage(data))
 
 
 

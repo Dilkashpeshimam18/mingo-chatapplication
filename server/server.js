@@ -5,8 +5,10 @@ const dotenv = require('dotenv')
 const sequelize = require('./utils/db')
 const authRoutes = require('./routes/auth')
 const messageRoutes = require('./routes/message')
+const roomRoutes = require('./routes/room')
 const Users = require('./models/user')
 const Messages = require('./models/message')
+const Room = require('./models/room')
 
 const app = express()
 
@@ -21,9 +23,13 @@ dotenv.config()
 
 app.use('/auth', authRoutes)
 app.use('/message', messageRoutes)
+app.use('/room', roomRoutes)
 
 Users.hasMany(Messages)
 Messages.belongsTo(Users)
+
+Users.hasMany(Room)
+Room.belongsTo(Users)
 
 sequelize.sync().then(() => {
     app.listen(4000, () => {

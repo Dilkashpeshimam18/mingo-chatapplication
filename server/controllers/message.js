@@ -27,12 +27,13 @@ exports.addMessage = async (req, res) => {
 exports.getMessage = async (req, res) => {
     try {
         const lastmsgId=req.query.lastMsgId
-        const msgcount=await Messages.count()
-        const messages = await Messages.findAll({
-            offset:Number(lastmsgId),
-            limit:Number(msgcount)
+        // const msgcount=await Messages.count()
+        // const messages = await Messages.findAll({
+        //     offset:Number(lastmsgId),
+        //     limit:Number(msgcount)
 
-        })
+        // })
+        const messages = await Messages.findAll()
         res.status(200).json({ success: true,messages})
 
     } catch (err) {
