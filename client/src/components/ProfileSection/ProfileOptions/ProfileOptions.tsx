@@ -41,9 +41,6 @@ const ProfileOptions = () => {
 
         }
 
-        console.log(data)
-        console.log(isSelectedRoom)
-
     }, [isRoom, isSelectedRoom])
 
     const handleEdit = () => {

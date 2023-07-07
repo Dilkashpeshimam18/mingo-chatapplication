@@ -4,8 +4,9 @@ const { authenticate } = require('../middleware/auth')
 
 const router = express.Router()
 
-router.get('/get-room',authenticate,roomControllers.getRoom)
-router.post('/create-room',authenticate,roomControllers.createRoom)
-router.delete('/delete-room/:id',authenticate,roomControllers.deleteRoom)
+router.get('/get-room', authenticate, roomControllers.getRoom)
+router.post('/create-room', authenticate, roomControllers.createRoom)
+router.put('/edit-room/:id', authenticate, roomControllers.editRoom)
+router.delete('/delete-room/:id', authenticate, roomControllers.deleteRoom)
 
-module.exports=router
+module.exports = router

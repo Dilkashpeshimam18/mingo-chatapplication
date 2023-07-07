@@ -84,11 +84,16 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             let data = {
                 roomName: roomName,
                 roomUrl: roomUrl,
-                createdBy: user.email
             }
-            const response = axios.put(`https://mingo-chatapp-default-rtdb.firebaseio.com/allroom/${id}.json`, data)
+            const token = localStorage.getItem('userToken')
+
+            let reqInstance = await axios.create({
+                headers: {
+                    Authorization: token
+                }
+            })
+            const response = reqInstance.put(`http://localhost:4000/room/edit-room/${id}`, data)
                 .then((res) => {
-                    console.log(res)
                     alert('Room Update!')
                     dispatch(getAllRooms())
                     handleModalClose()
