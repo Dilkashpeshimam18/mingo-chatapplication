@@ -30,6 +30,7 @@ const ProfileOptions = () => {
     const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
 
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+    const userId = localStorage.getItem('userUID')
 
     useEffect(() => {
         if (isRoom == true) {
@@ -39,6 +40,9 @@ const ProfileOptions = () => {
             setData(selectedRoom)
 
         }
+
+        console.log(data)
+        console.log(isSelectedRoom)
 
     }, [isRoom, isSelectedRoom])
 
@@ -50,16 +54,15 @@ const ProfileOptions = () => {
 
     const handleLogout = async () => {
         try {
-            await signOut(auth).then((user) => {
-                alert('You are logout! Redirecting to login page.')
-                dispatch(authActions.removeUserDetail())
-                localStorage.removeItem('userName')
-                localStorage.removeItem('userEmail')
-                localStorage.removeItem('userPhotoUrl')
-                localStorage.removeItem('userUID')
-                navigate('/login')
-            })
+            alert('You are logout! Redirecting to login page.')
+            dispatch(authActions.removeUserDetail())
+            localStorage.removeItem('userName')
+            localStorage.removeItem('userEmail')
+            localStorage.removeItem('userUID')
+            localStorage.removeItem('userToken')
+            localStorage.removeItem('room')
 
+            navigate('/login')
 
         } catch (err) {
             console.log(err)
@@ -69,8 +72,14 @@ const ProfileOptions = () => {
     const handleDelete = async () => {
         try {
             let id = data[0]?.id
-            console.log(id)
-            const response = await axios.delete(`https://mingo-chatapp-default-rtdb.firebaseio.com/allroom/${id}.json`)
+            const token = localStorage.getItem('userToken')
+
+            let reqInstance = await axios.create({
+                headers: {
+                    Authorization: token
+                }
+            })
+            const response = await reqInstance.delete(`http://localhost:4000/room/delete-room/${id}`)
                 .then(() => {
                     alert('Room Deleted!')
                     dispatch(getAllRooms())
@@ -83,14 +92,13 @@ const ProfileOptions = () => {
         }
     }
 
-
     return (
         <div className='profile-options'>
 
             <div className='profile-sub'>
                 <div className='profile-sub-inner'>
 
-                    {isRoom == true && user.token == data[0]?.userId ?
+                    {isRoom == true && userId == data[0]?.userId ?
                         <>
                             <span className='profile-sub-icon'><EditIcon style={{ fontSize: '21px', color: 'gray' }} />
                             </span>
@@ -116,7 +124,7 @@ const ProfileOptions = () => {
                     {openModal == true && <RoomModal openModal={openModal} setOpenModal={setOpenModal} />}
 
                 </div>
-                {isRoom == true && user.token == data[0]?.userId && <div className='profile-sub-inner'>
+                {isRoom == true && userId == data[0]?.userId && <div className='profile-sub-inner'>
                     <span className='profile-sub-icon'><DeleteIcon style={{ fontSize: '21px', color: 'gray', paddingTop: '2px' }} />
                     </span>
                     <p onClick={handleDelete} className='profile-sub-text'>  Delete  Room</p>

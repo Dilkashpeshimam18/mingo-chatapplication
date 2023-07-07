@@ -33,3 +33,24 @@ exports.getRoom = async (req, res) => {
 
     }
 }
+
+exports.deleteRoom = async (req, res) => {
+    try {
+        const userid = req.user.id
+        const roomId = req.params.id
+        const room = await Room.findByPk(roomId)
+        if (room.userId == userid) {
+            await room.destroy()
+            return res.status(200).json('Deleted Successfully!')
+
+        } else {
+            throw new Error('Something went wrong!')
+
+        }
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ success: false, message: 'SOMETHING WENT WRONG' })
+
+    }
+}
