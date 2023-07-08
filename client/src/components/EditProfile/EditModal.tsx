@@ -59,19 +59,19 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
 
             }
             dispatch(authActions.addUserDetail(userDetail))
-            const response = await updateProfile(currentUser as User, {
-                displayName: name,
-                photoURL: photoUrl
-            }).then((res) => {
-                alert('Profile Updated!')
-                setOpenModal(false)
-                handleModalClose()
+            const token = localStorage.getItem('userToken')
 
+            let reqInstance = await axios.create({
+                headers: {
+                    Authorization: token
+                }
             })
-
+            const res = await reqInstance.post('http://localhost:4000/auth/edit-userprofile', userDetail)
             localStorage.setItem('userBio', bio as string)
             localStorage.setItem('userName', name as string)
             localStorage.setItem('userPhotoUrl', photoUrl as string)
+            alert('Profile Updated!')
+            handleModalClose()
 
         } catch (err) {
             console.log(err)

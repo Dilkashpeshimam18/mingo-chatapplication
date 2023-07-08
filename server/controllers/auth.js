@@ -53,19 +53,19 @@ exports.postLogin = async (req, res) => {
             const userPassword = user.password
             const userEmail = user.email
             const userId = user.id
-            const userName=user.name
+            const userName = user.name
 
             bcrypt.compare(password, userPassword, (err, result) => {
                 if (err) {
                     throw new Error(err)
                 }
                 if (user && result == true) {
-                    const data={
+                    const data = {
                         userId,
                         userEmail,
                         userName
                     }
-                    return res.status(200).json({ token: generateToken(userId, userEmail),data })
+                    return res.status(200).json({ token: generateToken(userId, userEmail), data })
 
                 } else {
                     return res.status(401).json('Password donot match!')
@@ -81,6 +81,23 @@ exports.postLogin = async (req, res) => {
     } catch (err) {
         console.log(err)
         res.status(500).json({ success: false, message: err })
+
+    }
+}
+
+exports.editUserProfile = async (req, res) => {
+    try {
+        const { name, email, bio, photoUrl } = req.body
+        const user = req.user
+
+        await user.update({ name, email, bio, photoUrl })
+
+        res.status(200).json({ success: true, user: 'Successfully updated user!' })
+
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ success: false, message: 'User update unsuccessful!' })
 
     }
 }

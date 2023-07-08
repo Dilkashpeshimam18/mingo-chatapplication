@@ -22,6 +22,9 @@ import { getAllRooms } from '../../../store/slice/roomSlice';
 const ProfileOptions = () => {
     const [data, setData] = useState<RoomType[]>([])
     const [openModal, setOpenModal] = useState(false)
+    const [userId, setUserId] = useState<string>(() => {
+        return localStorage.getItem('userUID') || ''
+    })
     const user = useSelector((state: RootState) => state.auth.user)
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
     const navigate = useNavigate()
@@ -30,7 +33,7 @@ const ProfileOptions = () => {
     const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
 
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
-    const userId = localStorage.getItem('userUID')
+    // const userId = localStorage.getItem('userUID')
 
     useEffect(() => {
         if (isRoom == true) {
@@ -136,7 +139,7 @@ const ProfileOptions = () => {
                 </div>}
 
 
-                {user.token ? <div onClick={handleLogout} className='profile-sub-inner'>
+                {userId? <div onClick={handleLogout} className='profile-sub-inner'>
                     <span className='profile-sub-icon'>
                         <LogoutOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
                     </span>
