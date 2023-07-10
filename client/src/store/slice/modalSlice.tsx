@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface ModalType {
     isOpen: boolean
-    isEditRoom: boolean
+    isEditRoom: boolean,
+    isAddMember:boolean
 }
 export const initialModalState: ModalType = {
     isOpen: false,
-    isEditRoom: false
+    isEditRoom: false,
+    isAddMember:false
 }
 
 const ModalSlice = createSlice({
@@ -20,10 +22,14 @@ const ModalSlice = createSlice({
         handleClose(state) {
             state.isOpen = false
             state.isEditRoom = false
+            state.isAddMember=false
         },
         handleIsEditRoom(state) {
             state.isEditRoom = true
 
+        },
+        handleIsAddMember(state){
+            state.isAddMember=true
         }
     }
 })

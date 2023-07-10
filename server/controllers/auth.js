@@ -85,19 +85,3 @@ exports.postLogin = async (req, res) => {
     }
 }
 
-exports.editUserProfile = async (req, res) => {
-    try {
-        const { name, email, bio, photoUrl } = req.body
-        const user = req.user
-
-        await user.update({ name, email, bio, photoUrl })
-
-        res.status(200).json({ success: true, user: 'Successfully updated user!' })
-
-
-    } catch (err) {
-        console.log(err)
-        res.status(500).json({ success: false, message: 'User update unsuccessful!' })
-
-    }
-}

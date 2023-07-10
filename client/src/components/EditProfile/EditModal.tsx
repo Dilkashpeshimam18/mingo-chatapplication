@@ -18,6 +18,15 @@ import { db } from '../../firebase/firebase';
 import { getAllRooms } from '../../store/slice/roomSlice';
 import { AppDispatch } from '../../store/store';
 import axios from 'axios';
+import Avatar from '@mui/material/Avatar';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import PersonIcon from '@mui/icons-material/Person';
+import AddIcon from '@mui/icons-material/Add';
+import { blue } from '@mui/material/colors';
 
 type EditModalProps = {
     openModal: boolean,
@@ -41,6 +50,8 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     const [roomName, setRoomName] = useState<string | number>('')
     const [roomUrl, setRoomUrl] = useState('')
     const [roomId, setRoomId] = useState<string>('')
+    const [allUser, setAllUser] = useState<[]>([])
+    const isAddMem = useSelector((state: RootState) => state.modal.isAddMember)
 
     const handleModalClose = () => {
         setOpenModal(false)
@@ -66,7 +77,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                     Authorization: token
                 }
             })
-            const res = await reqInstance.post('http://localhost:4000/auth/edit-userprofile', userDetail)
+            const res = await reqInstance.post('http://localhost:4000/user/edit-userprofile', userDetail)
             localStorage.setItem('userBio', bio as string)
             localStorage.setItem('userName', name as string)
             localStorage.setItem('userPhotoUrl', photoUrl as string)
@@ -105,6 +116,25 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             alert('Something went wrong!')
         }
     }
+    const getAllUser = async () => {
+        try {
+            
+            const token = localStorage.getItem('userToken')
+
+            let reqInstance = await axios.create({
+                headers: {
+                    Authorization: token
+                }
+            })
+            const res = await reqInstance.get('http://localhost:4000/user/get-alluser')
+            console.log(res)
+            const allUser = res.data.allUser
+            setAllUser(allUser)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 
     useEffect(() => {
@@ -119,91 +149,119 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             setRoomId(selectedRoom[0]?.id as string)
         }
     }, [isRoom, isSelectedRoom])
+
+    useEffect(() => {
+        if (isAddMem == true) {
+            getAllUser()
+        }
+    }, [isAddMem])
     return (
         <div>
             <Dialog open={isOpen} onClose={handleModalClose}>
-                {isEditRoom == true ?
+                {isAddMem == false ? (
+                    isEditRoom == true ?
+
+                        <>
+                            <DialogTitle>Edit room </DialogTitle>
+
+                            <DialogContent>
+
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Room Name"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    value={roomName}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRoomName(e.target.value)}
+                                />
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Room Icon"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    value={roomUrl}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRoomUrl(e.target.value)}
+
+                                />   </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleModalClose} >Cancel</Button>
+                                <Button onClick={() => handleEditRoom(roomId)} >Edit Room</Button>
+                            </DialogActions>
+                        </> :
+                        <>
+                            <DialogTitle>Edit Profile </DialogTitle>
+
+                            <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Name"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    value={name}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                                />
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Bio"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    value={bio}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBio(e.target.value)}
+
+                                />
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Photo Url"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    value={photoUrl}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhotoUrl(e.target.value)}
+
+                                />
+
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleModalClose} >Cancel</Button>
+                                <Button onClick={handleEditProfile} >Edit Profile</Button>
+                            </DialogActions>
+                        </>
+
+                ) : (
 
                     <>
-                        <DialogTitle>Edit room </DialogTitle>
-
-                        <DialogContent>
-
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Room Name"
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                value={roomName}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRoomName(e.target.value)}
-                            />
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Room Icon"
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                value={roomUrl}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRoomUrl(e.target.value)}
-
-                            />   </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleModalClose} >Cancel</Button>
-                            <Button onClick={() => handleEditRoom(roomId)} >Edit Room</Button>
-                        </DialogActions>
-                    </> :
-                    <>
-                        <DialogTitle>Edit Profile </DialogTitle>
-
-                        <DialogContent>
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Name"
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                value={name}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-                            />
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Bio"
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                value={bio}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBio(e.target.value)}
-
-                            />
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Photo Url"
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                value={photoUrl}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhotoUrl(e.target.value)}
-
-                            />
-
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleModalClose} >Cancel</Button>
-                            <Button onClick={handleEditProfile} >Edit Profile</Button>
-                        </DialogActions>
+                        <List sx={{ pt: 0 }}>
+                            {allUser.map((user: object | any) => (
+                                <ListItem disableGutters>
+                                    <ListItemButton key={user.id}>
+                                        <ListItemAvatar>
+                                        <Avatar>
+                                            <AddIcon sx={{color:'white'}} />
+                                        </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary={user.email} secondary={user.name} />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        
+                        </List>
                     </>
-                }
+
+                )}
 
             </Dialog>
         </div>

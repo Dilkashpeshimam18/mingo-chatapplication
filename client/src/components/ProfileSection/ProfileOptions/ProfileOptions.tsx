@@ -18,6 +18,7 @@ import { memberActions } from '../../../store/slice/memberSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { getAllRooms } from '../../../store/slice/roomSlice';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 const ProfileOptions = () => {
     const [data, setData] = useState<RoomType[]>([])
@@ -50,6 +51,12 @@ const ProfileOptions = () => {
         dispatch(modalActions.handleIsEditRoom())
 
         dispatch(modalActions.handleOpen())
+    }
+
+    const handleAddMember = () => {
+        dispatch(modalActions.handleIsAddMember())
+        dispatch(modalActions.handleOpen())
+
     }
 
     const handleLogout = async () => {
@@ -96,6 +103,19 @@ const ProfileOptions = () => {
         <div className='profile-options'>
 
             <div className='profile-sub'>
+                {isRoom == true && userId == data[0]?.userId && <div className='profile-sub-inner'>
+                    <span className='profile-sub-icon'><GroupAddIcon style={{ fontSize: '23px', color: 'gray', paddingTop: '2px', paddingLeft: '5px' }} />
+                    </span>
+                    <p onClick={handleAddMember} className='profile-sub-text'>  Add Members</p>
+
+                </div>}
+                {isRoom == true && <div className='profile-sub-inner'>
+                    <span className='profile-sub-icon'>
+                        <PersonOutlineOutlinedIcon style={{ fontSize: '27px', color: 'gray' }} />
+                    </span>
+                    <p onClick={() => dispatch(memberActions.handleViewMember())} className='profile-sub-text'>   View Members</p>
+
+                </div>}
                 <div className='profile-sub-inner'>
 
                     {isRoom == true && userId == data[0]?.userId ?
@@ -130,16 +150,8 @@ const ProfileOptions = () => {
                     <p onClick={handleDelete} className='profile-sub-text'>  Delete  Room</p>
 
                 </div>}
-                {isRoom == true && <div className='profile-sub-inner'>
-                    <span className='profile-sub-icon'>
-                        <PersonOutlineOutlinedIcon style={{ fontSize: '27px', color: 'gray' }} />
-                    </span>
-                    <p onClick={() => dispatch(memberActions.handleViewMember())} className='profile-sub-text'>   View Members</p>
 
-                </div>}
-
-
-                {userId? <div onClick={handleLogout} className='profile-sub-inner'>
+                {userId ? <div onClick={handleLogout} className='profile-sub-inner'>
                     <span className='profile-sub-icon'>
                         <LogoutOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
                     </span>
