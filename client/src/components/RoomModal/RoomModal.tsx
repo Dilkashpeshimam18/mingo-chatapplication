@@ -40,7 +40,7 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
         setOpenModal(false)
     }
 
-    const handleAddRoom = async () => {
+    const handleAddRoom = async (name: string, email: string, photoUrl: string) => {
         try {
 
 
@@ -56,6 +56,15 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
                 }
             })
             const response = await reqInstance.post('http://localhost:4000/room/create-room', room)
+
+            const roomId = response.data.message.id
+            const data = {
+                name,
+                email,
+                photoUrl
+            }
+            const res = await reqInstance.post(`http://localhost:4000/member/add-member/${roomId}`, data)
+
             // await addDoc(allRoomRef, room)
             setRoomName('')
             setRoomUrl('')
@@ -102,7 +111,7 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleModalClose} >Cancel</Button>
-                    <Button onClick={handleAddRoom} >Create Room</Button>
+                    <Button onClick={() => handleAddRoom(user.name as string, user.email as string, user.photoUrl as string)} >Create Room</Button>
                 </DialogActions>
             </Dialog>
         </div>

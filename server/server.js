@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth')
 const messageRoutes = require('./routes/message')
 const roomRoutes = require('./routes/room')
 const userRoutes = require('./routes/user')
+const memberRoutes = require('./routes/member')
 const Users = require('./models/user')
 const Messages = require('./models/message')
 const Room = require('./models/room')
@@ -27,6 +28,7 @@ app.use('/auth', authRoutes)
 app.use('/message', messageRoutes)
 app.use('/room', roomRoutes)
 app.use('/user', userRoutes)
+app.use('/member', memberRoutes)
 
 Users.hasMany(Messages)
 Messages.belongsTo(Users)
@@ -36,6 +38,9 @@ Room.belongsTo(Users)
 
 Room.hasMany(Member)
 Member.belongsTo(Room)
+
+Room.hasMany(Messages)
+Messages.belongsTo(Room)
 
 sequelize.sync().then(() => {
     app.listen(4000, () => {

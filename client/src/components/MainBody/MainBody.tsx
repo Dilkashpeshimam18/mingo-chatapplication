@@ -28,16 +28,19 @@ const MainBody = () => {
   const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
   const isRoom = useSelector((state: RootState) => state.room.isRoom)
   const selectedRoom = localStorage.getItem('room')
+  const [roomId, setRoomId] = useState<string>('')
   const dispatch = useDispatch()
 
   const handleSendMessage = async () => {
     try {
       if (message != '') {
+
         let userMessage = {
           username: user.name as string,
           image: user.photoUrl as string,
           message: message as string,
           email: user.email as string,
+          roomId
         }
         const token = localStorage.getItem('userToken')
 
@@ -69,8 +72,10 @@ const MainBody = () => {
     //     lastMsgId = messages.length-1
     //   }
       // const res = await axios.get(`http://localhost:4000/message/get-messages?lastMsgId=${lastMsgId}`)
-      const res = await axios.get('http://localhost:4000/message/get-messages')
+      console.log('ROOM ID>>>',roomId)
+      const res = await axios.get(`http://localhost:4000/message/get-messages/${roomId}`)
       let result = res.data.messages
+      console.log(result)
       let data: any = result.map((message: object | any) => {
         return {
           id: message.id,
@@ -107,6 +112,8 @@ const MainBody = () => {
         return room.roomName == isSelectedRoom
       })
       setData(selectedRoom)
+      setRoomId(selectedRoom[0]?.id as string)
+
       socket.emit("join_room", isSelectedRoom)
 
     }

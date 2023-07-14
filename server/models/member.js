@@ -19,10 +19,7 @@ const Member = sequelize.define('member', {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    phoneNo: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
+
 })
 
 module.exports = Member

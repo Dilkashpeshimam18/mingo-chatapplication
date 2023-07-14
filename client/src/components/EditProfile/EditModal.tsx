@@ -38,6 +38,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     const [name, setName] = useState(user.name)
     const [bio, setBio] = useState(user.bio)
     const [photoUrl, setPhotoUrl] = useState(user.photoUrl)
+    const [email, setemail] = useState(user.email)
     const dispatch: AppDispatch = useDispatch()
     const auth = getAuth()
     const currentUser = auth.currentUser;
@@ -118,7 +119,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     }
     const getAllUser = async () => {
         try {
-            
+
             const token = localStorage.getItem('userToken')
 
             let reqInstance = await axios.create({
@@ -127,15 +128,37 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                 }
             })
             const res = await reqInstance.get('http://localhost:4000/user/get-alluser')
-            console.log(res)
             const allUser = res.data.allUser
             setAllUser(allUser)
         } catch (err) {
             console.log(err)
         }
     }
-    const emails = ['username@gmail.com', 'user02@gmail.com'];
 
+    const addMember = async (id: string, name: string, email: string, photoUrl: string) => {
+        try {
+            const token = localStorage.getItem('userToken')
+
+            let reqInstance = await axios.create({
+                headers: {
+                    Authorization: token
+                }
+            })
+            if (photoUrl == null) {
+                photoUrl = ''
+            }
+            const data = {
+                id,
+                name,
+                email,
+                photoUrl
+            }
+            const res = await reqInstance.post(`http://localhost:4000/member/add-member/${roomId}`, data)
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     useEffect(() => {
 
@@ -247,17 +270,17 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                         <List sx={{ pt: 0 }}>
                             {allUser.map((user: object | any) => (
                                 <ListItem disableGutters>
-                                    <ListItemButton key={user.id}>
+                                    <ListItemButton onClick={() => addMember(user.id, user.name, user.email, user.photoUrl)} key={user.id}>
                                         <ListItemAvatar>
-                                        <Avatar>
-                                            <AddIcon sx={{color:'white'}} />
-                                        </Avatar>
+                                            <Avatar>
+                                                <AddIcon sx={{ color: 'white' }} />
+                                            </Avatar>
                                         </ListItemAvatar>
                                         <ListItemText primary={user.email} secondary={user.name} />
                                     </ListItemButton>
                                 </ListItem>
                             ))}
-                        
+
                         </List>
                     </>
 
