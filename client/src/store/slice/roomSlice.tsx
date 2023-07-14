@@ -5,7 +5,7 @@ import { AppDispatch } from '../store';
 import axios from 'axios';
 
 export type RoomType = {
-    roomName: string | number,
+    roomName: string,
     roomUrl: string,
     id?: string,
     userId?: string
@@ -14,7 +14,8 @@ export type RoomType = {
 export type AllRoomType = {
     allRoom: RoomType[],
     singleRoom: RoomType,
-    isSelectedRoom: string | number,
+    isSelectedRoom: string,
+    roomId: string,
     isRoom: boolean
 
 }
@@ -28,6 +29,7 @@ const initialRoomState: AllRoomType = {
         roomUrl: '',
     },
     isSelectedRoom: 'Default',
+    roomId: '',
     isRoom: false
 }
 
@@ -43,9 +45,10 @@ const RoomSlice = createSlice({
         addToRoomList(state, action: PayloadAction<any>) {
             state.allRoom = action.payload
         },
-        handleIsSelectedRoom(state, action: PayloadAction<string | number>) {
-            state.isSelectedRoom = action.payload
+        handleIsSelectedRoom(state, action: PayloadAction<any>) {
+            state.isSelectedRoom = action.payload.room
             state.isRoom = true
+            state.roomId = action.payload.roomId
 
         },
         handleDefault(state) {

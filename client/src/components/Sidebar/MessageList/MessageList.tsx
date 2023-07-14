@@ -24,9 +24,14 @@ const MessageList = () => {
   const handleClose = () => {
     setOpen(false)
   }
-  const handleJoinRoom = (room: any) => {
-    dispatch(roomActions.handleIsSelectedRoom(room))
-    localStorage.setItem('room', room)
+  const handleJoinRoom = (room: string, roomId: string) => {
+    const data = {
+      room,
+      roomId
+    }
+    dispatch(roomActions.handleIsSelectedRoom(data as any))
+    localStorage.setItem('room', room as string)
+    localStorage.setItem('roomId', roomId as string)
     dispatch(memberActions.isNotViewMember())
   }
 
@@ -48,7 +53,7 @@ const MessageList = () => {
             {allRoom.map((room, index) => {
               return (
                 <div key={index}>
-                  <ListItem onClick={() => handleJoinRoom(room.roomName)} className='singleMessage-container' alignItems="flex-start">
+                  <ListItem onClick={() => handleJoinRoom(room.roomName as string, room.id as string)} className='singleMessage-container' alignItems="flex-start">
                     <ListItemAvatar>
                       <Avatar src={room.roomUrl} sx={{ width: 45, height: 45 }} />
                     </ListItemAvatar>

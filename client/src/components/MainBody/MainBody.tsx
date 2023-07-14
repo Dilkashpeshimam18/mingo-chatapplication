@@ -27,8 +27,7 @@ const MainBody = () => {
   const allRoom = useSelector((state: RootState) => state.room.allRoom)
   const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
   const isRoom = useSelector((state: RootState) => state.room.isRoom)
-  const selectedRoom = localStorage.getItem('room')
-  const [roomId, setRoomId] = useState<string>('')
+  const roomId = useSelector((state: RootState) => state.room.roomId)
   const dispatch = useDispatch()
 
   const handleSendMessage = async () => {
@@ -60,22 +59,23 @@ const MainBody = () => {
 
   const getAllMessage = async () => {
     try {
-    //   let messages = [];
-    //   const storedMessages = localStorage.getItem('allMessage');
-    //   if (storedMessages) {
-    //     messages = JSON.parse(storedMessages);
-    //   }
-    //  let lastMsgId;
-    //   if (messages.length == 0) {
-    //     lastMsgId = 0
-    //   } else {
-    //     lastMsgId = messages.length-1
-    //   }
+      //   let messages = [];
+      //   const storedMessages = localStorage.getItem('allMessage');
+      //   if (storedMessages) {
+      //     messages = JSON.parse(storedMessages);
+      //   }
+      //  let lastMsgId;
+      //   if (messages.length == 0) {
+      //     lastMsgId = 0
+      //   } else {
+      //     lastMsgId = messages.length-1
+      //   }
       // const res = await axios.get(`http://localhost:4000/message/get-messages?lastMsgId=${lastMsgId}`)
-      console.log('ROOM ID>>>',roomId)
-      const res = await axios.get(`http://localhost:4000/message/get-messages/${roomId}`)
+
+      const id = roomId
+
+      const res = await axios.get(`http://localhost:4000/message/get-messages/${id}`)
       let result = res.data.messages
-      console.log(result)
       let data: any = result.map((message: object | any) => {
         return {
           id: message.id,
@@ -96,6 +96,19 @@ const MainBody = () => {
     }
   }
 
+
+  useEffect(() => {
+    if (isRoom == true) {
+      let selectedRoom = allRoom.filter((room) => {
+        return room.roomName == isSelectedRoom
+      })
+      setData(selectedRoom)
+
+    }
+
+
+  }, [isRoom, isSelectedRoom])
+
   useEffect(() => {
     getAllMessage()
   }, [isSelectedRoom])
@@ -105,22 +118,6 @@ const MainBody = () => {
   //     getAllMessage()
   //   }, 1000)
   // }, [])
-
-  useEffect(() => {
-    if (isRoom == true) {
-      let selectedRoom = allRoom.filter((room) => {
-        return room.roomName == isSelectedRoom
-      })
-      setData(selectedRoom)
-      setRoomId(selectedRoom[0]?.id as string)
-
-      socket.emit("join_room", isSelectedRoom)
-
-    }
-
-
-  }, [isRoom, isSelectedRoom])
-
 
 
   return (
