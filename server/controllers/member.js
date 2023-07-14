@@ -40,3 +40,26 @@ exports.getMember = async (req, res) => {
 
     }
 }
+
+exports.removeMember = async (req, res) => {
+    try {
+        const roomId = req.params.roomId
+        const memberId = req.params.memberId
+
+        const member = await Member.findOne({
+            where: {
+                roomId: roomId,
+                id: memberId
+
+            }
+        })
+
+        await member.destroy()
+        res.status(200).json({ success: true })
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ success: false, message: err })
+
+    }
+}

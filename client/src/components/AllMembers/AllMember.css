@@ -2,7 +2,17 @@
   display: flex;
   padding: 10px;
   cursor: pointer;
+  flex-direction: row;
 }
 .allMessage__container {
   margin-top: 10px;
+}
+.isAdmin__text{
+  background-color: rgb(247, 247, 247);
+  color: #007fff;
+  border: 1px solid #007fff;
+  height: 18px;
+  width: 70px;
+  font-size: 9px;
+  border-radius: 3px;
 }
