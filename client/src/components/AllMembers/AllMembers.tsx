@@ -4,21 +4,34 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store';
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
+import axios from 'axios';
 
 const AllMembers = () => {
-    const allMessage = useSelector((state: RootState) => state.message.allMessages)
-    const objectsMap = new Map();
-    let allUser: any = []
-    allMessage.forEach((object) => {
-        objectsMap.set(object.username
-            , object);
-    });
-    objectsMap.forEach((object) => {
+    const roomId = useSelector((state: RootState) => state.room.roomId)
 
-        allUser.push({ name: object.username, image: object.image })
+    const [allUser, setAllUser] = useState<object[]>([])
 
-    })
+    const getMemberOfRoom = async() => {
+        try {
+            const token = localStorage.getItem('userToken')
 
+            let reqInstance = await axios.create({
+              headers: {
+                Authorization: token
+              }
+            })
+            const res=await reqInstance.get(`http://localhost:4000/member/get-member/${roomId}`)
+            const user=res.data.data
+            setAllUser(user)
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        getMemberOfRoom()
+    }, [])
     return (
         <div className='allMember'>AllMembers
 
@@ -28,7 +41,7 @@ const AllMembers = () => {
                         <>
                             <div className='allUser'>
                                 <div style={{ marginLeft: '10px' }}>
-                                    <Avatar src={user.image} sx={{ width: 45, height: 45 }} />
+                                    <Avatar src={user.photoUrl} sx={{ width: 45, height: 45 }} />
 
                                 </div>
                                 <div style={{ paddingLeft: '10px', fontSize: '13px' }}>

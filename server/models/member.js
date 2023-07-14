@@ -19,6 +19,10 @@ const Member = sequelize.define('member', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    isAdmin:{
+        type:Sequelize.BOOLEAN,
+        allowNull:false
+    }
 
 })
 

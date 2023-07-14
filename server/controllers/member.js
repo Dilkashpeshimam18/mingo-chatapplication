@@ -11,12 +11,29 @@ exports.addMember = async (req, res) => {
             name: data.name,
             email: data.email,
             photoUrl: data.photoUrl,
+            isAdmin: data.isAdmin,
             roomId: roomId
         })
 
         res.status(200).json({ success: true })
 
 
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ success: false, message: err })
+
+    }
+}
+
+exports.getMember = async (req, res) => {
+    try {
+        const roomId = req.params.roomId
+        const member = await Member.findAll({
+            where: {
+                roomId: roomId
+            }
+        })
+        res.status(200).json({ success: true, data: member })
     } catch (err) {
         console.log(err)
         res.status(500).json({ success: false, message: err })

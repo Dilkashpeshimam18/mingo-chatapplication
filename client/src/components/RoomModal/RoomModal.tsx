@@ -61,7 +61,8 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
             const data = {
                 name,
                 email,
-                photoUrl
+                photoUrl,
+                isAdmin:true
             }
             const res = await reqInstance.post(`http://localhost:4000/member/add-member/${roomId}`, data)
 
