@@ -129,6 +129,8 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             })
             const res = await reqInstance.get('http://localhost:4000/user/get-alluser')
             const allUser = res.data.allUser
+                        console.log(res)
+
             setAllUser(allUser)
         } catch (err) {
             console.log(err)
@@ -140,7 +142,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             const token = localStorage.getItem('userToken')
 
             let reqInstance = await axios.create({
-                headers: {
+                headers:{
                     Authorization: token
                 }
             })

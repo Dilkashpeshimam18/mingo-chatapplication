@@ -40,7 +40,7 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
         setOpenModal(false)
     }
 
-    const handleAddRoom = async (name: string, email: string, photoUrl: string) => {
+    const handleAddRoom = async (id:string,name: string, email: string, photoUrl: string) => {
         try {
 
 
@@ -59,6 +59,7 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
 
             const roomId = response.data.message.id
             const data = {
+                id,
                 name,
                 email,
                 photoUrl,
@@ -112,7 +113,7 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleModalClose} >Cancel</Button>
-                    <Button onClick={() => handleAddRoom(user.name as string, user.email as string, user.photoUrl as string)} >Create Room</Button>
+                    <Button onClick={() => handleAddRoom(user.uid as string,user.name as string, user.email as string, user.photoUrl as string)} >Create Room</Button>
                 </DialogActions>
             </Dialog>
         </div>

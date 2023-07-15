@@ -27,17 +27,17 @@ exports.getRoom = async (req, res) => {
     try {
         const id = req.user.id
         const email = req.user.email
-    
-            const member = await Member.findAll({ where: { email: email } })
-            let room = [];
-            const allRoom = await Promise.all(member.map(async (mem) => {
-                const roomId = mem.dataValues.roomId;
-                const response = await Room.findAll({ where: { id: roomId } });
-                return response;
-            }));
-            room = allRoom.flat();
 
-      res.status(200).json({ success: true, room })  
+        const member = await Member.findAll({ where: { email: email } })
+        let room = [];
+        const allRoom = await Promise.all(member.map(async (mem) => {
+            const roomId = mem.dataValues.roomId;
+            const response = await Room.findAll({ where: { id: roomId } });
+            return response;
+        }));
+        room = allRoom.flat();
+
+        res.status(200).json({ success: true, room })
 
     } catch (err) {
         console.log(err)
@@ -79,6 +79,40 @@ exports.editRoom = async (req, res) => {
             throw new Error('Something went wrong!')
 
         }
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ success: false, message: 'SOMETHING WENT WRONG' })
+
+    }
+}
+exports.changeAdmin = async (req, res) => {
+    try {
+        const roomId = req.params.roomId
+        const user = req.user
+        const userId = req.params.userId
+
+        const room = await Room.findByPk(roomId)
+        await room.update({ userId: userId })
+
+        const member = await Member.findOne({
+            where: {
+                roomId: roomId,
+                userId: user.id
+            }
+        })
+
+        await member.update({ isAdmin: false })
+
+        const updateAdmin = await Member.findOne({
+            where: {
+                roomId: roomId,
+                userId: userId
+            }
+        })
+        await updateAdmin.update({ isAdmin: true })
+        res.status(200).json({ success: true, message: 'Room admin change!' })
+
 
     } catch (err) {
         console.log(err)

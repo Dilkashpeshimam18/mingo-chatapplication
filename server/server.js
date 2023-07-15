@@ -42,6 +42,9 @@ Member.belongsTo(Room)
 Room.hasMany(Messages)
 Messages.belongsTo(Room)
 
+Users.hasMany(Member)
+Member.belongsTo(Users)
+
 sequelize.sync().then(() => {
     app.listen(4000, () => {
         console.log('SERVER RUNNING!')

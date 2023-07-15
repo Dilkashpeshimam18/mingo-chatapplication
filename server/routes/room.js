@@ -7,6 +7,7 @@ const router = express.Router()
 router.get('/get-room', authenticate, roomControllers.getRoom)
 router.post('/create-room', authenticate, roomControllers.createRoom)
 router.put('/edit-room/:id', authenticate, roomControllers.editRoom)
+router.put('/change-room-admin/:roomId/:userId',authenticate,roomControllers.changeAdmin)
 router.delete('/delete-room/:id', authenticate, roomControllers.deleteRoom)
 
 module.exports = router

@@ -5,14 +5,14 @@ exports.addMember = async (req, res) => {
     try {
         const data = req.body
         const roomId = req.params.roomid
-        console.log(data)
         const member = await Member.create({
             id: randomUUID(),
             name: data.name,
             email: data.email,
             photoUrl: data.photoUrl,
             isAdmin: data.isAdmin,
-            roomId: roomId
+            roomId: roomId,
+            userId: data.id
         })
 
         res.status(200).json({ success: true })
