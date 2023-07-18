@@ -12,8 +12,10 @@ const Users = require('./models/user')
 const Messages = require('./models/message')
 const Room = require('./models/room')
 const Member = require('./models/member')
-
+const { Server } = require('socket.io')
+const http = require('http')
 const app = express()
+
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -23,6 +25,9 @@ app.use(cors({
 
 }))
 dotenv.config()
+
+const server = http.createServer(app)
+
 
 app.use('/auth', authRoutes)
 app.use('/message', messageRoutes)
@@ -45,8 +50,36 @@ Messages.belongsTo(Room)
 Users.hasMany(Member)
 Member.belongsTo(Users)
 
+const io = new Server(server, {
+    cors: {
+        origin: 'https://localhost:3000',
+        methods: ["GET", "POST"],
+    }
+})
+
+io.on('connection', (socket) => {
+
+    socket.on('join-room', (data) => {
+        socket.join(data.roomId)
+    })
+
+    socket.on('send-message', async (message, room, cb) => {
+        console.log('MESSAGE>>>', message)
+        console.log('ROOM>>>', room)
+        if (room == '') {
+            socket.broadcast.emit('receive-message', message)
+
+        } else {
+            await socket.to(room).emit('receive-message', message)
+            cb(message)
+
+        }
+    })
+
+})
+
 sequelize.sync().then(() => {
-    app.listen(4000, () => {
+    server.listen(4000, () => {
         console.log('SERVER RUNNING!')
     })
 }).catch((err) => {

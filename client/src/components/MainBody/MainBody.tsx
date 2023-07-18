@@ -41,6 +41,12 @@ const MainBody = () => {
           email: user.email as string,
           roomId
         }
+        const room = roomId
+        await socket.emit('send-message', userMessage, room, async (message: any) => {
+          console.log('IN call back()')
+          await dispatch(messageActions.handleAllMessage(message))
+
+        })
         const token = localStorage.getItem('userToken')
 
         let reqInstance = await axios.create({
@@ -49,12 +55,21 @@ const MainBody = () => {
           }
         })
         const response = await reqInstance.post('http://localhost:4000/message/add-message', userMessage)
-        await getAllMessage()
+        // await getAllMessage()
+        getMessagesBySocket()
+     
       }
       setMessage('')
     } catch (err) {
       console.log(err)
     }
+  }
+
+  const getMessagesBySocket=()=>{
+     socket.on('receive-message', async (message) => {
+       dispatch(messageActions.handleAllMessage(message))
+
+    })
   }
 
   const getAllMessage = async () => {
@@ -85,6 +100,7 @@ const MainBody = () => {
           email: message.email
         }
       })
+
       // messages = [...messages, ...data]
       // localStorage.setItem('allMessage', JSON.stringify(messages))
       dispatch(messageActions.handleAllMessage(data))

@@ -16,7 +16,8 @@ export type AllRoomType = {
     singleRoom: RoomType,
     isSelectedRoom: string,
     roomId: string,
-    isRoom: boolean
+    isRoom: boolean,
+    isViewMember:boolean
 
 }
 
@@ -30,7 +31,8 @@ const initialRoomState: AllRoomType = {
     },
     isSelectedRoom: 'Default',
     roomId: '',
-    isRoom: false
+    isRoom: false,
+    isViewMember:false
 }
 
 let rooms = JSON.parse(localStorage.getItem('allRoom') as any)
@@ -102,6 +104,7 @@ export const getAllRooms = () => {
                         userId: data.userId
                     }
                 })
+                console.log('GETTING ALL ROOM',data)
 
                 localStorage.setItem('allRoom', JSON.stringify(data as any))
                 dispatch(roomActions.addToRoomList(data))

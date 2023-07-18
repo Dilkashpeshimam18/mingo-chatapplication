@@ -14,6 +14,7 @@ import { getDocs, collection } from 'firebase/firestore'
 import { db } from '../../../firebase/firebase';
 import { AppDispatch } from '../../../store/store';
 import { memberActions } from '../../../store/slice/memberSlice';
+import { socket } from '../../../App';
 
 const MessageList = () => {
   const [open, setOpen] = useState(false)
@@ -29,6 +30,9 @@ const MessageList = () => {
       room,
       roomId
     }
+    socket.emit('join-room',data,()=>{
+      
+    })
     dispatch(roomActions.handleIsSelectedRoom(data as any))
     localStorage.setItem('room', room as string)
     localStorage.setItem('roomId', roomId as string)

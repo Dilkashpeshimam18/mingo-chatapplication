@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import './AllMember.css'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store/store';
+import { useSelector, useDispatch } from 'react-redux'
+import { AppDispatch, RootState } from '../../store/store';
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 import axios from 'axios';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import { RoomType } from '../../store/slice/roomSlice';
+import { RoomType, getAllRooms } from '../../store/slice/roomSlice';
 const AllMembers = () => {
     const roomId = useSelector((state: RootState) => state.room.roomId)
 
@@ -18,7 +18,7 @@ const AllMembers = () => {
     const allRoom = useSelector((state: RootState) => state.room.allRoom)
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
     const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
-
+    const dispatch: AppDispatch = useDispatch()
 
     useEffect(() => {
         if (isRoom == true) {
@@ -41,8 +41,7 @@ const AllMembers = () => {
             })
             const res = await reqInstance.get(`http://localhost:4000/member/get-member/${roomId}`)
             const user = res.data.data
-            console.log(user)
-            console.log(user)
+            console.log('MEMBER Of ROOMS>>>', user)
             setAllUser(user)
 
         } catch (err) {
@@ -68,7 +67,7 @@ const AllMembers = () => {
             console.log(err)
         }
     }
-    const changeAdmin = async(userid:string) => {
+    const changeAdmin = async (userid: string) => {
         try {
             const token = localStorage.getItem('userToken')
 
@@ -77,8 +76,12 @@ const AllMembers = () => {
                     Authorization: token
                 }
             })
-            const res=await reqInstance.put(`http://localhost:4000/room/change-room-admin/${roomId}/${userid}`)
-            getMemberOfRoom()
+            const res = await reqInstance.put(`http://localhost:4000/room/change-room-admin/${roomId}/${userid}`)
+            await dispatch(getAllRooms()).then(() => {
+                getMemberOfRoom()
+
+            })
+
         } catch (err) {
             console.log(err)
         }
@@ -111,7 +114,7 @@ const AllMembers = () => {
                                 {
                                     userId == data[0]?.userId && (
                                         user.isAdmin == false && <div style={{ paddingLeft: '10px', fontSize: '13px' }}>
-                                            <button onClick={()=>changeAdmin(user.userId)} className='isAdmin__text'>Make Admin</button>
+                                            <button onClick={() => changeAdmin(user.userId)} className='isAdmin__text'>Make Admin</button>
                                             <PersonRemoveIcon onClick={() => removeMember(user.id as string | any)} style={{ color: 'gray' }} />
 
                                         </div>

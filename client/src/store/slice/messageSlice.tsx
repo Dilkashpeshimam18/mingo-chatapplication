@@ -21,7 +21,12 @@ const MessageSlice = createSlice({
     initialState: initialMessagelState,
     reducers: {
         handleAllMessage(state, action) {
-            state.allMessages = action.payload
+            if(Array.isArray(action.payload)){
+                state.allMessages = action.payload
+
+            }else{
+                state.allMessages.push(action.payload)
+            }
         },
 
     }

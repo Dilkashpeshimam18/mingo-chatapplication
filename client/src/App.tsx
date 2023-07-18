@@ -4,9 +4,14 @@ import Home from './components/HomePage/Home';
 import { Route, Routes } from 'react-router-dom'
 import Login from './components/LoginPage/Login';
 import Register from './components/RegisterPage/Register';
-import * as io from 'socket.io-client'
+// import * as io from 'socket.io-client'
+import { io } from "socket.io-client"
+export const socket = io('http://localhost:4000',{  
+    withCredentials: true,
+    transports: ['websocket', 'polling', 'flashsocket'] 
+})
 
-export const socket = io.connect('http://localhost:3000', { transports: ['websocket', 'polling', 'flashsocket'] })
+// export const socket = io.connect('http://localhost:4000', { transports: ['websocket', 'polling', 'flashsocket'] })
 
 function App() {
   return (
