@@ -64,15 +64,13 @@ io.on('connection', (socket) => {
     })
 
     socket.on('send-message', async (message, room, cb) => {
-        console.log('MESSAGE>>>', message)
-        console.log('ROOM>>>', room)
         if (room == '') {
             socket.broadcast.emit('receive-message', message)
+            cb(message)
 
         } else {
             await socket.to(room).emit('receive-message', message)
             cb(message)
-
         }
     })
 

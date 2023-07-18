@@ -21,11 +21,14 @@ const MessageSlice = createSlice({
     initialState: initialMessagelState,
     reducers: {
         handleAllMessage(state, action) {
-            if(Array.isArray(action.payload)){
+            if (Array.isArray(action.payload)) {
                 state.allMessages = action.payload
 
-            }else{
+            } else {
                 state.allMessages.push(action.payload)
+                let jsonObject = state.allMessages.map((msg) => JSON.stringify(msg));
+                let uniqueSet = new Set(jsonObject);
+                state.allMessages = Array.from(uniqueSet).map((msg) => JSON.parse(msg));
             }
         },
 

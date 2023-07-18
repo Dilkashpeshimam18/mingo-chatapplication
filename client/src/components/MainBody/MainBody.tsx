@@ -55,7 +55,6 @@ const MainBody = () => {
           }
         })
         const response = await reqInstance.post('http://localhost:4000/message/add-message', userMessage)
-        // await getAllMessage()
         getMessagesBySocket()
      
       }
@@ -67,6 +66,7 @@ const MainBody = () => {
 
   const getMessagesBySocket=()=>{
      socket.on('receive-message', async (message) => {
+      console.log('MESSAGE>>>',message)
        dispatch(messageActions.handleAllMessage(message))
 
     })
