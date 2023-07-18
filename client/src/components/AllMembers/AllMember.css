@@ -2,7 +2,7 @@
   display: flex;
   padding: 10px;
   cursor: pointer;
-  flex-direction: row;
+  justify-content: space-between;
 }
 .allMessage__container {
   margin-top: 10px;
@@ -15,4 +15,11 @@
   width: 70px;
   font-size: 9px;
   border-radius: 3px;
+}
+.allUser__container1{
+  display: flex;
+
+}
+.allUser__container2{
+  padding-right: 15px;
 }

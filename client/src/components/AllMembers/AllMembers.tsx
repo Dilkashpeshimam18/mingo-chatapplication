@@ -97,29 +97,38 @@ const AllMembers = () => {
                     return (
                         <>
                             <div className='allUser'>
-                                <div style={{ marginLeft: '10px' }}>
-                                    <Avatar src={user.photoUrl} sx={{ width: 45, height: 45 }} />
-
-                                </div>
-                                <div style={{ paddingLeft: '10px', fontSize: '13px' }}>
-                                    <p>{user.name}</p>
-
-                                </div>
-                                {
-                                    user.isAdmin == true && <div style={{ paddingLeft: '30px', fontSize: '13px', paddingTop: '9px' }}>
-                                        <button className='isAdmin__text'>Room Admin</button>
+                                <div className='allUser__container1'>
+                                    <div style={{ marginLeft: '10px' }}>
+                                        <Avatar src={user.photoUrl} sx={{ width: 45, height: 45 }} />
 
                                     </div>
-                                }
-                                {
-                                    userId == data[0]?.userId && (
-                                        user.isAdmin == false && <div style={{ paddingLeft: '10px', fontSize: '13px' }}>
-                                            <button onClick={() => changeAdmin(user.userId)} className='isAdmin__text'>Make Admin</button>
-                                            <PersonRemoveIcon onClick={() => removeMember(user.id as string | any)} style={{ color: 'gray' }} />
+                                    <div style={{ paddingLeft: '10px', fontSize: '13px' }}>
+                                        <p>{user.name}</p>
+
+                                    </div>
+                                </div>
+                                <div className='allUser__container2'>
+                                    {
+                                        user.isAdmin == true && <div style={{  fontSize: '13px', paddingTop: '9px',marginRight:'32px' }}>
+                                            <button  className='isAdmin__text'>Room Admin</button>
 
                                         </div>
-                                    )
-                                }
+                                    }
+                                    {
+                                        userId == data[0]?.userId && (
+                                            user.isAdmin == false && <div style={{ paddingLeft: '10px', fontSize: '13px',display:'flex'}}>
+                                                <button style={{marginRight:'10px',marginTop:'10px' }} onClick={() => changeAdmin(user.userId)} className='isAdmin__text'>Make Admin</button>
+                                                <div style={{paddingTop:'5px'}}>
+                                                <PersonRemoveIcon onClick={() => removeMember(user.id as string | any)} style={{ color: 'gray' }} />
+
+                                                    </div>
+
+                                            </div>
+                                        )
+                                    }
+
+                                </div>
+
 
                             </div>
                             <Divider />
