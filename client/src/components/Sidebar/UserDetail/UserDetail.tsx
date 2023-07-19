@@ -16,6 +16,12 @@ const UserDetail = () => {
 
   const dispatch = useDispatch()
 
+  const handleEditProfile = () => {
+    dispatch(modalActions.handleIsEditProfile())
+
+    dispatch(modalActions.handleOpen())
+  }
+
   return (
     <div className='user-detail'>
       <div onClick={() => dispatch(roomActions.handleDefault())} className='user-image'>
@@ -32,7 +38,7 @@ const UserDetail = () => {
 
       </div>
       <div className='user-edit'>
-        {isAuthenticated == true && <EditIcon onClick={() => dispatch(modalActions.handleOpen())} style={{ fontSize: "19px", color: "gray" }} />
+        {isAuthenticated == true && <EditIcon onClick={handleEditProfile} style={{ fontSize: "19px", color: "gray" }} />
         }
         <EditModal openModal={openModal} setOpenModal={setOpenModal} />
       </div>

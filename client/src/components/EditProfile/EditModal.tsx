@@ -53,6 +53,9 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     const [roomId, setRoomId] = useState<string>('')
     const [allUser, setAllUser] = useState<[]>([])
     const isAddMem = useSelector((state: RootState) => state.modal.isAddMember)
+    const roomid = useSelector((state: RootState) => state.room.roomId)
+    const isEditProfile = useSelector((state: RootState) => state.modal.isEditProfile)
+
 
     const handleModalClose = () => {
         setOpenModal(false)
@@ -127,10 +130,9 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                     Authorization: token
                 }
             })
-            const res = await reqInstance.get('http://localhost:4000/user/get-alluser')
-            const allUser = res.data.allUser
-                        console.log(res)
+            const res = await reqInstance.get(`http://localhost:4000/member/get-addMember/${roomid}`)
 
+            const allUser = res.data.user
             setAllUser(allUser)
         } catch (err) {
             console.log(err)
@@ -142,7 +144,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             const token = localStorage.getItem('userToken')
 
             let reqInstance = await axios.create({
-                headers:{
+                headers: {
                     Authorization: token
                 }
             })
@@ -154,9 +156,10 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                 name,
                 email,
                 photoUrl,
-                isAdmin:false
+                isAdmin: false
             }
             const res = await reqInstance.post(`http://localhost:4000/member/add-member/${roomId}`, data)
+            getAllUser()
 
         } catch (err) {
             console.log(err)
@@ -183,11 +186,12 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     }, [isAddMem])
     return (
         <div>
-            <Dialog open={isOpen} onClose={handleModalClose}>
-                {isAddMem == false ? (
-                    isEditRoom == true ?
+            {isAddMem == false ? (
+                isEditRoom == true ?
 
-                        <>
+                    <>
+                        <Dialog open={isOpen} onClose={handleModalClose}>
+
                             <DialogTitle>Edit room </DialogTitle>
 
                             <DialogContent>
@@ -219,8 +223,12 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                                 <Button onClick={handleModalClose} >Cancel</Button>
                                 <Button onClick={() => handleEditRoom(roomId)} >Edit Room</Button>
                             </DialogActions>
-                        </> :
-                        <>
+                        </Dialog>
+
+                    </> :
+
+                    (isEditProfile == true && <>
+                        <Dialog open={isOpen} onClose={handleModalClose}>
                             <DialogTitle>Edit Profile </DialogTitle>
 
                             <DialogContent>
@@ -265,11 +273,17 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                                 <Button onClick={handleModalClose} >Cancel</Button>
                                 <Button onClick={handleEditProfile} >Edit Profile</Button>
                             </DialogActions>
-                        </>
+                        </Dialog>
+                    </>)
 
-                ) : (
 
-                    <>
+            ) : (
+
+                allUser.length>0?
+
+                <>
+            
+                    <Dialog open={isOpen} onClose={handleModalClose}>
                         <List sx={{ pt: 0 }}>
                             {allUser.map((user: object | any) => (
                                 <ListItem disableGutters>
@@ -285,11 +299,21 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                             ))}
 
                         </List>
-                    </>
+                    </Dialog>
 
-                )}
 
-            </Dialog>
+
+                </>:<>
+                <Dialog open={isOpen} onClose={handleModalClose}>
+                    <DialogContent>
+                        <h5>Sorry, no user left to be included!</h5>
+                        
+                    </DialogContent>
+                </Dialog>
+                </>
+
+            )}
+
         </div>
     )
 }

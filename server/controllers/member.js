@@ -1,5 +1,7 @@
 const Member = require('../models/member')
 const { randomUUID } = require('crypto')
+const User = require("../models/user")
+const { Op } = require('sequelize');
 
 exports.addMember = async (req, res) => {
     try {
@@ -56,6 +58,35 @@ exports.removeMember = async (req, res) => {
 
         await member.destroy()
         res.status(200).json({ success: true })
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ success: false, message: err })
+
+    }
+}
+
+exports.getAddMember = async (req, res) => {
+    try {
+        const roomId = req.params.roomId
+        const member = await Member.findAll({
+            where: {
+                roomId: roomId
+            }
+        });
+
+        const userIds = member.map((mem) => mem.dataValues.userId);
+
+        const usersNotInMembers = await User.findAll({
+            where: {
+                id: {
+                    [Op.notIn]: userIds
+                }
+            }
+        });
+
+        res.status(200).json({ success: true, user: usersNotInMembers })
+
 
     } catch (err) {
         console.log(err)

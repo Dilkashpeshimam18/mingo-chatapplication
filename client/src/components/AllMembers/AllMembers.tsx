@@ -30,6 +30,7 @@ const AllMembers = () => {
         }
 
     }, [isRoom, isSelectedRoom])
+    
     const getMemberOfRoom = async () => {
         try {
             const token = localStorage.getItem('userToken')
