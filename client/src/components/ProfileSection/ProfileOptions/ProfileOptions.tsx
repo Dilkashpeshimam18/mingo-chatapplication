@@ -68,6 +68,8 @@ const ProfileOptions = () => {
             localStorage.removeItem('userUID')
             localStorage.removeItem('userToken')
             localStorage.removeItem('room')
+            localStorage.removeItem('userBio')
+            localStorage.removeItem('userPhotoUrl')
 
             navigate('/login')
 

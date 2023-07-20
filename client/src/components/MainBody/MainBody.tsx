@@ -129,11 +129,10 @@ const MainBody = () => {
     getAllMessage()
   }, [isSelectedRoom])
 
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     getAllMessage()
-  //   }, 1000)
-  // }, [])
+
+  useEffect(()=>{
+  getMessagesBySocket()
+  },[handleSendMessage])
 
 
   return (

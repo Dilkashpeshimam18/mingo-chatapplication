@@ -43,7 +43,7 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
     const handleAddRoom = async (id:string,name: string, email: string, photoUrl: string) => {
         try {
 
-
+       
             let room = {
                 roomName: roomName,
                 roomUrl: roomUrl,
@@ -58,13 +58,25 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
             const response = await reqInstance.post('http://localhost:4000/room/create-room', room)
 
             const roomId = response.data.message.id
-            const data = {
-                id,
-                name,
-                email,
-                photoUrl,
-                isAdmin:true
+            let data
+            if(id==null){
+                data = {
+                    id:localStorage.getItem('userUID'),
+                    name,
+                    email,
+                    photoUrl,
+                    isAdmin:true
+                }
+            }else{
+                data = {
+                    id,
+                    name,
+                    email,
+                    photoUrl,
+                    isAdmin:true
+                } 
             }
+
             const res = await reqInstance.post(`http://localhost:4000/member/add-member/${roomId}`, data)
 
             // await addDoc(allRoomRef, room)

@@ -306,7 +306,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                 </>:<>
                 <Dialog open={isOpen} onClose={handleModalClose}>
                     <DialogContent>
-                        <h5>Sorry, no user left to be included!</h5>
+                        <h5>Sorry, no user found!</h5>
                         
                     </DialogContent>
                 </Dialog>

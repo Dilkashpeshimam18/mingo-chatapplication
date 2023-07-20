@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { AppDispatch } from '../store';
 
 type MemberType = {
     isViewMember: boolean
@@ -19,6 +21,9 @@ const MemberSlice = createSlice({
         }
     }
 })
+
+
+
 
 export const memberActions = MemberSlice.actions
 export default MemberSlice.reducer

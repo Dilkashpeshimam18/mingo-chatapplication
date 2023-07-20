@@ -104,7 +104,6 @@ export const getAllRooms = () => {
                         userId: data.userId
                     }
                 })
-                console.log('GETTING ALL ROOM',data)
 
                 localStorage.setItem('allRoom', JSON.stringify(data as any))
                 dispatch(roomActions.addToRoomList(data))

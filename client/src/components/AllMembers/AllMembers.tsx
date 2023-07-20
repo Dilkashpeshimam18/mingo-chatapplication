@@ -42,7 +42,6 @@ const AllMembers = () => {
             })
             const res = await reqInstance.get(`http://localhost:4000/member/get-member/${roomId}`)
             const user = res.data.data
-            console.log('MEMBER Of ROOMS>>>', user)
             setAllUser(user)
 
         } catch (err) {
