@@ -29,10 +29,15 @@ const MainBody = () => {
   const isRoom = useSelector((state: RootState) => state.room.isRoom)
   const roomId = useSelector((state: RootState) => state.room.roomId)
   const dispatch = useDispatch()
+  let messagesReceived = false;
+
 
   const handleSendMessage = async () => {
+    messagesReceived = false
     try {
       if (message != '') {
+        messagesReceived = false
+        console.log('In send msg>>>', messagesReceived)
 
         let userMessage = {
           username: user.name as string,
@@ -43,7 +48,6 @@ const MainBody = () => {
         }
         const room = roomId
         await socket.emit('send-message', userMessage, room, async (message: any) => {
-          console.log('IN call back()')
           await dispatch(messageActions.handleAllMessage(message))
 
         })
@@ -55,8 +59,12 @@ const MainBody = () => {
           }
         })
         const response = await reqInstance.post('http://localhost:4000/message/add-message', userMessage)
-        getMessagesBySocket()
-     
+        getMessagesBySocket(() => {
+          if (!messagesReceived) {
+            getAllMessage();
+          }
+        })
+
       }
       setMessage('')
     } catch (err) {
@@ -64,13 +72,24 @@ const MainBody = () => {
     }
   }
 
-  const getMessagesBySocket=()=>{
-     socket.on('receive-message', async (message) => {
-      console.log('MESSAGE>>>',message)
-       dispatch(messageActions.handleAllMessage(message))
+  // const getMessagesBySocket=async()=>{
+  //   return await socket.on('receive-message', async (message) => {
+  //     console.log('Message',message)
+  //      dispatch(messageActions.handleAllMessage(message))
 
-    })
-  }
+  //   })
+  // }
+
+  const getMessagesBySocket = (callback: any) => {
+    socket.on('receive-message', (message) => {
+      const userMsg = message
+      dispatch(messageActions.handleAllMessage(userMsg));
+      messagesReceived = true
+
+      callback()
+    });
+
+  };
 
   const getAllMessage = async () => {
     try {
@@ -88,7 +107,6 @@ const MainBody = () => {
       // const res = await axios.get(`http://localhost:4000/message/get-messages?lastMsgId=${lastMsgId}`)
 
       const id = roomId
-
       const res = await axios.get(`http://localhost:4000/message/get-messages/${id}`)
       let result = res.data.messages
       let data: any = result.map((message: object | any) => {
@@ -128,11 +146,6 @@ const MainBody = () => {
   useEffect(() => {
     getAllMessage()
   }, [isSelectedRoom])
-
-
-  useEffect(()=>{
-  getMessagesBySocket()
-  },[handleSendMessage])
 
 
   return (

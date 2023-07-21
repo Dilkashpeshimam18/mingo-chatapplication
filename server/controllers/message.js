@@ -13,7 +13,7 @@ exports.addMessage = async (req, res) => {
             photoUrl: data.image,
             message: data.message,
             userId: id,
-            roomId:data.roomId
+            roomId: data.roomId
         })
 
         res.status(200).json({ success: true })
@@ -27,16 +27,19 @@ exports.addMessage = async (req, res) => {
 
 exports.getMessage = async (req, res) => {
     try {
-        const lastmsgId=req.query.lastMsgId
-        const roomId=req.params.roomId
+        const lastmsgId = req.query.lastMsgId
+        const roomId = req.params.roomId
         // const msgcount=await Messages.count()
         // const messages = await Messages.findAll({
         //     offset:Number(lastmsgId),
         //     limit:Number(msgcount)
 
         // })
-        const messages = await Messages.findAll({where:{roomId:roomId}})
-        res.status(200).json({ success: true,messages})
+        const messages = await Messages.findAll({
+            where: { roomId: roomId },
+            order: [['createdAt', 'ASC']]
+        })
+        res.status(200).json({ success: true, messages })
 
     } catch (err) {
         console.log(err)
