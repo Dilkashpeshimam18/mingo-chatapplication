@@ -14,6 +14,7 @@ const AllMembers = () => {
     const [userId, setUserId] = useState<string>(() => {
         return localStorage.getItem('userUID') || ''
     })
+    const [adminId, setAdminId] = useState<string>('')
     const [data, setData] = useState<RoomType[]>([])
     const allRoom = useSelector((state: RootState) => state.room.allRoom)
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
@@ -30,7 +31,7 @@ const AllMembers = () => {
         }
 
     }, [isRoom, isSelectedRoom])
-    
+
     const getMemberOfRoom = async () => {
         try {
             const token = localStorage.getItem('userToken')
@@ -43,6 +44,15 @@ const AllMembers = () => {
             const res = await reqInstance.get(`http://localhost:4000/member/get-member/${roomId}`)
             const user = res.data.data
             setAllUser(user)
+
+            const admin = user.filter((user: object | any) => {
+                return user.isAdmin == true
+
+            })
+
+            const AdminId = admin[0].userId
+
+            setAdminId(AdminId)
 
         } catch (err) {
             console.log(err)
@@ -109,19 +119,19 @@ const AllMembers = () => {
                                 </div>
                                 <div className='allUser__container2'>
                                     {
-                                        user.isAdmin == true && <div style={{  fontSize: '13px', paddingTop: '9px',marginRight:'32px' }}>
-                                            <button  className='isAdmin__text'>Room Admin</button>
+                                        user.isAdmin == true && <div style={{ fontSize: '13px', paddingTop: '9px', marginRight: '32px' }}>
+                                            <button className='isAdmin__text'>Room Admin</button>
 
                                         </div>
                                     }
                                     {
-                                        userId == data[0]?.userId && (
-                                            user.isAdmin == false && <div style={{ paddingLeft: '10px', fontSize: '13px',display:'flex'}}>
-                                                <button style={{marginRight:'10px',marginTop:'10px' }} onClick={() => changeAdmin(user.userId)} className='isAdmin__text'>Make Admin</button>
-                                                <div style={{paddingTop:'5px'}}>
-                                                <PersonRemoveIcon onClick={() => removeMember(user.id as string | any)} style={{ color: 'gray' }} />
+                                        userId == adminId && (
+                                            user.isAdmin == false && <div style={{ paddingLeft: '10px', fontSize: '13px', display: 'flex' }}>
+                                                <button style={{ marginRight: '10px', marginTop: '10px' }} onClick={() => changeAdmin(user.userId)} className='isAdmin__text'>Make Admin</button>
+                                                <div style={{ paddingTop: '5px' }}>
+                                                    <PersonRemoveIcon onClick={() => removeMember(user.id as string | any)} style={{ color: 'gray' }} />
 
-                                                    </div>
+                                                </div>
 
                                             </div>
                                         )
