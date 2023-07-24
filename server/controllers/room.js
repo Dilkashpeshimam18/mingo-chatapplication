@@ -1,6 +1,8 @@
 const Member = require('../models/member')
 const Room = require('../models/room')
 const { randomUUID } = require('crypto')
+const Messages = require('../models/message')
+
 
 exports.createRoom = async (req, res) => {
     try {
@@ -52,7 +54,11 @@ exports.deleteRoom = async (req, res) => {
         const roomId = req.params.id
         const room = await Room.findByPk(roomId)
         if (room.userId == userid) {
-            await room.destroy()
+            await room.destroy({
+                // Add 'cascade: true' option to delete associated messages and members
+                cascade: true
+              });
+
             return res.status(200).json('Deleted Successfully!')
 
         } else {

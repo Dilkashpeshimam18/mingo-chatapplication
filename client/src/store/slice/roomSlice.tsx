@@ -17,6 +17,7 @@ export type AllRoomType = {
     isSelectedRoom: string,
     roomId: string,
     isRoom: boolean,
+    roomUrl:string,
     isViewMember:boolean
 
 }
@@ -31,6 +32,7 @@ const initialRoomState: AllRoomType = {
     },
     isSelectedRoom: 'Default',
     roomId: '',
+    roomUrl:'',
     isRoom: false,
     isViewMember:false
 }
@@ -51,11 +53,14 @@ const RoomSlice = createSlice({
             state.isSelectedRoom = action.payload.room
             state.isRoom = true
             state.roomId = action.payload.roomId
+            state.roomUrl=action.payload.roomUrl
 
         },
         handleDefault(state) {
             state.isSelectedRoom = 'Default'
             state.isRoom = false
+            state.roomId = ''
+            state.roomUrl=''
         },
 
 

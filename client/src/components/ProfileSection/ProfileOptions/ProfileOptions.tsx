@@ -17,7 +17,7 @@ import { RoomType } from '../../../store/slice/roomSlice';
 import { memberActions } from '../../../store/slice/memberSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
-import { getAllRooms } from '../../../store/slice/roomSlice';
+import { getAllRooms, roomActions } from '../../../store/slice/roomSlice';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 const ProfileOptions = () => {
@@ -91,6 +91,7 @@ const ProfileOptions = () => {
             const response = await reqInstance.delete(`http://localhost:4000/room/delete-room/${id}`)
                 .then(() => {
                     alert('Room Deleted!')
+                    dispatch(roomActions.handleDefault())
                     dispatch(getAllRooms())
 
                 })
@@ -120,29 +121,18 @@ const ProfileOptions = () => {
                 </div>}
                 <div className='profile-sub-inner'>
 
-                    {isRoom == true && userId == data[0]?.userId ?
+                    {isRoom == true && userId == data[0]?.userId &&
                         <>
                             <span className='profile-sub-icon'><EditIcon style={{ fontSize: '21px', color: 'gray' }} />
                             </span>
-                            <p onClick={handleEdit} className='profile-sub-text'>  Edit Room</p> :
-
-                        </> :
-                        <>
-                            {isAuthenticated == true && <>
-
-                                <span className='profile-sub-icon'>
-                                    <GroupAddOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
-
-                                </span>
-
-                                <p onClick={() => setOpenModal(true)} className='profile-sub-text'>  Create Room</p>
-                            </>}
+                            <p onClick={handleEdit} className='profile-sub-text'>  Edit Room</p>
 
                         </>
 
 
 
                     }
+
                     {openModal == true && <RoomModal openModal={openModal} setOpenModal={setOpenModal} />}
 
                 </div>
@@ -151,6 +141,15 @@ const ProfileOptions = () => {
                     </span>
                     <p onClick={handleDelete} className='profile-sub-text'>  Delete  Room</p>
 
+                </div>}
+                {isAuthenticated == true && <div className='profile-sub-inner'>
+
+                    <span className='profile-sub-icon'>
+                        <GroupAddOutlinedIcon style={{ fontSize: '25px', color: 'gray' }} />
+
+                    </span>
+
+                    <p onClick={() => setOpenModal(true)} className='profile-sub-text'>  Create Room</p>
                 </div>}
 
                 {userId ? <div onClick={handleLogout} className='profile-sub-inner'>

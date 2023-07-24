@@ -12,6 +12,8 @@ type HeaderProps = {
 }
 const Header = ({ data }: HeaderProps) => {
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
+    const roomName=useSelector((state:RootState)=>state.room.isSelectedRoom)
+    const roomUrl=useSelector((state:RootState)=>state.room.roomUrl)
     return (
         <div className='main-header'>
             {isRoom == false && <>
@@ -28,11 +30,11 @@ const Header = ({ data }: HeaderProps) => {
             {isRoom == true && <>
                 <div className='header-left'>
                     <div className='main-image'>
-                        <Avatar alt="Travis Howard" src={data[0]?.roomUrl} sx={{ width: 50, height: 50 }} />
+                        <Avatar alt="Travis Howard" src={roomUrl} sx={{ width: 50, height: 50 }} />
 
                     </div>
                     <div className='main-detail'>
-                        <h2 className='main-name'>{data[0]?.roomName}</h2>
+                        <h2 className='main-name'>{roomName}</h2>
                     </div>
                 </div>
             </>}

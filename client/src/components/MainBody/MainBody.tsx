@@ -37,7 +37,6 @@ const MainBody = () => {
     try {
       if (message != '') {
         messagesReceived = false
-        console.log('In send msg>>>', messagesReceived)
 
         let userMessage = {
           username: user.name as string,
@@ -154,7 +153,10 @@ const MainBody = () => {
       <Divider variant='inset' />
       <ChatSection />
       <Divider variant='middle' />
-      <Footer handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} setMessages={setMessages} getAllMessage={getAllMessage} />
+      {isSelectedRoom != 'Default' &&
+        <Footer handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} setMessages={setMessages} getAllMessage={getAllMessage} />
+
+      }
 
     </div>
   )

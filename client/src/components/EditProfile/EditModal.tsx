@@ -99,6 +99,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             let data = {
                 roomName: roomName,
                 roomUrl: roomUrl,
+
             }
             const token = localStorage.getItem('userToken')
 
@@ -279,38 +280,38 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
 
             ) : (
 
-                allUser.length>0?
+                allUser.length > 0 ?
 
-                <>
-            
-                    <Dialog open={isOpen} onClose={handleModalClose}>
-                        <List sx={{ pt: 0 }}>
-                            {allUser.map((user: object | any) => (
-                                <ListItem disableGutters>
-                                    <ListItemButton onClick={() => addMember(user.id, user.name, user.email, user.photoUrl)} key={user.id}>
-                                        <ListItemAvatar>
-                                            <Avatar>
-                                                <AddIcon sx={{ color: 'white' }} />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText primary={user.email} secondary={user.name} />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
+                    <>
 
-                        </List>
-                    </Dialog>
+                        <Dialog open={isOpen} onClose={handleModalClose}>
+                            <List sx={{ pt: 0 }}>
+                                {allUser.map((user: object | any) => (
+                                    <ListItem disableGutters>
+                                        <ListItemButton onClick={() => addMember(user.id, user.name, user.email, user.photoUrl)} key={user.id}>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <AddIcon sx={{ color: 'white' }} />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText primary={user.email} secondary={user.name} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                ))}
+
+                            </List>
+                        </Dialog>
 
 
 
-                </>:<>
-                <Dialog open={isOpen} onClose={handleModalClose}>
-                    <DialogContent>
-                        <h5>Sorry, no user found!</h5>
-                        
-                    </DialogContent>
-                </Dialog>
-                </>
+                    </> : <>
+                        <Dialog open={isOpen} onClose={handleModalClose}>
+                            <DialogContent>
+                                <h5>Sorry, no user found!</h5>
+
+                            </DialogContent>
+                        </Dialog>
+                    </>
 
             )}
 

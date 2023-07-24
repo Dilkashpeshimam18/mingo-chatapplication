@@ -25,14 +25,13 @@ const MessageList = () => {
   const handleClose = () => {
     setOpen(false)
   }
-  const handleJoinRoom = (room: string, roomId: string) => {
+  const handleJoinRoom = (room: string, roomId: string,roomUrl:string) => {
     const data = {
       room,
-      roomId
+      roomId,
+      roomUrl
     }
-    socket.emit('join-room',data,()=>{
-      
-    })
+    socket.emit('join-room',data)
     dispatch(roomActions.handleIsSelectedRoom(data as any))
     localStorage.setItem('room', room as string)
     localStorage.setItem('roomId', roomId as string)
@@ -57,7 +56,7 @@ const MessageList = () => {
             {allRoom.map((room, index) => {
               return (
                 <div key={index}>
-                  <ListItem onClick={() => handleJoinRoom(room.roomName as string, room.id as string)} className='singleMessage-container' alignItems="flex-start">
+                  <ListItem onClick={() => handleJoinRoom(room.roomName as string, room.id as string,room.roomUrl as string)} className='singleMessage-container' alignItems="flex-start">
                     <ListItemAvatar>
                       <Avatar src={room.roomUrl} sx={{ width: 45, height: 45 }} />
                     </ListItemAvatar>
@@ -70,6 +69,7 @@ const MessageList = () => {
                     //   <React.Fragment>
                     //     <Typography
                     //       sx={{ display: 'inline' }}
+                    
                     //       component="span"
                     //       variant="body2"
                     //       color="text.primary"
