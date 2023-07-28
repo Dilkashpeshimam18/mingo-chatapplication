@@ -10,6 +10,7 @@ import { RoomType } from '../../store/slice/roomSlice';
 import { socket } from '../../App';
 import axios from 'axios';
 import { messageActions } from '../../store/slice/messageSlice';
+import { do_Decrypt, do_Encrypt } from '../../crypto'
 
 export type MessageProps = {
   id: string,
@@ -18,7 +19,9 @@ export type MessageProps = {
   message: string,
   email: string
 }
-
+interface ExtendedFile extends File {
+  [key: string]: any;
+}
 const MainBody = () => {
   const [data, setData] = useState<RoomType[]>([])
   const [message, setMessage] = useState('')
@@ -28,26 +31,129 @@ const MainBody = () => {
   const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
   const isRoom = useSelector((state: RootState) => state.room.isRoom)
   const roomId = useSelector((state: RootState) => state.room.roomId)
+  const [selectedFile, setSelectedFile] = useState<File | null | undefined | ExtendedFile>(null);
+  const [fileName, setFileName] = useState('');
   const dispatch = useDispatch()
   let messagesReceived = false;
+
+  // Update the formData object
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('In handle changes')
+    let file: File | undefined = e.target.files?.[0];
+    setSelectedFile(file);
+    console.log('Selected File:', file);
+    const fileName = file ? file.name : ''
+    setFileName(file ? file.name : '');
+
+  };
+
+
+  const handleUpload = async () => {
+    try {
+      if (!selectedFile) {
+        console.error('No file selected');
+        return;
+      }
+      console.log('Selected File: Data', selectedFile);
+
+      const token = localStorage.getItem('userToken')
+
+      let reqInstance = await axios.create({
+        headers: {
+          Authorization: token
+        }
+      })
+      const headers = {
+        'Content-Type': 'multipart/form-data'
+      }
+      const data = new FormData()
+
+      for (let key in selectedFile) {
+        const value = (selectedFile as ExtendedFile)[key];
+        console.log(value)
+        data.append('file', value)
+      }
+      console.log(data)
+      const res = await reqInstance.post('http://localhost:4000/message/upload-files', data, { headers })
+      console.log('UPLOAD RES>>>', res)
+
+    } catch (err) {
+      console.error('Error uploading file:', err);
+    }
+  };
+
 
 
   const handleSendMessage = async () => {
     messagesReceived = false
+
     try {
       if (message != '') {
+
         messagesReceived = false
+        const ans = do_Encrypt(message as string);
 
         let userMessage = {
           username: user.name as string,
           image: user.photoUrl as string,
-          message: message as string,
+          message: ans as string,
           email: user.email as string,
           roomId
         }
         const room = roomId
         await socket.emit('send-message', userMessage, room, async (message: any) => {
-          await dispatch(messageActions.handleAllMessage(message))
+          let userMsg={
+            username:message.username,
+            email:message.email,
+            image:message.image,
+            message:do_Decrypt(message.message),
+            roomId:message.roomId
+          }
+          await dispatch(messageActions.handleAllMessage(userMsg))
+
+        })
+        const token = localStorage.getItem('userToken')
+
+        let reqInstance = await axios.create({
+          headers: {
+            Authorization: token
+          }
+        })
+
+
+        const response = await reqInstance.post('http://localhost:4000/message/add-message', userMessage)
+
+        getMessagesBySocket(() => {
+          if (!messagesReceived) {
+            getAllMessage();
+          }
+        })
+
+      }
+
+
+      if (message != '' && selectedFile) {
+
+        messagesReceived = false
+        const ans = do_Encrypt(message as string);
+
+        let userMessage = {
+          username: user.name as string,
+          image: user.photoUrl as string,
+          message: ans as string,
+          email: user.email as string,
+          roomId
+        }
+        const room = roomId
+        await socket.emit('send-message', userMessage, room, async (message: any) => {
+          let userMsg={
+            username:message.username,
+            email:message.email,
+            image:message.image,
+            message:do_Decrypt(message.message),
+            roomId:message.roomId
+          }
+          await dispatch(messageActions.handleAllMessage(userMsg))
 
         })
         const token = localStorage.getItem('userToken')
@@ -58,12 +164,16 @@ const MainBody = () => {
           }
         })
         const response = await reqInstance.post('http://localhost:4000/message/add-message', userMessage)
+
         getMessagesBySocket(() => {
           if (!messagesReceived) {
             getAllMessage();
           }
         })
+        handleUpload()
 
+      } else if (selectedFile && message == '') {
+        handleUpload()
       }
       setMessage('')
     } catch (err) {
@@ -71,17 +181,17 @@ const MainBody = () => {
     }
   }
 
-  // const getMessagesBySocket=async()=>{
-  //   return await socket.on('receive-message', async (message) => {
-  //     console.log('Message',message)
-  //      dispatch(messageActions.handleAllMessage(message))
 
-  //   })
-  // }
 
   const getMessagesBySocket = (callback: any) => {
     socket.on('receive-message', (message) => {
-      const userMsg = message
+      let userMsg:any={
+        username:message.username,
+        email:message.email,
+        image:message.image,
+        message:do_Decrypt(message.message),
+        roomId:message.roomId
+      }
       dispatch(messageActions.handleAllMessage(userMsg));
       messagesReceived = true
 
@@ -109,11 +219,12 @@ const MainBody = () => {
       const res = await axios.get(`http://localhost:4000/message/get-messages/${id}`)
       let result = res.data.messages
       let data: any = result.map((message: object | any) => {
+        const decrypt_message = do_Decrypt(message.message)
         return {
           id: message.id,
           username: message.username,
           image: message.photoUrl,
-          message: message.message,
+          message: decrypt_message,
           email: message.email
         }
       })
@@ -154,7 +265,7 @@ const MainBody = () => {
       <ChatSection />
       <Divider variant='middle' />
       {isSelectedRoom != 'Default' &&
-        <Footer handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} setMessages={setMessages} getAllMessage={getAllMessage} />
+        <Footer handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} setMessages={setMessages} getAllMessage={getAllMessage} handleFileChange={handleFileChange} fileName={fileName} />
 
       }
 

@@ -7,22 +7,24 @@ import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import { RootState } from '../../../store/store';
 import { useSelector } from 'react-redux';
-
+import axios from 'axios';
 
 type FooterProps = {
     message: string,
     setMessage: React.Dispatch<React.SetStateAction<string>>
     setMessages: React.Dispatch<React.SetStateAction<string[]>>,
     handleSendMessage: () => void,
-    getAllMessage: () => void
+    getAllMessage: () => void,
+    handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    fileName: string
 }
 
-const Footer = ({ message, setMessage, setMessages, handleSendMessage, getAllMessage }: FooterProps) => {
+const Footer = ({ message, setMessage, setMessages, handleSendMessage, getAllMessage, handleFileChange, fileName }: FooterProps) => {
     const [chosenEmoji, setChosenEmoji] = useState(null);
     const [isEmoji, setIsEmoji] = useState(false)
 
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
 
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
 
     return (
         <div className='main-footer'>
@@ -34,14 +36,27 @@ const Footer = ({ message, setMessage, setMessages, handleSendMessage, getAllMes
                     </div>
                     <div className='input-container'>
 
-                        <input value={message} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)} className='chat-input' placeholder='Write a message...' />
+                        <input value={message} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)} className='chat-input' placeholder={fileName ? `Selected file: ${fileName}`: 'Write a message...'}
+                        />
 
                     </div>
 
                 </div>
                 <div className='footer-right'>
                     <div className='footer-icons'>
-                        <AttachmentOutlinedIcon sx={{ width: 23, height: 23, color: 'gray', cursor: 'pointer' }} />
+                        <label htmlFor="fileInput" style={{ cursor: 'pointer' }}>
+                            <AttachmentOutlinedIcon
+                                sx={{ width: 23, height: 23, color: 'gray' }}
+                            />
+                        </label>
+
+                        {/* File Input */}
+                        <input
+                            id="fileInput"
+                            type="file"
+                            style={{ display: 'none' }}
+                            onChange={handleFileChange}
+                        />
 
                     </div>
                     <div className='footer-icons'>
