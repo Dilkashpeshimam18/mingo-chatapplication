@@ -38,46 +38,41 @@ const MainBody = () => {
 
   // Update the formData object
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('In handle changes')
     let file: File | undefined = e.target.files?.[0];
     setSelectedFile(file);
-    console.log('Selected File:', file);
-    const fileName = file ? file.name : ''
-    setFileName(file ? file.name : '');
+    if (file) {
+      handleUpload(file)
+    }
+    // const fileName = file ? file.name : ''
+    // setFileName(fileName);
 
   };
 
 
-  const handleUpload = async () => {
+  const handleUpload = async (file: File | undefined) => {
     try {
-      if (!selectedFile) {
+      if (!file) {
         console.error('No file selected');
         return;
       }
-      console.log('Selected File: Data', selectedFile);
-
       const token = localStorage.getItem('userToken')
 
       let reqInstance = await axios.create({
         headers: {
-          Authorization: token
+          Authorization: token,
+          'content-type': file.type,
         }
       })
-      const headers = {
-        'Content-Type': 'multipart/form-data'
-      }
-      const data = new FormData()
+      console.log('Selected file>>>', file)
 
-      for (let key in selectedFile) {
-        const value = (selectedFile as ExtendedFile)[key];
-        console.log(value)
-        data.append('file', value)
-      }
-      console.log(data)
-      const res = await reqInstance.post('http://localhost:4000/message/upload-files', data, { headers })
-      console.log('UPLOAD RES>>>', res)
+      const formData = new FormData();
+      formData.append('file', file);
 
-    } catch (err) {
+
+      const res = await reqInstance.post(`http://localhost:4000/message/upload-files/${roomId}`, formData)
+      console.log(res)
+
+} catch (err) {
       console.error('Error uploading file:', err);
     }
   };
@@ -102,12 +97,12 @@ const MainBody = () => {
         }
         const room = roomId
         await socket.emit('send-message', userMessage, room, async (message: any) => {
-          let userMsg={
-            username:message.username,
-            email:message.email,
-            image:message.image,
-            message:do_Decrypt(message.message),
-            roomId:message.roomId
+          let userMsg = {
+            username: message.username,
+            email: message.email,
+            image: message.image,
+            message: do_Decrypt(message.message),
+            roomId: message.roomId
           }
           await dispatch(messageActions.handleAllMessage(userMsg))
 
@@ -146,12 +141,12 @@ const MainBody = () => {
         }
         const room = roomId
         await socket.emit('send-message', userMessage, room, async (message: any) => {
-          let userMsg={
-            username:message.username,
-            email:message.email,
-            image:message.image,
-            message:do_Decrypt(message.message),
-            roomId:message.roomId
+          let userMsg = {
+            username: message.username,
+            email: message.email,
+            image: message.image,
+            message: do_Decrypt(message.message),
+            roomId: message.roomId
           }
           await dispatch(messageActions.handleAllMessage(userMsg))
 
@@ -170,10 +165,10 @@ const MainBody = () => {
             getAllMessage();
           }
         })
-        handleUpload()
+        // handleUpload()
 
       } else if (selectedFile && message == '') {
-        handleUpload()
+        // handleUpload()
       }
       setMessage('')
     } catch (err) {
@@ -185,12 +180,12 @@ const MainBody = () => {
 
   const getMessagesBySocket = (callback: any) => {
     socket.on('receive-message', (message) => {
-      let userMsg:any={
-        username:message.username,
-        email:message.email,
-        image:message.image,
-        message:do_Decrypt(message.message),
-        roomId:message.roomId
+      let userMsg: any = {
+        username: message.username,
+        email: message.email,
+        image: message.image,
+        message: do_Decrypt(message.message),
+        roomId: message.roomId
       }
       dispatch(messageActions.handleAllMessage(userMsg));
       messagesReceived = true

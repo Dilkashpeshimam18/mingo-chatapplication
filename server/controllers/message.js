@@ -1,7 +1,6 @@
 const Messages = require('../models/message')
 const { randomUUID } = require('crypto')
 const AWS = require('aws-sdk')
-var multer = require('multer')
 
 exports.addMessage = async (req, res) => {
     try {
@@ -78,27 +77,22 @@ const uploadToS3 = async (data, fileName) => {
         console.log(err)
     }
 }
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-    cb(null, 'public')
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' +file.originalname )
-  }
-})
-var upload = multer({ storage: storage }).single('file')
 
-exports.uploadFiles=(req,res)=>{
-    try{
 
-        const data=req.body
+exports.uploadFiles = async(req, res) => {
+    try {
 
-        console.log('FILE UPLOAD DATA>>>',data)
+        const file=req.file
+        const fileData = req.file?.buffer; // File data from multer
+        const fileName = req.file?.originalname; // Original file name
+        const userId=req.user.id
+        const roomId=req.params.roomId
+        const fname= `Uploads${roomId}/${userId}-${fileName}`
 
-        res.status(200).json({success:true})
-        
+        const fileUrl=await uploadToS3(fileData,fname)
+        res.status(200).json({ message: 'File uploaded successfully',fileUrl });
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
         res.status(500).json({ success: false, message: err })
 
