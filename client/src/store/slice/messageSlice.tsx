@@ -5,7 +5,8 @@ export type MessageProps = {
     username: string,
     image: string,
     message: string,
-    email: string
+    email: string,
+    fileUrl:string
 }
 
 

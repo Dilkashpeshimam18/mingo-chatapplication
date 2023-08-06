@@ -22,6 +22,9 @@ const AllMessage = sequelize.define('message', {
     message: {
         type: Sequelize.STRING,
         allowNull: false,
+    },
+    files:{
+        type:Sequelize.STRING
     }
 })
 

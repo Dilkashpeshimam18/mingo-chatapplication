@@ -10,6 +10,17 @@
   margin-bottom: 25px;
   justify-content: space-between;
 }
+.message--container {
+  display: flex;
+  position: relative;
+  font-size: 16px;
+  padding: 7px;
+  width: fit-content;
+  margin-right: auto;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  justify-content: space-between;
+}
 .message-body {
   font-size: medium;
   margin: 5px;
@@ -62,4 +73,8 @@
 }
 .message-avatar {
   margin-top: 8px;
+}
+.message--avatar {
+  margin-top: 15px;
+  margin-right: 10px;
 }

@@ -14,7 +14,8 @@ exports.addMessage = async (req, res) => {
             photoUrl: data.image,
             message: data.message,
             userId: id,
-            roomId: data.roomId
+            roomId: data.roomId,
+            files: data.files
         })
 
         res.status(200).json({ success: true })
@@ -79,18 +80,29 @@ const uploadToS3 = async (data, fileName) => {
 }
 
 
-exports.uploadFiles = async(req, res) => {
+exports.uploadFiles = async (req, res) => {
     try {
 
-        const file=req.file
+        const file = req.file
         const fileData = req.file?.buffer; // File data from multer
         const fileName = req.file?.originalname; // Original file name
-        const userId=req.user.id
-        const roomId=req.params.roomId
-        const fname= `Uploads${roomId}/${userId}-${fileName}`
+        const userId = req.user.id
+        const roomId = req.params.roomId
+        const msgId = req.params.msgId
+        const fname = `Uploads-${msgId}-to-${roomId}/${userId}-${fileName}`
 
-        const fileUrl=await uploadToS3(fileData,fname)
-        res.status(200).json({ message: 'File uploaded successfully',fileUrl });
+        const fileUrl = await uploadToS3(fileData, fname)
+
+        const updatedMsg = await Messages.findOne({
+            where: {
+                id: msgId,
+                roomId: roomId
+            }
+        })
+
+        await updatedMsg.update({ files: fileUrl })
+
+        res.status(200).json({ message: 'File uploaded successfully', fileUrl });
 
     } catch (err) {
         console.log(err)
@@ -98,3 +110,67 @@ exports.uploadFiles = async(req, res) => {
 
     }
 }
+
+exports.storeFiles = async (req, res) => {
+    try {
+        const id = req.user.id
+        const data = req.body
+
+        const message = await Messages.create({
+            id: randomUUID(),
+            username: data.username,
+            email: data.email,
+            photoUrl: data.image,
+            message: data.message,
+            userId: id,
+            roomId: data.roomId,
+            files: data.files
+        })
+
+        res.status(200).json({ success: true, messageId: message.dataValues.id })
+
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ success: false, message: err })
+
+    }
+}
+
+exports.getUploadedFiles = async (req, res) => {
+    try {
+        const roomId = req.params.roomId
+        let s3 = new AWS.S3({
+            accessKeyId: process.env.IAM_USER_ACCESSKEY,
+            secretAccessKey: process.env.IAM_USER_SECRETKEY,
+        })
+        var params = {
+            Bucket: process.env.BUCKET_NAME,
+            Prefix: `Uploads${roomId}/`
+        }
+        const response = await s3.listObjectsV2(params).promise();
+
+        // const filesData = response.Contents
+
+        // console.log(filesData)
+        const filesData = response.Contents.map((file) => {
+            const url = s3.getSignedUrl('getObject', {
+                Bucket: process.env.BUCKET_NAME,
+                Key: file.Key,
+            });
+            return {
+                key: file.Key,
+                url: url,
+                type: file.Key.split('.').pop(), // Get file extension
+            };
+        });
+
+
+        res.status(200).json({ success: true, filesData });
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ success: false, message: 'Error fetching files from S3' });
+    }
+}
+
