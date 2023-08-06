@@ -63,6 +63,7 @@ const ProfileOptions = () => {
         try {
             alert('You are logout! Redirecting to login page.')
             dispatch(authActions.removeUserDetail())
+            dispatch(roomActions.handleDefault())
             localStorage.removeItem('userName')
             localStorage.removeItem('userEmail')
             localStorage.removeItem('userUID')
@@ -70,6 +71,8 @@ const ProfileOptions = () => {
             localStorage.removeItem('room')
             localStorage.removeItem('userBio')
             localStorage.removeItem('userPhotoUrl')
+            localStorage.removeItem('roomId')
+            localStorage.removeItem('allRoom')
 
             navigate('/login')
 

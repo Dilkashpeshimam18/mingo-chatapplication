@@ -39,11 +39,9 @@ const MainBody = () => {
   // Update the formData object
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let file: File | undefined = e.target.files?.[0];
-    setSelectedFile(file);
     if (file) {
       handleUpload(file)
     }
-
   };
 
 
@@ -70,12 +68,10 @@ const MainBody = () => {
         files: '',
         roomId,
       }
-      console.log('User message', userMessage)
 
       const fileRes = await reqIns.post('http://localhost:4000/message/store-files', userMessage)
 
       const msgId = fileRes.data.messageId
-
 
       let reqInstance = await axios.create({
         headers: {
@@ -104,7 +100,6 @@ const MainBody = () => {
 
     try {
       if (message != '') {
-
         messagesReceived = false
         const ans = do_Encrypt(message as string);
 
@@ -146,53 +141,6 @@ const MainBody = () => {
         })
       }
 
-
-      if (message != '' && selectedFile) {
-
-        messagesReceived = false
-        const ans = do_Encrypt(message as string);
-
-        let userMessage = {
-          username: user.name as string,
-          image: user.photoUrl as string,
-          message: ans as string,
-          email: user.email as string,
-          roomId,
-          files: ""
-
-
-        }
-        const room = roomId
-        await socket.emit('send-message', userMessage, room, async (message: any) => {
-          let userMsg = {
-            username: message.username,
-            email: message.email,
-            image: message.image,
-            message: do_Decrypt(message.message),
-            roomId: message.roomId
-          }
-          await dispatch(messageActions.handleAllMessage(userMsg))
-
-        })
-        const token = localStorage.getItem('userToken')
-
-        let reqInstance = await axios.create({
-          headers: {
-            Authorization: token
-          }
-        })
-        const response = await reqInstance.post('http://localhost:4000/message/add-message', userMessage)
-
-        getMessagesBySocket(() => {
-          if (!messagesReceived) {
-            getAllMessage();
-          }
-        })
-        // handleUpload()
-
-      } else if (selectedFile && message == '') {
-        // handleUpload()
-      }
       setMessage('')
     } catch (err) {
       console.log(err)
@@ -236,7 +184,6 @@ const MainBody = () => {
       const id = roomId
       const res = await axios.get(`http://localhost:4000/message/get-messages/${id}`)
       let result = res.data.messages
-      console.log('get message>>', result)
       let data: any = result.map((message: object | any) => {
         const decrypt_message = do_Decrypt(message.message)
         return {
@@ -249,7 +196,6 @@ const MainBody = () => {
         }
       })
 
-
       // messages = [...messages, ...data]
       // localStorage.setItem('allMessage', JSON.stringify(messages))
       dispatch(messageActions.handleAllMessage(data))
@@ -260,17 +206,6 @@ const MainBody = () => {
       console.log(err)
     }
   }
-
-
-  // const getUploadedFile = async () => {
-  //   try {
-  //     const id = roomId
-  //     const response = await axios.get(`http://localhost:4000/message/get-uploadedFiles/${id}`)
-  //     console.log('Response>>>', response)
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
 
 
   useEffect(() => {
@@ -287,7 +222,6 @@ const MainBody = () => {
 
   useEffect(() => {
     getAllMessage()
-    // getUploadedFile()
   }, [isSelectedRoom])
 
 
