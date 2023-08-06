@@ -14,7 +14,7 @@ const ChatSection = () => {
     const fileType = fileUrl?.split('.').pop()?.toLowerCase();
 
     if (fileType) {
-      if (['png', 'jpg', 'jpeg', 'gif','avif'].includes(fileType)) {
+      if (['png', 'jpg', 'jpeg', 'gif','avif','webp'].includes(fileType)) {
         return (
           <div className='message--container '>
             <div className='message--avatar'>

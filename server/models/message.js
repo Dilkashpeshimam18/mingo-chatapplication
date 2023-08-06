@@ -24,7 +24,7 @@ const AllMessage = sequelize.define('message', {
         allowNull: false,
     },
     files:{
-        type:Sequelize.STRING
+        type:Sequelize.STRING(1000) 
     }
 })
 

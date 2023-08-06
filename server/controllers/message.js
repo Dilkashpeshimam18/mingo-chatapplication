@@ -1,6 +1,7 @@
 const Messages = require('../models/message')
 const { randomUUID } = require('crypto')
 const AWS = require('aws-sdk')
+const { encryptData, decryptData } = require('../encryption')
 
 exports.addMessage = async (req, res) => {
     try {
@@ -41,7 +42,14 @@ exports.getMessage = async (req, res) => {
             where: { roomId: roomId },
             order: [['createdAt', 'ASC']]
         })
-        res.status(200).json({ success: true, messages })
+
+        const updatedData = messages.map((msg) => {
+            if (msg.files !== '') {
+                msg.files = decryptData(msg.files);
+            }
+            return msg;
+        });
+        res.status(200).json({ success: true, messages: updatedData })
 
     } catch (err) {
         console.log(err)
@@ -93,6 +101,8 @@ exports.uploadFiles = async (req, res) => {
 
         const fileUrl = await uploadToS3(fileData, fname)
 
+        const encryptedFile = encryptData(fileUrl)
+
         const updatedMsg = await Messages.findOne({
             where: {
                 id: msgId,
@@ -100,7 +110,7 @@ exports.uploadFiles = async (req, res) => {
             }
         })
 
-        await updatedMsg.update({ files: fileUrl })
+        await updatedMsg.update({ files: encryptedFile })
 
         res.status(200).json({ message: 'File uploaded successfully', fileUrl });
 
