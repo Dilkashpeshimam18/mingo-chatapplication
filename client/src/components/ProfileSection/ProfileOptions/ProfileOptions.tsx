@@ -32,7 +32,7 @@ const ProfileOptions = () => {
     const dispatch: AppDispatch = useDispatch()
     const allRoom = useSelector((state: RootState) => state.room.allRoom)
     const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
-    const roomAdminId=useSelector((state:RootState)=>state.room.roomAdminId)
+    const roomAdminId = useSelector((state: RootState) => state.room.roomAdminId)
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
     // const userId = localStorage.getItem('userUID')
 
@@ -106,6 +106,26 @@ const ProfileOptions = () => {
         }
     }
 
+    const handleLeaveRoom = async () => {
+        try {
+
+            const token = localStorage.getItem('userToken')
+
+            let reqInstance = await axios.create({
+                headers: {
+                    Authorization: token
+                }
+            })
+            let id = data[0]?.id
+
+            const res = reqInstance.delete(`http://localhost:4000/room/leave-room/${id}`)
+            dispatch(roomActions.handleDefault())
+            dispatch(getAllRooms())
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
     return (
         <div className='profile-options'>
 
@@ -121,6 +141,13 @@ const ProfileOptions = () => {
                         <PersonOutlineOutlinedIcon style={{ fontSize: '27px', color: 'gray' }} />
                     </span>
                     <p onClick={() => dispatch(memberActions.handleViewMember())} className='profile-sub-text'>   View Members</p>
+
+                </div>}
+                {isRoom == true && userId != roomAdminId && <div className='profile-sub-inner'>
+                    <span className='profile-sub-icon'>
+                        <PersonOutlineOutlinedIcon style={{ fontSize: '27px', color: 'gray' }} />
+                    </span>
+                    <p onClick={handleLeaveRoom} className='profile-sub-text'>   Leave room</p>
 
                 </div>}
                 <div className='profile-sub-inner'>

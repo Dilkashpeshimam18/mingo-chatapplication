@@ -1,7 +1,6 @@
 const Member = require('../models/member')
 const Room = require('../models/room')
 const { randomUUID } = require('crypto')
-const Messages = require('../models/message')
 
 
 exports.createRoom = async (req, res) => {
@@ -57,7 +56,7 @@ exports.deleteRoom = async (req, res) => {
             await room.destroy({
                 // Add 'cascade: true' option to delete associated messages and members
                 cascade: true
-              });
+            });
 
             return res.status(200).json('Deleted Successfully!')
 
@@ -122,6 +121,26 @@ exports.changeAdmin = async (req, res) => {
 
     } catch (err) {
         console.log(err)
+        res.status(500).json({ success: false, message: 'SOMETHING WENT WRONG' })
+
+    }
+}
+
+exports.leaveRoom = async (req, res) => {
+    try {
+        const roomId = req.params.roomId
+        const userId = req.user.id
+
+        const member = await Member.findOne({
+            where: {
+                roomId: roomId,
+                userId: userId
+            }
+        })
+
+        await member.destroy()
+
+    } catch (err) {
         res.status(500).json({ success: false, message: 'SOMETHING WENT WRONG' })
 
     }

@@ -9,5 +9,7 @@ router.post('/create-room', authenticate, roomControllers.createRoom)
 router.put('/edit-room/:id', authenticate, roomControllers.editRoom)
 router.put('/change-room-admin/:roomId/:userId',authenticate,roomControllers.changeAdmin)
 router.delete('/delete-room/:id', authenticate, roomControllers.deleteRoom)
+router.delete('/leave-room/:roomId', authenticate, roomControllers.leaveRoom)
+
 
 module.exports = router
