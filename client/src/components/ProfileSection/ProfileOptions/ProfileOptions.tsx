@@ -32,7 +32,7 @@ const ProfileOptions = () => {
     const dispatch: AppDispatch = useDispatch()
     const allRoom = useSelector((state: RootState) => state.room.allRoom)
     const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
-
+    const roomAdminId=useSelector((state:RootState)=>state.room.roomAdminId)
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
     // const userId = localStorage.getItem('userUID')
 
@@ -81,6 +81,7 @@ const ProfileOptions = () => {
         }
     }
 
+
     const handleDelete = async () => {
         try {
             let id = data[0]?.id
@@ -109,7 +110,7 @@ const ProfileOptions = () => {
         <div className='profile-options'>
 
             <div className='profile-sub'>
-                {isRoom == true && userId == data[0]?.userId && <div className='profile-sub-inner'>
+                {isRoom == true && userId == roomAdminId && <div className='profile-sub-inner'>
                     <span className='profile-sub-icon'><GroupAddIcon style={{ fontSize: '23px', color: 'gray', paddingTop: '2px', paddingLeft: '5px' }} />
                     </span>
                     <p onClick={handleAddMember} className='profile-sub-text'>  Add Members</p>
@@ -124,7 +125,7 @@ const ProfileOptions = () => {
                 </div>}
                 <div className='profile-sub-inner'>
 
-                    {isRoom == true && userId == data[0]?.userId &&
+                    {isRoom == true && userId == roomAdminId &&
                         <>
                             <span className='profile-sub-icon'><EditIcon style={{ fontSize: '21px', color: 'gray' }} />
                             </span>
@@ -139,7 +140,7 @@ const ProfileOptions = () => {
                     {openModal == true && <RoomModal openModal={openModal} setOpenModal={setOpenModal} />}
 
                 </div>
-                {isRoom == true && userId == data[0]?.userId && <div className='profile-sub-inner'>
+                {isRoom == true && userId == roomAdminId && <div className='profile-sub-inner'>
                     <span className='profile-sub-icon'><DeleteIcon style={{ fontSize: '21px', color: 'gray', paddingTop: '2px' }} />
                     </span>
                     <p onClick={handleDelete} className='profile-sub-text'>  Delete  Room</p>

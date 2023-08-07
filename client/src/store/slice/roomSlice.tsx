@@ -18,7 +18,8 @@ export type AllRoomType = {
     roomId: string,
     isRoom: boolean,
     roomUrl:string,
-    isViewMember:boolean
+    isViewMember:boolean,
+    roomAdminId:string
 
 }
 
@@ -34,7 +35,8 @@ const initialRoomState: AllRoomType = {
     roomId: '',
     roomUrl:'',
     isRoom: false,
-    isViewMember:false
+    isViewMember:false,
+    roomAdminId:''
 }
 
 let rooms = JSON.parse(localStorage.getItem('allRoom') as any)
@@ -54,14 +56,20 @@ const RoomSlice = createSlice({
             state.isRoom = true
             state.roomId = action.payload.roomId
             state.roomUrl=action.payload.roomUrl
-
-        },
+            state.roomAdminId=action.payload.roomAdminId
+ },
         handleDefault(state) {
             state.isSelectedRoom = 'Default'
             state.isRoom = false
             state.roomId = ''
             state.roomUrl=''
+            state.roomAdminId=''
         },
+
+        handleEditRoom(state,action){
+            state.isSelectedRoom=action.payload.roomName
+            state.roomUrl=action.payload.roomUrl
+        }
 
 
     }

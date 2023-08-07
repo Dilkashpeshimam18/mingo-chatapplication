@@ -71,6 +71,8 @@ const AllMembers = () => {
             const res = await reqInstance.delete(`http://localhost:4000/member/remove-member/${roomId}/${memberId}`)
 
             getMemberOfRoom()
+            dispatch(getAllRooms())
+
 
 
         } catch (err) {
@@ -89,6 +91,8 @@ const AllMembers = () => {
             const res = await reqInstance.put(`http://localhost:4000/room/change-room-admin/${roomId}/${userid}`)
             await dispatch(getAllRooms()).then(() => {
                 getMemberOfRoom()
+                dispatch(getAllRooms())
+
 
             })
 

@@ -12,7 +12,7 @@ import { User, updateProfile, getAuth } from 'firebase/auth';
 import { authActions } from '../../store/slice/authSlice';
 import { useDispatch } from 'react-redux';
 import { modalActions } from '../../store/slice/modalSlice';
-import { RoomType } from '../../store/slice/roomSlice';
+import { RoomType, roomActions } from '../../store/slice/roomSlice';
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from '../../firebase/firebase';
 import { getAllRooms } from '../../store/slice/roomSlice';
@@ -101,6 +101,8 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                 roomUrl: roomUrl,
 
             }
+            dispatch(roomActions.handleEditRoom(data))
+
             const token = localStorage.getItem('userToken')
 
             let reqInstance = await axios.create({
@@ -113,6 +115,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                     alert('Room Update!')
                     dispatch(getAllRooms())
                     handleModalClose()
+
                 })
 
 
