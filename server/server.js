@@ -14,6 +14,7 @@ const Room = require('./models/room')
 const Member = require('./models/member')
 const { Server } = require('socket.io')
 const http = require('http')
+const ArchivedMessage = require('./models/archiveMessage')
 const app = express()
 
 
@@ -38,6 +39,9 @@ app.use('/member', memberRoutes)
 Users.hasMany(Messages)
 Messages.belongsTo(Users)
 
+Users.hasMany(ArchivedMessage)
+ArchivedMessage.belongsTo(Users)
+
 Users.hasMany(Room)
 Room.belongsTo(Users)
 
@@ -46,6 +50,9 @@ Member.belongsTo(Room)
 
 Room.hasMany(Messages)
 Messages.belongsTo(Room)
+
+Room.hasMany(ArchivedMessage)
+ArchivedMessage.belongsTo(Room)
 
 Users.hasMany(Member)
 Member.belongsTo(Users)
