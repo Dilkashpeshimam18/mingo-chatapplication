@@ -71,14 +71,14 @@ const Login = () => {
                     photoUrl: '',
                     bio: '',
                     uid: res.data.data.userId,
-                    token:res.data.token
+                    token: res.data.token
 
                 }
                 dispatch(authActions.addUserDetail(userDetail))
                 localStorage.setItem('userToken', res.data.token as string)
                 localStorage.setItem('userName', res.data.data.userName as string)
                 localStorage.setItem('userEmail', res.data.data.userEmail as string)
-                localStorage.setItem('userUID',res.data.data.userId as string)
+                localStorage.setItem('userUID', res.data.data.userId as string)
 
                 alert('Login successful!')
                 setEmail('')
@@ -163,9 +163,8 @@ const Login = () => {
 
                 <div className='register-option__2'>
                     <div style={{ marginTop: '25px' }} className='register-button__container'>
-                        <button onClick={handleSignInWithGoogle} className='register-button__google'><img style={{ width: '20px', height: '20px', marginRight: '8px', marginTop: '5px' }} src={GoogleIcon} /><p>SIGN IN WITH GOOGLE</p></button>
+                        <button className='register-button__google'><img style={{ width: '20px', height: '20px', marginRight: '8px', marginTop: '5px' }} src={GoogleIcon} /><p>SIGN IN WITH GOOGLE</p></button>
                     </div>
-
 
                 </div>
 

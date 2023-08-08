@@ -19,10 +19,6 @@ const Profile = () => {
         <ProfileOptions />
         <ProfileMedia />
       </>}
-
-
-
-
     </div>
   )
 }

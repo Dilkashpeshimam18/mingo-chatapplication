@@ -16,6 +16,7 @@ const Register = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [phoneNo, setPhoneNo] = useState<number | any>()
+    const [error, setError] = useState('');
 
     const navigate = useNavigate()
     const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,9 +28,22 @@ const Register = () => {
     const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
     }
-    const handleNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPhoneNo(e.target.value)
-    }
+    const isValidPhoneNumber = (phoneNumber: number | string) => {
+        // Replace this regular expression with the appropriate one for your desired phone number format
+        const phoneRegex = /^\d{10}$/; // Example: 10-digit phone number
+
+        return phoneRegex.test(phoneNumber as any);
+    };
+    const handleNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newPhoneNo = event.target.value;
+        setPhoneNo(newPhoneNo);
+
+        if (!isValidPhoneNumber(newPhoneNo as number | string)) {
+            setError('Please enter a valid phone number.');
+        } else {
+            setError('');
+        }
+    };
 
     const updateUserProfile = async (user: User, name: string) => {
         await updateProfile((user), {
@@ -56,7 +70,6 @@ const Register = () => {
 
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
-                    console.log(userCredential)
                     await updateUserProfile(userCredential.user, name);
                     setName('')
                     setEmail('')
@@ -80,14 +93,14 @@ const Register = () => {
     const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            const data={
+            const data = {
                 name,
                 email,
                 phoneNo,
                 password
             }
-            const res = await axios.post('http://localhost:4000/auth/sign-up',data)
-            if(res.status==200){
+            const res = await axios.post('http://localhost:4000/auth/sign-up', data)
+            if (res.status == 200) {
                 setName('')
                 setEmail('')
                 setPassword('')
@@ -96,11 +109,11 @@ const Register = () => {
                 navigate('/login')
             }
 
-        } catch (err:any) {
+        } catch (err: any) {
             console.log(err)
-            if(err.response.status==403){
+            if (err.response.status == 403) {
                 alert('User already exists, please login!')
-            }else{
+            } else {
                 alert('Something went wrong!')
             }
         }
@@ -109,7 +122,7 @@ const Register = () => {
         <div className='register'>
             <div className='register-left'>
                 <div className='img-container'>
-                    <img className='register-image'  src={GroupChatImg} />
+                    <img className='register-image' src={GroupChatImg} />
 
                 </div>
             </div>
@@ -129,13 +142,22 @@ const Register = () => {
 
                     </div>
                     <div className='form-container'>
-                        <form onSubmit={handleSignUp } className='register-form'>
+                        <form onSubmit={handleSignUp} className='register-form'>
                             <div className='form-input__container'>
                                 <TextField className='form-input' id="outlined-basic" label="Name" variant="outlined" value={name} onChange={handleName} required />
 
                             </div>
                             <div className='form-input__container'>
-                                <TextField className='form-input' id="outlined-basic" label="Phone Number" type='number' variant="outlined" value={phoneNo} onChange={handleNumber} required />
+                                <TextField className='form-input'
+                                    id="outlined-basic"
+                                    label="Phone Number"
+                                    type='tel' 
+                                    variant="outlined"
+                                    value={phoneNo}
+                                    onChange={handleNumber}
+                                    required
+                                    error={Boolean(error)}
+                                    helperText={error} />
 
                             </div>
                             <div className='form-input__container'>
@@ -161,9 +183,8 @@ const Register = () => {
 
                 <div className='register-option__2'>
                     <div style={{ marginTop: '25px' }} className='register-button__container'>
-                        <button onClick={handleSignInWithGoogle} className='register-button__google'><img style={{ width: '20px', height: '20px', marginRight: '8px', marginTop: '5px' }} src={GoogleIcon} /><p>SIGN IN WITH GOOGLE</p></button>
+                        <button className='register-button__google'><img style={{ width: '20px', height: '20px', marginRight: '8px', marginTop: '5px' }} src={GoogleIcon} /><p>SIGN IN WITH GOOGLE</p></button>
                     </div>
-
 
                 </div>
 

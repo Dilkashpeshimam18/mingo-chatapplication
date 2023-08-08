@@ -33,6 +33,10 @@ const MessageSlice = createSlice({
             }
         },
 
+        handleRemoveMsg(state){
+            state.allMessages=[]
+        }
+
     }
 })
 

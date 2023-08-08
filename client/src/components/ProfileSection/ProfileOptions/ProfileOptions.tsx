@@ -19,6 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { getAllRooms, roomActions } from '../../../store/slice/roomSlice';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import { messageActions } from 'src/store/slice/messageSlice';
 
 const ProfileOptions = () => {
     const [data, setData] = useState<RoomType[]>([])
@@ -102,7 +103,6 @@ const ProfileOptions = () => {
 
         } catch (err) {
             console.log(err)
-
         }
     }
 
@@ -120,6 +120,7 @@ const ProfileOptions = () => {
 
             const res = reqInstance.delete(`http://localhost:4000/room/leave-room/${id}`)
             dispatch(roomActions.handleDefault())
+            dispatch(messageActions.handleRemoveMsg())
             dispatch(getAllRooms())
 
         } catch (err) {
