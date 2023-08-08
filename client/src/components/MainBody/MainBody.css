@@ -1,3 +1,9 @@
 .mainbody {
   flex: 0.6;
 }
+@media (max-width: 768px) {
+  .mainbody{
+    flex: 0;
+    width: 400px;
+  }
+}

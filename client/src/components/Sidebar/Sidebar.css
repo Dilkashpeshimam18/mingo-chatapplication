@@ -6,3 +6,18 @@
 .sidebar-search {
   padding: 20px;
 }
+
+@media (max-width: 768px) {
+
+  /* Styles for small screens */
+.sidebar{
+  width: 350px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.sidebar-userDetail{
+  display: flex;
+  justify-content: center;
+  width: 250px;
+}
+}

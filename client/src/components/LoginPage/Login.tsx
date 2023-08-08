@@ -118,7 +118,7 @@ const Login = () => {
         <div className='register'>
             <div className='register-left'>
                 <div className='img-container'>
-                    <img style={{ height: '680px', width: '680px' }} src={GroupChatImg} />
+                    <img className='register-image' src={GroupChatImg} />
 
                 </div>
             </div>

@@ -26,6 +26,7 @@ const UserDetail = () => {
     <div className='user-detail'>
       <div onClick={() => dispatch(roomActions.handleDefault())} className='user-image'>
         <Avatar src={user.photoUrl as string} sx={{ width: 56, height: 56 }}
+        className='user-avatar'
         />
 
       </div>

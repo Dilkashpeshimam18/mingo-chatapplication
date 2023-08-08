@@ -22,3 +22,11 @@
   font-size: 16px;
   /* color: rgb(98, 98, 255); */
 }
+
+@media (max-width: 768px) {
+
+.single-status{
+  padding: 5px;
+}
+
+}

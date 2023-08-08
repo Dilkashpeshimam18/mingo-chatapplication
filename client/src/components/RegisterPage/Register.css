@@ -119,3 +119,47 @@
   justify-content: flex-start;
   margin-left: 80px;
 }
+.register-image{
+  width: 680px;
+  height:680px
+}
+@media (max-width: 768px){
+  .register{
+    flex-direction: column;
+  }
+  .register-left{
+     width: 410px;
+  }
+  .register-image{
+    width: 280px;
+    height:280px
+  }
+  .register-option__1{
+    justify-content: center;
+  }
+  .register-right{
+    width: 400px;
+  }
+  .title-container{
+    padding-left: 30px;
+  }
+  .form-container{
+    margin-left: 10px;
+  }
+  .register-option__2{
+    margin-left: 10px;
+
+  }
+.form-input {
+  width: 350px;
+}
+.form-input__container{
+  text-align: start;
+}
+.register-button{
+ width: 350px;
+}
+.register-button__google{
+  width: 350px;
+}
+}

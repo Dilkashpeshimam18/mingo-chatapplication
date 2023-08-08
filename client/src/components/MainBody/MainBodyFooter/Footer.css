@@ -51,3 +51,18 @@
   margin-left: 2px;
   margin-top: 1px;
 }
+@media (max-width: 768px) {
+  .main-footer{
+    justify-content: flex-start;
+  }
+  .chat-footer{
+    width: 400px;
+  }
+  .chat-input{
+    width: 180px;
+  }
+  .input-container{
+    width:200px
+  }
+  
+}
