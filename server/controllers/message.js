@@ -171,10 +171,6 @@ exports.getUploadedFiles = async (req, res) => {
             Prefix: `Uploads${roomId}/`
         }
         const response = await s3.listObjectsV2(params).promise();
-
-        // const filesData = response.Contents
-
-        // console.log(filesData)
         const filesData = response.Contents.map((file) => {
             const url = s3.getSignedUrl('getObject', {
                 Bucket: process.env.BUCKET_NAME,

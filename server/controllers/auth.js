@@ -32,7 +32,6 @@ exports.postSignup = async (req, res) => {
 
         })
 
-
     } catch (err) {
         console.log(err)
         res.status(500).json({ success: false, message: err })
@@ -42,8 +41,8 @@ exports.postSignup = async (req, res) => {
 
 const generateToken = (id, email) => {
     return jwt.sign({ userId: id, userEmail: email }, process.env.TOKEN_SECRET)
-
 }
+
 exports.postLogin = async (req, res) => {
     try {
         const { email, password } = req.body

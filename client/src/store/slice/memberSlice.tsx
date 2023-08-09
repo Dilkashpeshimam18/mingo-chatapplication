@@ -22,8 +22,5 @@ const MemberSlice = createSlice({
     }
 })
 
-
-
-
 export const memberActions = MemberSlice.actions
 export default MemberSlice.reducer

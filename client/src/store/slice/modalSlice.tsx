@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-
 interface ModalType {
     isOpen: boolean
     isEditRoom: boolean,

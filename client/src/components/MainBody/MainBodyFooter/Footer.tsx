@@ -36,7 +36,7 @@ const Footer = ({ message, setMessage, setMessages, handleSendMessage, getAllMes
                     </div>
                     <div className='input-container'>
 
-                        <input value={message} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)} className='chat-input' placeholder={fileName ? `Selected file: ${fileName}`: 'Write a message...'}
+                        <input value={message} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)} className='chat-input' placeholder={fileName ? `Selected file: ${fileName}` : 'Write a message...'}
                         />
 
                     </div>

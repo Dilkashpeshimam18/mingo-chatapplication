@@ -10,7 +10,6 @@ import axios from 'axios';
 const GroupChatImg = require("../assets/GroupChat.gif");
 const GoogleIcon = require("../assets/google.png")
 
-
 const Register = () => {
     const [name, setName] = useState<string>('')
     const [email, setEmail] = useState<string>('')
@@ -67,7 +66,6 @@ const Register = () => {
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
                     await updateUserProfile(userCredential.user, name);
@@ -80,8 +78,6 @@ const Register = () => {
                 .catch((err) => {
                     console.log(err)
                 })
-
-
 
         } catch (err) {
             console.log(err)
@@ -151,7 +147,7 @@ const Register = () => {
                                 <TextField className='form-input'
                                     id="outlined-basic"
                                     label="Phone Number"
-                                    type='tel' 
+                                    type='tel'
                                     variant="outlined"
                                     value={phoneNo}
                                     onChange={handleNumber}

@@ -12,9 +12,9 @@ type HeaderProps = {
 }
 const Header = ({ data }: HeaderProps) => {
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
-    const roomName=useSelector((state:RootState)=>state.room.isSelectedRoom)
-    const roomUrl=useSelector((state:RootState)=>state.room.roomUrl)
-    
+    const roomName = useSelector((state: RootState) => state.room.isSelectedRoom)
+    const roomUrl = useSelector((state: RootState) => state.room.roomUrl)
+
     return (
         <div className='main-header'>
             {isRoom == false && <>
@@ -50,7 +50,6 @@ const Header = ({ data }: HeaderProps) => {
                     <div className="options-icon">
                         <MoreHorizOutlinedIcon sx={{ width: 25, height: 25, color: 'gray', cursor: 'pointer' }} />
                     </div>
-
 
                 </div>
             </div>

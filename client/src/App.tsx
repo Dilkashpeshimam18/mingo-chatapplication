@@ -11,8 +11,6 @@ export const socket = io('http://localhost:4000',{
     transports: ['websocket', 'polling', 'flashsocket'] 
 })
 
-// export const socket = io.connect('http://localhost:4000', { transports: ['websocket', 'polling', 'flashsocket'] })
-
 function App() {
   return (
     <div className="app">

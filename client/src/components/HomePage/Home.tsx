@@ -21,13 +21,12 @@ const Home = () => {
             })
 
             const res = await reqInstance.get('http://localhost:4000/user/get-singleUserInfo')
-            console.log(res)
-            const user=res.data.user
-            localStorage.setItem('userBio',user.bio)
-            localStorage.setItem('userPhotoUrl',user.photoUrl)
+            const user = res.data.user
+            localStorage.setItem('userBio', user.bio)
+            localStorage.setItem('userPhotoUrl', user.photoUrl)
 
             dispatch(authActions.addUserInfo(user))
-        
+
 
         } catch (err) {
             console.log(err)

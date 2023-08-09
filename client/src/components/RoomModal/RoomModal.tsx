@@ -40,10 +40,9 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
         setOpenModal(false)
     }
 
-    const handleAddRoom = async (id:string,name: string, email: string, photoUrl: string) => {
+    const handleAddRoom = async (id: string, name: string, email: string, photoUrl: string) => {
         try {
 
-       
             let room = {
                 roomName: roomName,
                 roomUrl: roomUrl,
@@ -59,22 +58,22 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
 
             const roomId = response.data.message.id
             let data
-            if(id==null){
+            if (id == null) {
                 data = {
-                    id:localStorage.getItem('userUID'),
+                    id: localStorage.getItem('userUID'),
                     name,
                     email,
                     photoUrl,
-                    isAdmin:true
+                    isAdmin: true
                 }
-            }else{
+            } else {
                 data = {
                     id,
                     name,
                     email,
                     photoUrl,
-                    isAdmin:true
-                } 
+                    isAdmin: true
+                }
             }
 
             const res = await reqInstance.post(`http://localhost:4000/member/add-member/${roomId}`, data)
@@ -125,7 +124,7 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleModalClose} >Cancel</Button>
-                    <Button onClick={() => handleAddRoom(user.uid as string,user.name as string, user.email as string, user.photoUrl as string)} >Create Room</Button>
+                    <Button onClick={() => handleAddRoom(user.uid as string, user.name as string, user.email as string, user.photoUrl as string)} >Create Room</Button>
                 </DialogActions>
             </Dialog>
         </div>

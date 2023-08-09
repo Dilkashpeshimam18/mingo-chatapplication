@@ -24,7 +24,7 @@ const ProfileMain = () => {
             setData(selectedRoom)
         }
     }, [isRoom, isSelectedRoom])
-    
+
     return (
         <div>
             {isRoom == true && <>

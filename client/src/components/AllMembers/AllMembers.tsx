@@ -93,7 +93,6 @@ const AllMembers = () => {
                 getMemberOfRoom()
                 dispatch(getAllRooms())
 
-
             })
 
         } catch (err) {

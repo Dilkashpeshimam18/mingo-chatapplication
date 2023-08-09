@@ -11,5 +11,4 @@ router.put('/change-room-admin/:roomId/:userId',authenticate,roomControllers.cha
 router.delete('/delete-room/:id', authenticate, roomControllers.deleteRoom)
 router.delete('/leave-room/:roomId', authenticate, roomControllers.leaveRoom)
 
-
 module.exports = router

@@ -23,7 +23,6 @@ const Sidebar = () => {
                 <MessageList />
 
             </div>
-
         </div>
     )
 }

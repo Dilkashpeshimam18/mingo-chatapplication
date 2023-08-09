@@ -17,7 +17,6 @@ const UserDetail = () => {
   const userBio = useSelector((state: RootState) => state.auth.userbio)
   const userPhoto = useSelector((state: RootState) => state.auth.userphoto)
 
-
   const dispatch = useDispatch()
 
   const handleEditProfile = () => {

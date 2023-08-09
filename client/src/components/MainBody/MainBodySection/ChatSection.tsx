@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ChatSection.css'
 import Message from './Message'
 import { useSelector } from 'react-redux';
@@ -9,7 +9,7 @@ const ChatSection = () => {
   const allMessage = useSelector((state: RootState) => state.message.allMessages)
   const user = useSelector((state: RootState) => state.auth.user)
 
-  const renderFilePreview =(fileUrl: string, name: string, image: string, email: string) => {
+  const renderFilePreview = (fileUrl: string, name: string, image: string, email: string) => {
     const fileType = fileUrl?.split('.').pop()?.toLowerCase();
 
     if (fileType) {
@@ -55,18 +55,18 @@ const ChatSection = () => {
         return (
           <div className='message--container '>
             <div className='message--avatar'>
-              <Avatar 
-              src={image == null ? (
-                user.email == email ? user.photoUrl as string : image
-              ) : (image)}
-               sx={{ width: 45, height: 45 }} />
+              <Avatar
+                src={image == null ? (
+                  user.email == email ? user.photoUrl as string : image
+                ) : (image)}
+                sx={{ width: 45, height: 45 }} />
             </div>
             <div className='message-subContainer '>
               <div className='message-user'>
                 <span className='sender-name'>{name}</span>
               </div>
               <div className={user.name == name ? 'message-sender' : 'message-body'} >
-                <a href={fileUrl} style={{fontSize:'12px'}} target="_blank" rel="noopener noreferrer">Download PDF</a>
+                <a href={fileUrl} style={{ fontSize: '12px' }} target="_blank" rel="noopener noreferrer">Download PDF</a>
               </div>
             </div>
           </div>

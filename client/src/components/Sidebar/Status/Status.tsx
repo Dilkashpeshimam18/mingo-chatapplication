@@ -2,7 +2,6 @@ import React from 'react'
 import Avatar from '@mui/material/Avatar';
 import './Status.css'
 
-
 const Status = () => {
   return (
     <div className='status'>

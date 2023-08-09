@@ -162,8 +162,6 @@ const ProfileOptions = () => {
 
                         </>
 
-
-
                     }
 
                     {openModal == true && <RoomModal openModal={openModal} setOpenModal={setOpenModal} />}
