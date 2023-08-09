@@ -124,3 +124,12 @@
 .media-btn {
   margin-top: 10px;
 }
+
+@media (max-width: 768px) {
+.profile{
+  width: 350px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+}
