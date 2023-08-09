@@ -15,20 +15,21 @@ const Member = require('./models/member')
 const { Server } = require('socket.io')
 const http = require('http')
 const ArchivedMessage = require('./models/archiveMessage')
-const app = express()
+const path=require('path')
 
+const app = express()
 
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit:50000 }))
 app.use(bodyParser.json({limit: "50mb"}))
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:4000',
     credentials: true,
 
 }))
 dotenv.config()
+app.use(express.static(path.join(__dirname, "..", "/client/build")));
 
 const server = http.createServer(app)
-
 
 app.use('/auth', authRoutes)
 app.use('/message', messageRoutes)
@@ -59,7 +60,7 @@ Member.belongsTo(Users)
 
 const io = new Server(server, {
     cors: {
-        origin: 'https://localhost:3000',
+        origin: 'https://localhost:4000',
         methods: ["GET", "POST"],
     }
 })
