@@ -74,7 +74,7 @@ const ProfileOptions = () => {
             localStorage.removeItem('userPhotoUrl')
             localStorage.removeItem('roomId')
             localStorage.removeItem('allRoom')
-
+          
             navigate('/login')
 
         } catch (err) {

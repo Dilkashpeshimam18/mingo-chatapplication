@@ -56,3 +56,20 @@ exports.getAllUser = async (req, res) => {
 
     }
 }
+
+exports.getUser = (req, res) => {
+    try {
+        const user = req.user
+        const data = {
+            bio: user.bio,
+            photoUrl: user.photoUrl,
+            email: user.email,
+            name: user.name
+        }
+
+        res.status(200).json({ success: true, user: data })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ success: false, message: err })
+    }
+}

@@ -19,7 +19,6 @@ const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
 
-
     const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)
     }

@@ -6,14 +6,15 @@ import Avatar from '@mui/material/Avatar';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { RoomType } from '../../../store/slice/roomSlice';
+
 const ProfileMain = () => {
     const [data, setData] = useState<RoomType[]>([])
     const user = useSelector((state: RootState) => state.auth.user)
     const allRoom = useSelector((state: RootState) => state.room.allRoom)
     const isSelectedRoom = useSelector((state: RootState) => state.room.isSelectedRoom)
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
-    const roomName=useSelector((state:RootState)=>state.room.isSelectedRoom)
-    const roomUrl=useSelector((state:RootState)=>state.room.roomUrl)
+    const roomName = useSelector((state: RootState) => state.room.isSelectedRoom)
+    const roomUrl = useSelector((state: RootState) => state.room.roomUrl)
 
     useEffect(() => {
         if (isRoom == true) {
@@ -22,8 +23,8 @@ const ProfileMain = () => {
             })
             setData(selectedRoom)
         }
-
     }, [isRoom, isSelectedRoom])
+    
     return (
         <div>
             {isRoom == true && <>

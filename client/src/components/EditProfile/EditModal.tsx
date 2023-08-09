@@ -35,9 +35,11 @@ type EditModalProps = {
 
 const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     const user = useSelector((state: RootState) => state.auth.user)
+    const userBio = useSelector((state: RootState) => state.auth.userbio)
+    const userPhotoUrl = useSelector((state: RootState) => state.auth.userphoto)
     const [name, setName] = useState(user.name)
-    const [bio, setBio] = useState(user.bio)
-    const [photoUrl, setPhotoUrl] = useState(user.photoUrl)
+    const [bio, setBio] = useState(userBio)
+    const [photoUrl, setPhotoUrl] = useState(userPhotoUrl)
     const [email, setemail] = useState(user.email)
     const dispatch: AppDispatch = useDispatch()
     const auth = getAuth()
@@ -74,6 +76,11 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
 
             }
             dispatch(authActions.addUserDetail(userDetail))
+            const data = {
+                bio,
+                photoUrl
+            }
+            dispatch(authActions.addUserInfo(data))
             const token = localStorage.getItem('userToken')
 
             let reqInstance = await axios.create({
@@ -85,6 +92,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             localStorage.setItem('userBio', bio as string)
             localStorage.setItem('userName', name as string)
             localStorage.setItem('userPhotoUrl', photoUrl as string)
+
             alert('Profile Updated!')
             handleModalClose()
 

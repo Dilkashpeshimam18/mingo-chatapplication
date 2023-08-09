@@ -14,6 +14,10 @@ const UserDetail = () => {
   const [openModal, setOpenModal] = useState(false)
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
 
+  const userBio = useSelector((state: RootState) => state.auth.userbio)
+  const userPhoto = useSelector((state: RootState) => state.auth.userphoto)
+
+
   const dispatch = useDispatch()
 
   const handleEditProfile = () => {
@@ -25,17 +29,15 @@ const UserDetail = () => {
   return (
     <div className='user-detail'>
       <div onClick={() => dispatch(roomActions.handleDefault())} className='user-image'>
-        <Avatar src={user.photoUrl as string} sx={{ width: 56, height: 56 }}
-        className='user-avatar'
+        <Avatar src={userPhoto as string} sx={{ width: 56, height: 56 }}
+          className='user-avatar'
         />
 
       </div>
-      <div className={`${user.bio == '' ? 'user' : 'user-name'}`}>
+      <div className={`${userBio == '' ? 'user' : 'user-name'}`}>
         {user.name ? <span className='name'>{user.name} </span> : <span className='name' style={{ marginRight: '30px' }}>Hello, Guest </span>}
 
-        {user.bio != '' && <span className='bio'>{user.bio}</span>}
-
-
+        {userBio != '' && <span className='bio'>{userBio}</span>}
 
       </div>
       <div className='user-edit'>
