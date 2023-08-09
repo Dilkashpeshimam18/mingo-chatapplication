@@ -37,6 +37,8 @@ const MessageList = () => {
     localStorage.setItem('room', room as string)
     localStorage.setItem('roomId', roomId as string)
     dispatch(memberActions.isNotViewMember())
+    dispatch(getAllRooms())
+
   }
 
 
