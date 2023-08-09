@@ -20,6 +20,7 @@ import axios from 'axios';
 import { getAllRooms, roomActions } from '../../../store/slice/roomSlice';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { messageActions } from 'src/store/slice/messageSlice';
+import GroupRemoveOutlinedIcon from '@mui/icons-material/GroupRemoveOutlined';
 
 const ProfileOptions = () => {
     const [data, setData] = useState<RoomType[]>([])
@@ -74,7 +75,7 @@ const ProfileOptions = () => {
             localStorage.removeItem('userPhotoUrl')
             localStorage.removeItem('roomId')
             localStorage.removeItem('allRoom')
-          
+
             navigate('/login')
 
         } catch (err) {
@@ -146,7 +147,7 @@ const ProfileOptions = () => {
                 </div>}
                 {isRoom == true && userId != roomAdminId && <div className='profile-sub-inner'>
                     <span className='profile-sub-icon'>
-                        <PersonOutlineOutlinedIcon style={{ fontSize: '27px', color: 'gray' }} />
+                        <GroupRemoveOutlinedIcon style={{ fontSize: '27px', color: 'gray' }} />
                     </span>
                     <p onClick={handleLeaveRoom} className='profile-sub-text'>   Leave room</p>
 

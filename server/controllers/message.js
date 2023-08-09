@@ -2,24 +2,36 @@ const Messages = require('../models/message')
 const { randomUUID } = require('crypto')
 const AWS = require('aws-sdk')
 const { encryptData, decryptData } = require('../encryption')
+const Member=require('../models/member')
 
 exports.addMessage = async (req, res) => {
     try {
         const id = req.user.id
         const data = req.body
+        const roomId=data.roomId
 
-        const message = await Messages.create({
-            id: randomUUID(),
-            username: data.username,
-            email: data.email,
-            photoUrl: data.image,
-            message: data.message,
-            userId: id,
-            roomId: data.roomId,
-            files: data.files
-        })
+         const isMember=await Member.findOne({where:{
+            userId:id,
+            roomId:roomId
+         }})
 
-        res.status(200).json({ success: true })
+         if(isMember){
+            const message = await Messages.create({
+                id: randomUUID(),
+                username: data.username,
+                email: data.email,
+                photoUrl: data.image,
+                message: data.message,
+                userId: id,
+                roomId: data.roomId,
+                files: data.files
+            })
+    
+            return res.status(200).json({ success: true })
+         }else{
+            return res.status(403).json({success:false,message:'You are not member of room!'})
+         }
+    
 
     } catch (err) {
         console.log(err)
