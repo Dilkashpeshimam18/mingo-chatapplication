@@ -60,7 +60,7 @@ Member.belongsTo(Users)
 
 const io = new Server(server, {
     cors: {
-        origin: 'https://13.53.130.78:4000',
+        origin: 'http://13.53.130.78:4000',
         methods: ["GET", "POST"],
     }
 })
