@@ -41,7 +41,7 @@ const AllMembers = () => {
                     Authorization: token
                 }
             })
-            const res = await reqInstance.get(`http://localhost:4000/member/get-member/${roomId}`)
+            const res = await reqInstance.get(`http://13.53.130.78:4000/member/get-member/${roomId}`)
             const user = res.data.data
             setAllUser(user)
 
@@ -68,7 +68,7 @@ const AllMembers = () => {
                     Authorization: token
                 }
             })
-            const res = await reqInstance.delete(`http://localhost:4000/member/remove-member/${roomId}/${memberId}`)
+            const res = await reqInstance.delete(`http://13.53.130.78:4000/member/remove-member/${roomId}/${memberId}`)
 
             getMemberOfRoom()
             dispatch(getAllRooms())
@@ -88,7 +88,7 @@ const AllMembers = () => {
                     Authorization: token
                 }
             })
-            const res = await reqInstance.put(`http://localhost:4000/room/change-room-admin/${roomId}/${userid}`)
+            const res = await reqInstance.put(`http://13.53.130.78:4000/room/change-room-admin/${roomId}/${userid}`)
             await dispatch(getAllRooms()).then(() => {
                 getMemberOfRoom()
                 dispatch(getAllRooms())

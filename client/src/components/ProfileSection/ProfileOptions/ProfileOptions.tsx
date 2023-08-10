@@ -94,7 +94,7 @@ const ProfileOptions = () => {
                     Authorization: token
                 }
             })
-            const response = await reqInstance.delete(`http://localhost:4000/room/delete-room/${id}`)
+            const response = await reqInstance.delete(`http://13.53.130.78:4000/room/delete-room/${id}`)
                 .then(() => {
                     alert('Room Deleted!')
                     dispatch(roomActions.handleDefault())
@@ -119,7 +119,7 @@ const ProfileOptions = () => {
             })
             let id = data[0]?.id
 
-            const res = reqInstance.delete(`http://localhost:4000/room/leave-room/${id}`)
+            const res = reqInstance.delete(`http://13.53.130.78:4000/room/leave-room/${id}`)
             dispatch(roomActions.handleDefault())
             dispatch(messageActions.handleRemoveMsg())
             dispatch(getAllRooms())

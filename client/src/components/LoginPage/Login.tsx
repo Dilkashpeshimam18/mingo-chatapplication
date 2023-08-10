@@ -62,7 +62,7 @@ const Login = () => {
                 email,
                 password
             }
-            const res = await axios.post('http://localhost:4000/auth/login', data)
+            const res = await axios.post('http://13.53.130.78:4000/auth/login', data)
             if (res.status == 200) {
                 let userDetail = {
                     name: res.data.data.userName,
