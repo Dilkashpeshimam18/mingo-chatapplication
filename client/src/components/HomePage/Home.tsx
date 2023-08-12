@@ -20,7 +20,7 @@ const Home = () => {
                 }
             })
 
-            const res = await reqInstance.get('http://13.53.130.78:4000/user/get-singleUserInfo')
+            const res = await reqInstance.get('http://13.53.118.65:4000/user/get-singleUserInfo')
             const user = res.data.user
             localStorage.setItem('userBio', user.bio)
             localStorage.setItem('userPhotoUrl', user.photoUrl)

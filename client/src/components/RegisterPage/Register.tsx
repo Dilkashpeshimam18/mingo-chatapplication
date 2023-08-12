@@ -95,7 +95,7 @@ const Register = () => {
                 phoneNo,
                 password
             }
-            const res = await axios.post('http://13.53.130.78:4000/auth/sign-up', data)
+            const res = await axios.post('http://13.53.118.65:4000/auth/sign-up', data)
             if (res.status == 200) {
                 setName('')
                 setEmail('')

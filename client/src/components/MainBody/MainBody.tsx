@@ -69,7 +69,7 @@ const MainBody = () => {
         roomId,
       }
 
-      const fileRes = await reqIns.post('http://13.53.130.78:4000/message/store-files', userMessage)
+      const fileRes = await reqIns.post('http://13.53.118.65:4000/message/store-files', userMessage)
 
       const msgId = fileRes.data.messageId
 
@@ -84,7 +84,7 @@ const MainBody = () => {
       formData.append('file', file);
 
 
-      const res = await reqInstance.post(`http://13.53.130.78:4000/message/upload-files/${roomId}/${msgId}`, formData)
+      const res = await reqInstance.post(`http://13.53.118.65:4000/message/upload-files/${roomId}/${msgId}`, formData)
       getAllMessage();
 
 
@@ -132,7 +132,7 @@ const MainBody = () => {
         })
 
 
-        const response = await reqInstance.post('http://13.53.130.78:4000/message/add-message', userMessage)
+        const response = await reqInstance.post('http://13.53.118.65:4000/message/add-message', userMessage)
 
         getMessagesBySocket(() => {
           if (!messagesReceived) {
@@ -179,10 +179,10 @@ const MainBody = () => {
       //   } else {
       //     lastMsgId = messages.length-1
       //   }
-      // const res = await axios.get(`http://13.53.130.78:4000/message/get-messages?lastMsgId=${lastMsgId}`)
+      // const res = await axios.get(`http://13.53.118.65:4000/message/get-messages?lastMsgId=${lastMsgId}`)
 
       const id = roomId
-      const res = await axios.get(`http://13.53.130.78:4000/message/get-messages/${id}`)
+      const res = await axios.get(`http://13.53.118.65:4000/message/get-messages/${id}`)
       let result = res.data.messages
       let data: any = result.map((message: object | any) => {
         const decrypt_message = do_Decrypt(message.message)

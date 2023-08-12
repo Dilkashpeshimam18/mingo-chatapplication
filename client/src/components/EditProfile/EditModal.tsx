@@ -88,7 +88,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                     Authorization: token
                 }
             })
-            const res = await reqInstance.post('http://13.53.130.78:4000/user/edit-userprofile', userDetail)
+            const res = await reqInstance.post('http://13.53.118.65:4000/user/edit-userprofile', userDetail)
             localStorage.setItem('userBio', bio as string)
             localStorage.setItem('userName', name as string)
             localStorage.setItem('userPhotoUrl', photoUrl as string)
@@ -118,7 +118,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                     Authorization: token
                 }
             })
-            const response = reqInstance.put(`http://13.53.130.78:4000/room/edit-room/${id}`, data)
+            const response = reqInstance.put(`http://13.53.118.65:4000/room/edit-room/${id}`, data)
                 .then((res) => {
                     alert('Room Update!')
                     dispatch(getAllRooms())
@@ -142,7 +142,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                     Authorization: token
                 }
             })
-            const res = await reqInstance.get(`http://13.53.130.78:4000/member/get-addMember/${roomid}`)
+            const res = await reqInstance.get(`http://13.53.118.65:4000/member/get-addMember/${roomid}`)
 
             const allUser = res.data.user
             setAllUser(allUser)
@@ -170,7 +170,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                 photoUrl,
                 isAdmin: false
             }
-            const res = await reqInstance.post(`http://13.53.130.78:4000/member/add-member/${roomId}`, data)
+            const res = await reqInstance.post(`http://13.53.118.65:4000/member/add-member/${roomId}`, data)
             getAllUser()
 
         } catch (err) {

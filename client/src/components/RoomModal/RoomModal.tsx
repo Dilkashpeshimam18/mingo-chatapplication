@@ -54,7 +54,7 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
                     Authorization: token
                 }
             })
-            const response = await reqInstance.post('http://13.53.130.78:4000/room/create-room', room)
+            const response = await reqInstance.post('http://13.53.118.65:4000/room/create-room', room)
 
             const roomId = response.data.message.id
             let data
@@ -76,7 +76,7 @@ const RoomModal = ({ openModal, setOpenModal }: RoomModalProps) => {
                 }
             }
 
-            const res = await reqInstance.post(`http://13.53.130.78:4000/member/add-member/${roomId}`, data)
+            const res = await reqInstance.post(`http://13.53.118.65:4000/member/add-member/${roomId}`, data)
 
             // await addDoc(allRoomRef, room)
             setRoomName('')

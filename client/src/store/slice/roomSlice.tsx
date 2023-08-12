@@ -105,7 +105,7 @@ export const getAllRooms = () => {
                     Authorization: token
                 }
             })
-            const response = await reqInstance.get('http://13.53.130.78:4000/room/get-room')
+            const response = await reqInstance.get('http://13.53.118.65:4000/room/get-room')
 
             if (response.status == 200) {
                 let res = response.data.room
