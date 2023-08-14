@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import './ChatSection.css'
 import Message from './Message'
 import { useSelector } from 'react-redux';
@@ -8,6 +8,11 @@ import Avatar from '@mui/material/Avatar';
 const ChatSection = () => {
   const allMessage = useSelector((state: RootState) => state.message.allMessages)
   const user = useSelector((state: RootState) => state.auth.user)
+  const isRoom = useSelector((state: RootState) => state.room.isRoom)
+
+  useEffect(()=>{
+    console.log(isRoom)
+  },[])
 
   const renderFilePreview = (fileUrl: string, name: string, image: string, email: string) => {
     const fileType = fileUrl?.split('.').pop()?.toLowerCase();
@@ -99,23 +104,29 @@ const ChatSection = () => {
   return (
     <div className='chat-body'>
       <div className='chat-section'>
-        {allMessage?.map((message, index) => {
-          if (!message.message && message.fileUrl !== '') {
-            // Show only the file preview if message is empty and files contain a URL
-            return renderFilePreview(message.fileUrl as string, message.username as string, message.image as string, message.email as string);
-          } else {
-            // Show the entire Message component for other cases
-            return (
-              <Message
-                key={index}
-                message={message.message}
-                image={message.image}
-                name={message.username}
-                email={message.email}
-              />
-            );
-          }
-        })}
+        {isRoom == true &&
+          (
+            allMessage?.map((message, index) => {
+              if (!message.message && message.fileUrl !== '') {
+                // Show only the file preview if message is empty and files contain a URL
+                return renderFilePreview(message.fileUrl as string, message.username as string, message.image as string, message.email as string);
+              } else {
+                // Show the entire Message component for other cases
+                return (
+                  <Message
+                    key={index}
+                    message={message.message}
+                    image={message.image}
+                    name={message.username}
+                    email={message.email}
+                  />
+                );
+              }
+            })
+          )
+
+        }
+
 
       </div>
     </div>
