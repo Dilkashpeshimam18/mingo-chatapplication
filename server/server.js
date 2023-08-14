@@ -22,7 +22,7 @@ const app = express()
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit:50000 }))
 app.use(bodyParser.json({limit: "50mb"}))
 app.use(cors({
-    origin: 'http://13.53.118.65:4000',
+    origin: 'http://13.53.118.65',
     credentials: true,
 
 }))
@@ -60,7 +60,7 @@ Member.belongsTo(Users)
 
 const io = new Server(server, {
     cors: {
-        origin: 'http://13.53.118.65:4000',
+        origin: 'http://13.53.118.65',
         methods: ["GET", "POST"],
     }
 })
