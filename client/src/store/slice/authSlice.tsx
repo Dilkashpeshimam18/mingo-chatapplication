@@ -49,6 +49,8 @@ const AuthSlice = createSlice({
             state.user.token = null
             state.user.uid=null
             state.isAuthenticated = false
+            state.userbio=''
+            state.userphoto=''
 
 
         },

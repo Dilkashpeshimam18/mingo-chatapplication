@@ -15,6 +15,7 @@ const ProfileMain = () => {
     const isRoom = useSelector((state: RootState) => state.room.isRoom)
     const roomName = useSelector((state: RootState) => state.room.isSelectedRoom)
     const roomUrl = useSelector((state: RootState) => state.room.roomUrl)
+    const userBio=useSelector((state:RootState)=>state.auth.userbio)
 
     useEffect(() => {
         if (isRoom == true) {
@@ -60,7 +61,7 @@ const ProfileMain = () => {
                     </div>
                     <div className="profile-detail">
                         <h2 className='profile-name'>{user.name}</h2>
-                        <h5 className='profile-bio'>{user.bio}</h5>
+                        <h5 className='profile-bio'>{userBio}</h5>
 
 
                     </div>

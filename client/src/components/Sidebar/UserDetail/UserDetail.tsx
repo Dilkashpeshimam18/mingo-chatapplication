@@ -8,11 +8,14 @@ import { RootState } from '../../../store/store';
 import EditModal from '../../EditProfile/EditModal';
 import { modalActions } from '../../../store/slice/modalSlice';
 import { roomActions } from '../../../store/slice/roomSlice';
+import { authActions } from '../../../store/slice/authSlice';
+import axios from 'axios';
 
 const UserDetail = () => {
   const user = useSelector((state: RootState) => state.auth.user)
   const [openModal, setOpenModal] = useState(false)
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+  const isOpen = useSelector((state: RootState) => state.modal.isOpen)
 
   const userBio = useSelector((state: RootState) => state.auth.userbio)
   const userPhoto = useSelector((state: RootState) => state.auth.userphoto)
@@ -24,6 +27,35 @@ const UserDetail = () => {
 
     dispatch(modalActions.handleOpen())
   }
+
+     const getUserInfo = async () => {
+        try {
+            const token = localStorage.getItem('userToken')
+
+            let reqInstance = await axios.create({
+                headers: {
+                    Authorization: token
+                }
+            })
+
+            const res = await reqInstance.get('http://13.53.118.65:4000/user/get-singleUserInfo')
+            const user = res.data.user
+            localStorage.setItem('userBio', user.bio)
+            localStorage.setItem('userPhotoUrl', user.photoUrl)
+
+            dispatch(authActions.addUserInfo(user))
+
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(()=>{
+    if(isOpen==true){
+      getUserInfo()
+    }
+    },[isOpen])
 
   return (
     <div className='user-detail'>

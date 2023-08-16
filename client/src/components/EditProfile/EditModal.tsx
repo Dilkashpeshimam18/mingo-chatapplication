@@ -26,7 +26,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
-import { blue } from '@mui/material/colors';
 
 type EditModalProps = {
     openModal: boolean,
@@ -37,7 +36,8 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
     const user = useSelector((state: RootState) => state.auth.user)
     const userBio = useSelector((state: RootState) => state.auth.userbio)
     const userPhotoUrl = useSelector((state: RootState) => state.auth.userphoto)
-    const [name, setName] = useState(user.name)
+  
+    const [name, setName] = useState<string | null | undefined>(user.name)
     const [bio, setBio] = useState(userBio)
     const [photoUrl, setPhotoUrl] = useState(userPhotoUrl)
     const [email, setemail] = useState(user.email)
@@ -196,6 +196,9 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
             getAllUser()
         }
     }, [isAddMem])
+ 
+
+
     return (
         <div>
             {isAddMem == false ? (
@@ -253,6 +256,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                                     fullWidth
                                     variant="standard"
                                     value={name}
+                                    placeholder={user.name as any}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                                 />
                                 <TextField
@@ -264,6 +268,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                                     fullWidth
                                     variant="standard"
                                     value={bio}
+                                    placeholder={userBio}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBio(e.target.value)}
 
                                 />
@@ -276,6 +281,7 @@ const EditModal = ({ openModal, setOpenModal }: EditModalProps) => {
                                     fullWidth
                                     variant="standard"
                                     value={photoUrl}
+                                    placeholder={userPhotoUrl}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhotoUrl(e.target.value)}
 
                                 />

@@ -10,10 +10,6 @@ const ChatSection = () => {
   const user = useSelector((state: RootState) => state.auth.user)
   const isRoom = useSelector((state: RootState) => state.room.isRoom)
 
-  useEffect(()=>{
-    console.log(isRoom)
-  },[])
-
   const renderFilePreview = (fileUrl: string, name: string, image: string, email: string) => {
     const fileType = fileUrl?.split('.').pop()?.toLowerCase();
 
