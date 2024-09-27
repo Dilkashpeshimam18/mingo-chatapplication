@@ -1,6 +1,7 @@
 const Member = require('../models/member')
 const Room = require('../models/room')
 const { randomUUID } = require('crypto')
+const { Op } = require('sequelize');
 
 
 exports.createRoom = async (req, res) => {
@@ -24,21 +25,22 @@ exports.createRoom = async (req, res) => {
     }
 }
 
+
 exports.getRoom = async (req, res) => {
     try {
-        const id = req.user.id
-        const email = req.user.email
-
-        const member = await Member.findAll({ where: { email: email } })
+        const id = req.user.id;
+        const email = req.user.email;
+        const { query = '' } = req.query;
+        const member = await Member.findAll({ where: { email: email } });
         let room = [];
         const allRoom = await Promise.all(member.map(async (mem) => {
             const roomId = mem.dataValues.roomId;
-            const response = await Room.findAll({ where: { id: roomId } });
+            let response = await Room.findAll({ where: { id: roomId } });
+
             return response;
         }));
         room = allRoom.flat();
-
-        res.status(200).json({ success: true, room })
+        res.status(200).json({ success: true, room });
 
     } catch (err) {
         console.log(err)

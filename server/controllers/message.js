@@ -44,12 +44,13 @@ exports.getMessage = async (req, res) => {
     try {
         const lastmsgId = req.query.lastMsgId
         const roomId = req.params.roomId
-        // const msgcount=await Messages.count()
+         // const msgcount=await Messages.count()
         // const messages = await Messages.findAll({
         //     offset:Number(lastmsgId),
         //     limit:Number(msgcount)
 
         // })
+   
         const messages = await Messages.findAll({
             where: { roomId: roomId },
             order: [['createdAt', 'ASC']]

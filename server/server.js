@@ -18,11 +18,13 @@ const ArchivedMessage = require('./models/archiveMessage')
 const path=require('path')
 
 const app = express()
+// http://localhost
+
 
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit:50000 }))
 app.use(bodyParser.json({limit: "50mb"}))
 app.use(cors({
-    origin: 'http://13.53.118.65',
+    origin: 'https://mingo-chatapp.web.app',
     credentials: true,
 
 }))
@@ -60,7 +62,7 @@ Member.belongsTo(Users)
 
 const io = new Server(server, {
     cors: {
-        origin: 'http://13.53.118.65',
+        origin: 'https://mingo-chatapp.web.app',
         methods: ["GET", "POST"],
     }
 })
@@ -85,7 +87,7 @@ io.on('connection', (socket) => {
 })
 
 sequelize.sync().then(() => {
-    server.listen(4000, () => {
+    server.listen(4001, () => {
         console.log('SERVER RUNNING!')
     })
 }).catch((err) => {
